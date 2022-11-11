@@ -87,7 +87,9 @@ namespace GeekDB.GUI.Pages
         {
             this.searchTextBox.Text = "";
             dataGridView.ClearAll();
-            dataGridView.DataSource = datas;
+            searchResults.Clear();
+            searchResults.AddRange(datas);
+            dataGridView.DataSource = searchResults;
             dataGridView.Refresh();
         }
 
