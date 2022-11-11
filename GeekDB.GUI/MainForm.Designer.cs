@@ -38,9 +38,9 @@
             this.leftMenu.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.leftMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftMenu.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
-            this.leftMenu.FillColor = System.Drawing.Color.White;
+            this.leftMenu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(54)))), ((int)(((byte)(66)))));
             this.leftMenu.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.leftMenu.ForeColor = System.Drawing.Color.Black;
+            this.leftMenu.ForeColor = System.Drawing.Color.White;
             this.leftMenu.FullRowSelect = true;
             this.leftMenu.ItemHeight = 50;
             this.leftMenu.Location = new System.Drawing.Point(0, 35);
@@ -61,31 +61,34 @@
             // 
             // TabControl
             // 
-            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.TabControl.AllowDrop = true;
+            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.TabControl.FillColor = System.Drawing.Color.White;
-            this.TabControl.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TabControl.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TabControl.Frame = null;
-            this.TabControl.ItemSize = new System.Drawing.Size(150, 40);
-            this.TabControl.Location = new System.Drawing.Point(246, 35);
+            this.TabControl.ItemSize = new System.Drawing.Size(180, 70);
+            this.TabControl.Location = new System.Drawing.Point(248, 35);
             this.TabControl.MainPage = "";
             this.TabControl.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
+            this.TabControl.Multiline = true;
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.ShowCloseButton = true;
-            this.TabControl.Size = new System.Drawing.Size(1015, 726);
+            this.TabControl.Size = new System.Drawing.Size(1010, 716);
             this.TabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControl.Style = Sunny.UI.UIStyle.Custom;
+            this.TabControl.StyleCustomMode = true;
             this.TabControl.TabBackColor = System.Drawing.Color.White;
             this.TabControl.TabIndex = 1;
             this.TabControl.TabSelectedColor = System.Drawing.Color.White;
             this.TabControl.TabSelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
             this.TabControl.TabSelectedHighColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.TabControl.TabUnSelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.TabControl.TabUnSelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.TabControl.TipsFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TabControl.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            this.TabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -105,7 +108,6 @@
             this.TitleColor = System.Drawing.Color.White;
             this.TitleForeColor = System.Drawing.Color.Black;
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }

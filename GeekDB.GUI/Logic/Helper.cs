@@ -24,12 +24,12 @@ namespace GeekDB.GUI.Logic
 
         public static List<string> GetAllTableNames(string dbPath)
         {
-            //if (!openedDBs.TryGetValue(dbPath, out EmbeddedDB db))
-            //{
-            //    db = new EmbeddedDB(dbPath);
-            //}
             RocksDb.TryListColumnFamilies(new DbOptions(), dbPath, out var cfList);
             return cfList.ToList();
+        }
+        public static bool IsRocksDB(string dbPath)
+        {
+            return GetAllTableNames(dbPath).Count > 0;
         }
 
     }

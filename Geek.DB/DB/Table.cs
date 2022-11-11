@@ -132,10 +132,14 @@ namespace Geek.Server
         {
             return id.ToString();
         }
+        public Enumerator GetKVEnumerator()
+        {
+            return new Enumerator(this, true);
+        }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new Enumerator(this);
+            return new Enumerator(this, false);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -147,14 +151,15 @@ namespace Geek.Server
         {
             //private Snapshot snapshot;
             private Iterator dbIterator;
-            private T _current = default(T);
+            private T curValue = default(T);
+            private string curKey = "";
             private Table<T> table;
+            private bool parseKey;
 
-            internal Enumerator(Table<T> table)
+            internal Enumerator(Table<T> table, bool parseKey)
             {
+                this.parseKey = parseKey;
                 this.table = table;
-                //snapshot = table.db.InnerDB.CreateSnapshot();
-                //var option = new ReadOptions().SetSnapshot(snapshot); 
                 var option = new ReadOptions();
                 dbIterator = table.db.InnerDB.NewIterator(table.cfHandle, option);
                 dbIterator.SeekToFirst();
@@ -171,7 +176,7 @@ namespace Geek.Server
             {
                 if (!isDisposed)
                 {
-                    _current = default(T);
+                    curValue = default(T);
                     if (dbIterator != null)
                     {
                         dbIterator.Dispose();
@@ -191,25 +196,35 @@ namespace Geek.Server
                 if (dbIterator.Valid())
                 {
                     if (table.isRawTable)
-                        _current = (T)(object)dbIterator.Value();
+                        curValue = (T)(object)dbIterator.Value();
                     else
-                        _current = Serializer.Deserialize<T>(dbIterator.Value());
+                        curValue = Serializer.Deserialize<T>(dbIterator.Value());
+                    if (parseKey)
+                        curKey = Encoding.UTF8.GetString(dbIterator.Key());
                     dbIterator.Next();
                     return true;
                 }
                 return false;
             }
 
+            public string Key
+            {
+                get
+                {
+                    return curKey;
+                }
+            }
 
-            public T Current => _current;
+            public T Current => curValue;
 
             object IEnumerator.Current
             {
                 get
                 {
-                    return _current;
+                    return curValue;
                 }
             }
+
 
             void IEnumerator.Reset()
             {
