@@ -117,6 +117,7 @@ namespace GeekDB.GUI
             {
                 var strs = tableName.Split(new char[] { '.' });
                 AddPageWithGuid(new RocksDBDatasPage(rockDb, node.Text), strs[strs.Length - 1], pageGuid);
+                SelectPage(pageGuid);
             }
         }
     }

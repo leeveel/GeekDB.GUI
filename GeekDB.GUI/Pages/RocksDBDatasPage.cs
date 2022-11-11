@@ -55,8 +55,8 @@ namespace GeekDB.GUI.Pages
             }
 
             this.dataCountLable.Text = num.ToString();
-            dataGridView.DataSource = datas;
-
+            searchResults.AddRange(datas);
+            dataGridView.DataSource = searchResults;
             dataGridView.RowHeadersWidth = 100;
         }
 
@@ -94,6 +94,17 @@ namespace GeekDB.GUI.Pages
         private void dataGridView_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {
             e.Row.HeaderCell.Value = string.Format("{0}", e.Row.Index + 1);
+        }
+
+        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex < 0 || e.RowIndex < 0)
+                return;
+            if (e.ColumnIndex == 1)
+            {
+                var json = searchResults[e.RowIndex].DataJson;
+                new JsonViewForm(json).ShowDialog();
+            }
         }
     }
 }

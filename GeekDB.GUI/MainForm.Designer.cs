@@ -62,14 +62,14 @@
             // TabControl
             // 
             this.TabControl.AllowDrop = true;
-            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.TabControl.FillColor = System.Drawing.Color.White;
             this.TabControl.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TabControl.Frame = null;
-            this.TabControl.ItemSize = new System.Drawing.Size(180, 70);
+            this.TabControl.ItemSize = new System.Drawing.Size(190, 70);
             this.TabControl.Location = new System.Drawing.Point(248, 35);
             this.TabControl.MainPage = "";
             this.TabControl.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
@@ -85,9 +85,11 @@
             this.TabControl.TabIndex = 1;
             this.TabControl.TabSelectedColor = System.Drawing.Color.White;
             this.TabControl.TabSelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.TabControl.TabSelectedHighColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.TabControl.TabUnSelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.TabControl.TabSelectedHighColor = System.Drawing.Color.Green;
+            this.TabControl.TabUnSelectedForeColor = System.Drawing.Color.Gray;
+            this.TabControl.TagString = "";
             this.TabControl.TipsFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TabControl.TipsForeColor = System.Drawing.Color.Gray;
             this.TabControl.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
             // MainForm

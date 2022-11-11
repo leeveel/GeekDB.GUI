@@ -9,38 +9,87 @@
   </PropertyGroup>
 
 
-	<PropertyGroup>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<ApplicationIcon />
-		<StartupObject />
-	</PropertyGroup>
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
-		<OutputPath>..\app_debug</OutputPath>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
+    <OutputPath>..\app_debug</OutputPath>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
-		<OutputPath>..\app</OutputPath>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
+    <OutputPath>..\app</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="JsonView\Images\Array.bmp" />
+    <None Remove="JsonView\Images\Boolean.jpg" />
+    <None Remove="JsonView\Images\Date.jpg" />
+    <None Remove="JsonView\Images\Float.jpg" />
+    <None Remove="JsonView\Images\Guid.jpg" />
+    <None Remove="JsonView\Images\Integer.jpg" />
+    <None Remove="JsonView\Images\light brown.jpg" />
+    <None Remove="JsonView\Images\None.jpg" />
+    <None Remove="JsonView\Images\Null.jpg" />
+    <None Remove="JsonView\Images\Object.bmp" />
+    <None Remove="JsonView\Images\String.jpg" />
+    <None Remove="JsonView\Images\TimeSpan.jpg" />
+    <None Remove="JsonView\Images\Undefined.jpg" />
+    <None Remove="JsonView\Res\Type to color associations.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="JsonView\Images\Array.bmp" />
+    <Content Include="JsonView\Images\Boolean.jpg" />
+    <Content Include="JsonView\Images\Date.jpg" />
+    <Content Include="JsonView\Images\Float.jpg" />
+    <Content Include="JsonView\Images\Guid.jpg" />
+    <Content Include="JsonView\Images\Integer.jpg" />
+    <Content Include="JsonView\Images\light brown.jpg" />
+    <Content Include="JsonView\Images\None.jpg" />
+    <Content Include="JsonView\Images\Null.jpg" />
+    <Content Include="JsonView\Images\Object.bmp" />
+    <Content Include="JsonView\Images\String.jpg" />
+    <Content Include="JsonView\Images\TimeSpan.jpg" />
+    <Content Include="JsonView\Images\Undefined.jpg" />
+    <Content Include="JsonView\Res\Type to color associations.txt" />
+  </ItemGroup>
 
 
 
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="ObjectListView.Updated" Version="2.9.3" />
-		<PackageReference Include="SunnyUI" Version="3.2.8.1" />
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="ObjectListView.Updated" Version="2.9.3" />
+    <PackageReference Include="SunnyUI" Version="3.2.8.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Geek.DB\Geek.DB.csproj" />
-    <ProjectReference Include="..\JsonViewer\JsonViewer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="JsonView\Res\NodeImages.Designer.cs">
+      <Generator></Generator>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NodeImages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="JsonView\Res\NodeImages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NodeImages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Data\Example 01.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Data\Example 02.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
