@@ -71,8 +71,9 @@ namespace GeekDB.GUI.Pages
             {
                 if (string.IsNullOrWhiteSpace(str))
                     continue;
-                var data = datas.Find(d => d.Key == id);
-                if (data != null && searchResults.Find(d => d.Key == id) == null)
+                var idl = id.ToLower();
+                var data = datas.Find(d => d.Key.ToLower().Contains(idl));
+                if (data != null && searchResults.Find(d => d.Key.ToLower().Contains(idl)) == null)
                 {
                     searchResults.Add(data);
                 }

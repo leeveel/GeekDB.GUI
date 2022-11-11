@@ -65,7 +65,7 @@ namespace GeekDB.GUI.Pages
             this.uiPanel1.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiPanel1.Name = "uiPanel1";
             this.uiPanel1.RectColor = System.Drawing.Color.White;
-            this.uiPanel1.Size = new System.Drawing.Size(981, 131);
+            this.uiPanel1.Size = new System.Drawing.Size(998, 131);
             this.uiPanel1.Style = Sunny.UI.UIStyle.Custom;
             this.uiPanel1.TabIndex = 0;
             this.uiPanel1.Text = null;
@@ -76,7 +76,7 @@ namespace GeekDB.GUI.Pages
             // 
             this.ResetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ResetBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ResetBtn.Location = new System.Drawing.Point(869, 97);
+            this.ResetBtn.Location = new System.Drawing.Point(886, 97);
             this.ResetBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.ResetBtn.Name = "ResetBtn";
             this.ResetBtn.Size = new System.Drawing.Size(92, 29);
@@ -108,7 +108,7 @@ namespace GeekDB.GUI.Pages
             this.FindBtn.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.FindBtn.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.FindBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FindBtn.Location = new System.Drawing.Point(771, 97);
+            this.FindBtn.Location = new System.Drawing.Point(788, 97);
             this.FindBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.FindBtn.Name = "FindBtn";
             this.FindBtn.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
@@ -128,7 +128,7 @@ namespace GeekDB.GUI.Pages
             this.dataCountLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dataCountLable.Font = new System.Drawing.Font("微软雅黑", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.dataCountLable.ForeColor = System.Drawing.Color.Green;
-            this.dataCountLable.Location = new System.Drawing.Point(820, 3);
+            this.dataCountLable.Location = new System.Drawing.Point(837, 3);
             this.dataCountLable.Name = "dataCountLable";
             this.dataCountLable.Size = new System.Drawing.Size(158, 59);
             this.dataCountLable.Style = Sunny.UI.UIStyle.Custom;
@@ -149,7 +149,7 @@ namespace GeekDB.GUI.Pages
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.searchTextBox.ShowText = false;
-            this.searchTextBox.Size = new System.Drawing.Size(752, 29);
+            this.searchTextBox.Size = new System.Drawing.Size(769, 29);
             this.searchTextBox.Style = Sunny.UI.UIStyle.Custom;
             this.searchTextBox.StyleCustomMode = true;
             this.searchTextBox.TabIndex = 2;
@@ -161,7 +161,7 @@ namespace GeekDB.GUI.Pages
             // 
             this.uiLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uiLabel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiLabel1.Location = new System.Drawing.Point(808, 62);
+            this.uiLabel1.Location = new System.Drawing.Point(825, 62);
             this.uiLabel1.Name = "uiLabel1";
             this.uiLabel1.Size = new System.Drawing.Size(174, 20);
             this.uiLabel1.Style = Sunny.UI.UIStyle.Custom;
@@ -187,7 +187,7 @@ namespace GeekDB.GUI.Pages
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(58)))), ((int)(((byte)(183)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -219,12 +219,13 @@ namespace GeekDB.GUI.Pages
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(216)))), ((int)(((byte)(241)))));
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
             this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridView.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView.RowTemplate.Height = 25;
             this.dataGridView.ScrollBarBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
             this.dataGridView.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(58)))), ((int)(((byte)(183)))));
             this.dataGridView.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(58)))), ((int)(((byte)(183)))));
             this.dataGridView.SelectedIndex = -1;
-            this.dataGridView.Size = new System.Drawing.Size(956, 719);
+            this.dataGridView.Size = new System.Drawing.Size(973, 719);
             this.dataGridView.StripeOddColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
             this.dataGridView.Style = Sunny.UI.UIStyle.Custom;
             this.dataGridView.TabIndex = 1;
@@ -237,7 +238,7 @@ namespace GeekDB.GUI.Pages
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(980, 887);
+            this.ClientSize = new System.Drawing.Size(997, 887);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.uiPanel1);
             this.Name = "RocksDBDatasPage";

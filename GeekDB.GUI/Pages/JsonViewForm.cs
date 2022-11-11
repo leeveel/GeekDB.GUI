@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace GeekDB.GUI.Pages
 {
@@ -21,6 +22,20 @@ namespace GeekDB.GUI.Pages
             ShowJosn(json);
         }
 
+        private void ExpandNode(TreeNode node, int num)
+        {
+            if (num <= 0)
+                return;
+            node.Expand();
+            var childNodes = node.Nodes;
+            var count = Math.Min(childNodes.Count, num);
+            for (int i = 0; i < count; i++)
+            {
+                childNodes[i].Expand();
+                ExpandNode(childNodes[i], num - 1);
+            }
+        }
+
         private void ShowJosn(string json)
         {
             try
@@ -31,12 +46,7 @@ namespace GeekDB.GUI.Pages
                 }
                 jsonTreeView.ShowJson(json);
 
-                var nodes = jsonTreeView.Nodes;
-                var count = MathF.Min(nodes.Count, 3);
-                for (int i = 0; i < count; i++)
-                {
-                    nodes[i].Expand();
-                }
+                ExpandNode(jsonTreeView.Nodes[0], 4);
             }
             catch (Exception exc)
             {
