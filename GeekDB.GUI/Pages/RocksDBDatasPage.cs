@@ -24,11 +24,19 @@ namespace GeekDB.GUI.Pages
             {
                 Key = k;
                 Data = value;
-                DataJson = MessagePack.MessagePackSerializer.ConvertToJson(Data);
             }
             public string Key { get; set; }
             private byte[] Data { get; set; }
-            public string DataJson { get; set; }
+            private string jsonStr = null;
+            public string DataJson
+            {
+                get
+                {
+                    if (jsonStr == null)
+                        jsonStr = MessagePack.MessagePackSerializer.ConvertToJson(Data);
+                    return jsonStr;
+                }
+            }
         }
 
         List<DataItem> datas = new List<DataItem>();
@@ -72,10 +80,15 @@ namespace GeekDB.GUI.Pages
                 if (string.IsNullOrWhiteSpace(str))
                     continue;
                 var idl = id.ToLower();
-                var data = datas.Find(d => d.Key.ToLower().Contains(idl));
-                if (data != null && searchResults.Find(d => d.Key.ToLower().Contains(idl)) == null)
+                foreach (var data in datas)
                 {
-                    searchResults.Add(data);
+                    if (data.Key.ToLower().Contains(idl))
+                    {
+                        if (searchResults.Find(d => d.Key == data.Key) == null)
+                        {
+                            searchResults.Add(data);
+                        }
+                    }
                 }
             }
 
