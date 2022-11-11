@@ -18,6 +18,7 @@ namespace GeekDB.GUI.Pages
         public MainPage()
         {
             InitializeComponent();
+            this.Text = "MainPage";
         }
 
         private void mongodbConnectBtn_Click(object sender, EventArgs e)

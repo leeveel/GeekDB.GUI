@@ -37,6 +37,7 @@ namespace GeekDB.GUI.Pages
         public RocksDBDatasPage(EmbeddedDB db, string name)
         {
             InitializeComponent();
+
             this.db = db;
             this.tableName = name;
             tableNameLable.Text = name;

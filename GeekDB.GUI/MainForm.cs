@@ -51,7 +51,7 @@ namespace GeekDB.GUI
             openPageGuids.Clear();
         }
 
-        void AddPageWithGuid(UIPage page, Guid guid)
+        void AddPageWithGuid(UIPage page, string tabText, Guid guid)
         {
             if (openPageGuids.IndexOf(guid) < 0)
             {
@@ -59,6 +59,7 @@ namespace GeekDB.GUI
             }
             if (!ExistPage(guid))
             {
+                page.Text = tabText;
                 AddPage(page, guid);
             }
         }
@@ -69,7 +70,7 @@ namespace GeekDB.GUI
             TabControl.TabVisible = false;
             int pageIndex = 1;
             TreeNode parent = leftMenu.CreateNode("最近打开", 61451, 24, pageIndex);
-            AddPageWithGuid(new MainPage(), Guid.NewGuid());
+            AddPageWithGuid(new MainPage(), "Index", Guid.NewGuid());
         }
 
         public void EnterRocksDBPage(string dbPath)
@@ -106,14 +107,16 @@ namespace GeekDB.GUI
         {
             if (item.PageIndex == int.MaxValue)
                 return;
-            var pageGuid = tableName2Guid[node.Text];
+            var tableName = node.Text;
+            var pageGuid = tableName2Guid[tableName];
             if (ExistPage(pageGuid))
             {
                 SelectPage(pageGuid);
             }
             else
             {
-                AddPageWithGuid(new RocksDBDatasPage(rockDb, node.Text), pageGuid);
+                var strs = tableName.Split(new char[] { '.' });
+                AddPageWithGuid(new RocksDBDatasPage(rockDb, node.Text), strs[strs.Length - 1], pageGuid);
             }
         }
     }
