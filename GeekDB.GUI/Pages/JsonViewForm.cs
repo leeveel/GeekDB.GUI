@@ -1,4 +1,5 @@
-﻿using Sunny.UI;
+﻿using Alex75.JsonViewer.WindowsForm;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +30,13 @@ namespace GeekDB.GUI.Pages
                     json = "{\"\":" + json + "}";
                 }
                 jsonTreeView.ShowJson(json);
-                jsonTreeView.ExpandAll();
+
+                var nodes = jsonTreeView.Nodes;
+                var count = MathF.Min(nodes.Count, 3);
+                for (int i = 0; i < count; i++)
+                {
+                    nodes[i].Expand();
+                }
             }
             catch (Exception exc)
             {
