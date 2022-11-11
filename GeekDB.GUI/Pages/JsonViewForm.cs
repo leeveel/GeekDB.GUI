@@ -13,10 +13,10 @@ namespace GeekDB.GUI.Pages
 {
     public partial class JsonViewForm : UIForm
     {
-        public JsonViewForm(string json)
+        public JsonViewForm(string title, string json)
         {
             InitializeComponent();
-
+            this.Text = title;
             ShowJosn(json);
         }
 
@@ -24,7 +24,12 @@ namespace GeekDB.GUI.Pages
         {
             try
             {
+                if (json.StartsWith("["))
+                {
+                    json = "{\"\":" + json + "}";
+                }
                 jsonTreeView.ShowJson(json);
+                jsonTreeView.ExpandAll();
             }
             catch (Exception exc)
             {

@@ -102,8 +102,8 @@ namespace GeekDB.GUI.Pages
                 return;
             if (e.ColumnIndex == 1)
             {
-                var json = searchResults[e.RowIndex].DataJson;
-                new JsonViewForm(json).ShowDialog();
+                var data = searchResults[e.RowIndex];
+                new JsonViewForm(data.Key, data.DataJson).ShowDialog();
             }
         }
     }

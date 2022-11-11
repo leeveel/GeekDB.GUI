@@ -71,6 +71,7 @@ namespace GeekDB.GUI.Pages
             this.ClientSize = new System.Drawing.Size(476, 518);
             this.ControlBoxForeColor = System.Drawing.Color.Black;
             this.Controls.Add(this.uiPanel1);
+            this.EscClose = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "JsonViewForm";
