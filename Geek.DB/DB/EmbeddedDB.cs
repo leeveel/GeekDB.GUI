@@ -100,9 +100,9 @@ namespace Geek.Server
             _remoteBackup = remote;
         }
 
-        public Table<T> GetTable<T>() where T : class
+        public Table<T> GetTable<T>(string name = null) where T : class
         {
-            var name = typeof(T).FullName;
+            name = name != null ? name : typeof(T).FullName;
             var handle = GetOrCreateColumnFamilyHandle(name);
             if (handle == null)
                 return null;

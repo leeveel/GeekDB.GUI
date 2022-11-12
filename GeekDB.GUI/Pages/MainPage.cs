@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,15 +42,28 @@ namespace GeekDB.GUI.Pages
 
         private void rocksdbStartBtn_Click(object sender, EventArgs e)
         {
-            var path = rocksdbPathTextBox.Text;
+            TryEntryRocksDb(rocksdbPathTextBox.Text);
+        }
+
+        public bool TryEntryRocksDb(string path)
+        {
+            rocksdbPathTextBox.Text = path;
             if (Helper.IsRocksDB(path))
             {
                 MainForm.Instance.EnterRocksDBPage(path);
+                return true;
             }
             else
             {
+                rocksdbPathTextBox.Text = "";
                 UIMessageTip.ShowError("选择路径不是有效的rocksdb路径");
+                return false;
             }
+        }
+
+        public void SetRocksDbPath(string path)
+        {
+            rocksdbPathTextBox.Text = path;
         }
     }
 }

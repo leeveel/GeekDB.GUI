@@ -39,12 +39,17 @@ namespace GeekDB.GUI.Pages
             // jsonTreeView
             // 
             this.jsonTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.jsonTreeView.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.jsonTreeView.ForeColor = System.Drawing.Color.Black;
             this.jsonTreeView.FullRowSelect = true;
+            this.jsonTreeView.HideSelection = false;
             this.jsonTreeView.ImageIndex = 0;
             this.jsonTreeView.Location = new System.Drawing.Point(0, 0);
             this.jsonTreeView.Margin = new System.Windows.Forms.Padding(2);
             this.jsonTreeView.Name = "jsonTreeView";
             this.jsonTreeView.SelectedImageIndex = 0;
+            this.jsonTreeView.ShowNodeToolTips = true;
+            this.jsonTreeView.ShowRootLines = false;
             this.jsonTreeView.Size = new System.Drawing.Size(472, 487);
             this.jsonTreeView.TabIndex = 0;
             // 
@@ -52,36 +57,40 @@ namespace GeekDB.GUI.Pages
             // 
             this.uiPanel1.Controls.Add(this.jsonTreeView);
             this.uiPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiPanel1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.uiPanel1.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.uiPanel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.uiPanel1.Location = new System.Drawing.Point(2, 29);
             this.uiPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiPanel1.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiPanel1.Name = "uiPanel1";
+            this.uiPanel1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.uiPanel1.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
             this.uiPanel1.Size = new System.Drawing.Size(472, 487);
-            this.uiPanel1.Style = Sunny.UI.UIStyle.Custom;
+            this.uiPanel1.Style = Sunny.UI.UIStyle.LayuiGreen;
             this.uiPanel1.TabIndex = 0;
-            this.uiPanel1.Text = "uiPanel1";
+            this.uiPanel1.Text = null;
             this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiPanel1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
             // JsonViewForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.ClientSize = new System.Drawing.Size(476, 518);
-            this.ControlBoxForeColor = System.Drawing.Color.Black;
+            this.ControlBoxFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
             this.Controls.Add(this.uiPanel1);
             this.EscClose = true;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "JsonViewForm";
             this.Padding = new System.Windows.Forms.Padding(2, 29, 2, 2);
+            this.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
             this.ShowDragStretch = true;
+            this.ShowIcon = false;
             this.ShowRadius = false;
-            this.Style = Sunny.UI.UIStyle.Custom;
+            this.Style = Sunny.UI.UIStyle.LayuiGreen;
             this.Text = "JsonView";
-            this.TitleColor = System.Drawing.Color.White;
-            this.TitleForeColor = System.Drawing.Color.Black;
+            this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.TitleFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TitleHeight = 29;
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 520, 505);
             this.uiPanel1.ResumeLayout(false);

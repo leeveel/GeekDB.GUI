@@ -15,10 +15,18 @@ namespace GeekDB.GUI.Pages
 {
     public partial class JsonViewForm : UIForm
     {
+        string json;
         public JsonViewForm(string title, string json)
         {
             InitializeComponent();
             this.Text = title;
+            this.json = json;
+            ShowJosn("{}");
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
             ShowJosn(json);
         }
 
@@ -45,12 +53,14 @@ namespace GeekDB.GUI.Pages
                     json = "{\"\":" + json + "}";
                 }
                 jsonTreeView.ShowJson(json);
-
                 ExpandNode(jsonTreeView.Nodes[0], 4);
             }
             catch (Exception exc)
             {
-                MessageBox.Show("Fail to show JSON. " + exc);
+                //UIMessageTip.ShowError("Fail to show JSON." + exc.Message);
+                UIMessageTip.ShowError("内容不是标准json,显示json view失败");
+
+                this.Close();
             }
         }
     }

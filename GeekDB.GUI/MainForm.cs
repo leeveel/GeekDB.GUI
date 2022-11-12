@@ -3,6 +3,7 @@ using GeekDB.GUI.Logic;
 using GeekDB.GUI.Pages;
 using RocksDbSharp;
 using Sunny.UI;
+using Sunny.UI.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using static System.Windows.Forms.TabControl;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
@@ -21,14 +23,24 @@ namespace GeekDB.GUI
     public partial class MainForm : UIForm
     {
         public static MainForm Instance { get; private set; }
+        MainPage mainPage;
         Dictionary<string, Guid> tableName2Guid = new();
         List<Guid> openPageGuids = new List<Guid>();
         EmbeddedDB rockDb;
+        EmbeddedDB editorDb;
         public MainForm()
         {
             Instance = this;
             InitializeComponent();
             MainTabControl = TabControl;
+
+            var editorDbPath = System.IO.Path.GetTempPath() + "rocksdb_editor/db";
+            if (!Directory.Exists(editorDbPath))
+            {
+                Directory.CreateDirectory(editorDbPath);
+            }
+            editorDb = new EmbeddedDB(editorDbPath, false);
+
             EnterMainPage();
         }
 
@@ -37,6 +49,7 @@ namespace GeekDB.GUI
             tableName2Guid.Clear();
             leftMenu.MenuItemClick -= OnHistoryMenuItemClick;
             leftMenu.MenuItemClick -= OnRocksDBMenuItemClick;
+            leftMenu.NodeMouseDoubleClick -= OnHistoryMenuItemDoubleClick;
             leftMenu.ClearAll();
             if (rockDb != null)
             {
@@ -68,13 +81,41 @@ namespace GeekDB.GUI
         {
             ClearAll();
             TabControl.TabVisible = false;
-            int pageIndex = 1;
-            TreeNode parent = leftMenu.CreateNode("最近打开", 61451, 24, pageIndex);
-            AddPageWithGuid(new MainPage(), "Index", Guid.NewGuid());
+            TreeNode mongodbHistory = leftMenu.CreateNode("mongodb打开历史", 61451, 24, int.MaxValue);
+            TreeNode rocksdbHistory = leftMenu.CreateNode("rocksdb打开历史", 61451, 24, int.MaxValue);
+            AddHistoryLeftMenu(mongodbHistory, "mongodb");
+            AddHistoryLeftMenu(rocksdbHistory, "rocksdb");
+            mainPage = new MainPage();
+            AddPageWithGuid(mainPage, "Index", Guid.NewGuid());
+            leftMenu.MenuItemClick += OnHistoryMenuItemClick;
+            leftMenu.NodeMouseDoubleClick += OnHistoryMenuItemDoubleClick;
+        }
+
+        void AddHistoryLeftMenu(TreeNode treeNode, string type)
+        {
+            var table = type == "mongodb" ? editorDb.GetTable<string>("mongodb_history") : editorDb.GetTable<string>("rocksdb_history");
+            foreach (var i in table)
+            {
+                var node = leftMenu.CreateChildNode(treeNode, i, int.MaxValue);
+            }
+            treeNode.ExpandAll();
+        }
+
+        public void AddHistory(string type, string urlOrPath)
+        {
+            var table = type == "mongodb" ? editorDb.GetTable<string>("mongodb_history") : editorDb.GetTable<string>("rocksdb_history");
+            table.Set(urlOrPath, urlOrPath);
+        }
+
+        public void RemoveHistory(string type, string urlOrPath)
+        {
+            var table = type == "mongodb" ? editorDb.GetTable<string>("mongodb_history") : editorDb.GetTable<string>("rocksdb_history");
+            table.Delete(urlOrPath);
         }
 
         public void EnterRocksDBPage(string dbPath)
         {
+            AddHistory("rocksdb", dbPath);
             ClearAll();
 
             //得到临时路径 
@@ -98,9 +139,35 @@ namespace GeekDB.GUI
             ClearAll();
             leftMenu.ClearAll();
         }
+        private void OnHistoryMenuItemDoubleClick(object? sender, TreeNodeMouseClickEventArgs e)
+        {
+            var node = e.Node;
+            if (node.Parent == null)
+                return;
+            if (node.Parent.Text.ToLower().Contains("mongodb"))
+            {
 
+            }
+            else
+            {
+                if (!mainPage.TryEntryRocksDb(node.Text))
+                {
+                    RemoveHistory("rocksdb", node.Text);
+                }
+            }
+        }
         private void OnHistoryMenuItemClick(TreeNode node, NavMenuItem item, int pageIndex)
         {
+            if (node.Parent == null)
+                return;
+            if (node.Parent.Text.ToLower().Contains("mongodb"))
+            {
+
+            }
+            else
+            {
+                mainPage.SetRocksDbPath(node.Text);
+            }
         }
 
         private void OnRocksDBMenuItemClick(TreeNode node, NavMenuItem item, int pageIndex)

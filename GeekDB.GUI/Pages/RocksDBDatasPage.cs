@@ -25,17 +25,35 @@ namespace GeekDB.GUI.Pages
                 Key = k;
                 Data = value;
             }
+            [DisplayName("key")]
             public string Key { get; set; }
             private byte[] Data { get; set; }
             private string jsonStr = null;
-            public string DataJson
+            private string jsonPartStr = null;
+            [DisplayName("value(二进制，json模式显示)")]
+            public string DataJsonPart
             {
                 get
                 {
                     if (jsonStr == null)
+                    {
                         jsonStr = MessagePack.MessagePackSerializer.ConvertToJson(Data);
-                    return jsonStr;
+                        if (jsonStr.Length > 150)
+                        {
+                            jsonPartStr = jsonStr.Substring(0, 150) + "...";
+                        }
+                        else
+                        {
+                            jsonPartStr = jsonStr;
+                        }
+                    }
+                    return jsonPartStr;
                 }
+            }
+
+            public string GetAllJson()
+            {
+                return jsonStr;
             }
         }
 
@@ -49,6 +67,7 @@ namespace GeekDB.GUI.Pages
             this.db = db;
             this.tableName = name;
             tableNameLable.Text = name;
+            dbPathLable.Text = db.DbPath;
             //读取所有数据
             var num = 0;
             var table = db.GetRawTable(name);
@@ -66,6 +85,9 @@ namespace GeekDB.GUI.Pages
             searchResults.AddRange(datas);
             dataGridView.DataSource = searchResults;
             dataGridView.RowHeadersWidth = 100;
+            dataGridView.SetRowHeight(37);
+            //dataGridView.Columns[0].Width = 200;
+            //dataGridView.Columns[1].Width = 900;
         }
 
         private void FindBtn_Click(object sender, EventArgs e)
@@ -119,7 +141,7 @@ namespace GeekDB.GUI.Pages
             if (e.ColumnIndex == 1)
             {
                 var data = searchResults[e.RowIndex];
-                new JsonViewForm(data.Key, data.DataJson).ShowDialog();
+                new JsonViewForm(data.Key, data.GetAllJson()).ShowDialog();
             }
         }
     }

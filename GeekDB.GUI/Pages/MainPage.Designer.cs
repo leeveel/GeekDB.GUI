@@ -64,12 +64,22 @@
             // 
             // mongodbConnectBtn
             // 
+            this.mongodbConnectBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.mongodbConnectBtn.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.mongodbConnectBtn.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
+            this.mongodbConnectBtn.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
+            this.mongodbConnectBtn.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.mongodbConnectBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.mongodbConnectBtn.Location = new System.Drawing.Point(695, 96);
             this.mongodbConnectBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.mongodbConnectBtn.Name = "mongodbConnectBtn";
+            this.mongodbConnectBtn.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.mongodbConnectBtn.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
+            this.mongodbConnectBtn.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
+            this.mongodbConnectBtn.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.mongodbConnectBtn.Size = new System.Drawing.Size(100, 35);
-            this.mongodbConnectBtn.Style = Sunny.UI.UIStyle.Custom;
+            this.mongodbConnectBtn.Style = Sunny.UI.UIStyle.LayuiGreen;
+            this.mongodbConnectBtn.StyleCustomMode = true;
             this.mongodbConnectBtn.TabIndex = 2;
             this.mongodbConnectBtn.Text = "Connect";
             this.mongodbConnectBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -81,10 +91,13 @@
             this.mongodbURLTextBox.Location = new System.Drawing.Point(4, 28);
             this.mongodbURLTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mongodbURLTextBox.MinimumSize = new System.Drawing.Size(1, 16);
+            this.mongodbURLTextBox.Multiline = true;
             this.mongodbURLTextBox.Name = "mongodbURLTextBox";
+            this.mongodbURLTextBox.RectColor = System.Drawing.Color.Silver;
             this.mongodbURLTextBox.ShowText = false;
             this.mongodbURLTextBox.Size = new System.Drawing.Size(794, 60);
             this.mongodbURLTextBox.Style = Sunny.UI.UIStyle.Custom;
+            this.mongodbURLTextBox.StyleCustomMode = true;
             this.mongodbURLTextBox.TabIndex = 1;
             this.mongodbURLTextBox.Text = "mongodb://localhost:27017";
             this.mongodbURLTextBox.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
@@ -99,7 +112,7 @@
             this.uiLabel1.Size = new System.Drawing.Size(190, 23);
             this.uiLabel1.Style = Sunny.UI.UIStyle.Custom;
             this.uiLabel1.TabIndex = 0;
-            this.uiLabel1.Text = "mongodb URL";
+            this.uiLabel1.Text = "mongodb url:";
             this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabel1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
@@ -126,12 +139,22 @@
             // 
             // rocksdbStartBtn
             // 
+            this.rocksdbStartBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.rocksdbStartBtn.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.rocksdbStartBtn.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
+            this.rocksdbStartBtn.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
+            this.rocksdbStartBtn.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.rocksdbStartBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.rocksdbStartBtn.Location = new System.Drawing.Point(695, 107);
             this.rocksdbStartBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.rocksdbStartBtn.Name = "rocksdbStartBtn";
+            this.rocksdbStartBtn.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.rocksdbStartBtn.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
+            this.rocksdbStartBtn.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
+            this.rocksdbStartBtn.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.rocksdbStartBtn.Size = new System.Drawing.Size(103, 35);
-            this.rocksdbStartBtn.Style = Sunny.UI.UIStyle.Custom;
+            this.rocksdbStartBtn.Style = Sunny.UI.UIStyle.LayuiGreen;
+            this.rocksdbStartBtn.StyleCustomMode = true;
             this.rocksdbStartBtn.TabIndex = 6;
             this.rocksdbStartBtn.Text = "Open";
             this.rocksdbStartBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -156,10 +179,13 @@
             this.rocksdbPathTextBox.Location = new System.Drawing.Point(4, 28);
             this.rocksdbPathTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.rocksdbPathTextBox.MinimumSize = new System.Drawing.Size(1, 16);
+            this.rocksdbPathTextBox.Multiline = true;
             this.rocksdbPathTextBox.Name = "rocksdbPathTextBox";
+            this.rocksdbPathTextBox.RectColor = System.Drawing.Color.Silver;
             this.rocksdbPathTextBox.ShowText = false;
             this.rocksdbPathTextBox.Size = new System.Drawing.Size(794, 60);
             this.rocksdbPathTextBox.Style = Sunny.UI.UIStyle.Custom;
+            this.rocksdbPathTextBox.StyleCustomMode = true;
             this.rocksdbPathTextBox.TabIndex = 4;
             this.rocksdbPathTextBox.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.rocksdbPathTextBox.Watermark = "";
@@ -173,7 +199,7 @@
             this.uiLabel2.Size = new System.Drawing.Size(190, 23);
             this.uiLabel2.Style = Sunny.UI.UIStyle.Custom;
             this.uiLabel2.TabIndex = 3;
-            this.uiLabel2.Text = "rocksdb";
+            this.uiLabel2.Text = "rocksdb path:";
             this.uiLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabel2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
@@ -181,7 +207,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(978, 887);
+            this.ClientSize = new System.Drawing.Size(1172, 887);
             this.Controls.Add(this.rocksdbPanel);
             this.Controls.Add(this.mongodbPanel);
             this.ForeColor = System.Drawing.Color.Black;
