@@ -1,5 +1,6 @@
 ﻿using Geek.Server;
 using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using MongoDB.Driver;
 using Sunny.UI;
 using System;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static MongoDB.Driver.WriteConcern;
 
 namespace GeekDB.GUI.Pages
 {
@@ -20,34 +22,28 @@ namespace GeekDB.GUI.Pages
     {
         IMongoCollection<BsonDocument> dbCollection;
         string tableName;
-
+        long count;
+        int pageCount = 20;
         class DataItem
         {
-            public DataItem(string k, byte[] value)
+            static JsonWriterSettings jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.RelaxedExtendedJson };
+            public DataItem(BsonDocument Data)
             {
-                Key = k;
-                Data = value;
+                this.Data = Data;
             }
-            [DisplayName("key")]
-            public string Key { get; set; }
-            private byte[] Data { get; set; }
-            private string jsonStr = null;
+            private BsonDocument Data { get; set; }
             private string jsonPartStr = null;
             [DisplayName("value")]
             public string DataJsonPart
             {
                 get
                 {
-                    if (jsonStr == null)
+                    if (jsonPartStr == null)
                     {
-                        jsonStr = MessagePack.MessagePackSerializer.ConvertToJson(Data);
-                        if (jsonStr.Length > 150)
+                        jsonPartStr = Data.ToJson(jsonWriterSettings);
+                        if (jsonPartStr.Length > 150)
                         {
-                            jsonPartStr = jsonStr.Substring(0, 150) + "...";
-                        }
-                        else
-                        {
-                            jsonPartStr = jsonStr;
+                            jsonPartStr = jsonPartStr.Substring(0, 150) + "...";
                         }
                     }
                     return jsonPartStr;
@@ -56,7 +52,7 @@ namespace GeekDB.GUI.Pages
 
             public string GetAllJson()
             {
-                return jsonStr;
+                return Data.ToJson(jsonWriterSettings);
             }
         }
 
@@ -71,19 +67,7 @@ namespace GeekDB.GUI.Pages
             this.tableName = tableName;
             this.dbPathLable.Text = dbName;
             tableNameLable.Text = tableName;
-            this.dataCountLable.Text = dbCollection.CountDocuments(new BsonDocument()).ToString();
-            //读取所有数据
-            //var num = 0;
-            //var table = db.GetRawTable(name);
-            //if (table != null)
-            //{
-            //    var iter = table.GetKVEnumerator();
-            //    while (iter.MoveNext())
-            //    {
-            //        datas.Add(new DataItem(iter.Key, iter.Current));
-            //        num++;
-            //    }
-            //}
+            refrshData();
 
             //this.dataCountLable.Text = num.ToString();
             //searchResults.AddRange(datas);
@@ -95,43 +79,29 @@ namespace GeekDB.GUI.Pages
             //dataGridView.Columns[1].CellTemplate.Style.WrapMode = DataGridViewTriState.True;
         }
 
+        void refrshData(int pageIndex = 0)
+        {
+            count = dbCollection.CountDocuments(new BsonDocument());
+            this.dataCountLable.Text = count.ToString();
+            var startIndex = pageCount * pageIndex;
+            //limit skip 
+            var result = dbCollection.Find(new BsonDocument()).Limit(pageCount).Skip(startIndex).ToList();
+            datas.Clear();
+            foreach (var v in result)
+            {
+                datas.Add(new DataItem(v));
+            }
+            dataGridView.DataSource = datas;
+        }
+
         private void FindBtn_Click(object sender, EventArgs e)
         {
-            var str = this.searchTextBox.Text;
-            if (string.IsNullOrWhiteSpace(str))
-                return;
-            var ids = str.Split(new char[] { ',', ';', '，', '；' });
-            searchResults.Clear();
-            foreach (var id in ids)
-            {
-                if (string.IsNullOrWhiteSpace(str))
-                    continue;
-                var idl = id.ToLower();
-                foreach (var data in datas)
-                {
-                    if (data.Key.ToLower().Contains(idl))
-                    {
-                        if (searchResults.Find(d => d.Key == data.Key) == null)
-                        {
-                            searchResults.Add(data);
-                        }
-                    }
-                }
-            }
 
-            dataGridView.ClearAll();
-            dataGridView.DataSource = searchResults;
-            dataGridView.Refresh();
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)
         {
-            this.searchTextBox.Text = "";
-            dataGridView.ClearAll();
-            searchResults.Clear();
-            searchResults.AddRange(datas);
-            dataGridView.DataSource = searchResults;
-            dataGridView.Refresh();
+            refrshData(0);
         }
 
         private void dataGridView_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
@@ -143,10 +113,10 @@ namespace GeekDB.GUI.Pages
         {
             if (e.ColumnIndex < 0 || e.RowIndex < 0)
                 return;
-            if (e.ColumnIndex == 1)
+            if (e.ColumnIndex == 0)
             {
-                var data = searchResults[e.RowIndex];
-                new JsonViewForm(data.Key, data.GetAllJson()).ShowDialog();
+                var data = datas[e.RowIndex];
+                new JsonViewForm("", data.GetAllJson()).ShowDialog();
             }
         }
     }
