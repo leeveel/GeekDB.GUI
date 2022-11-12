@@ -63,6 +63,13 @@ namespace GeekDB.GUI.Pages
             }
         }
 
+        class RocksDbBackUpState
+        {
+            public string Id { get; set; }
+            public long Timestamp { get; set; }
+            public string Data { get; set; }
+        }
+
         List<object> datas = new List<object>();
         List<DataItem> searchResults = new List<DataItem>();
 
@@ -99,7 +106,8 @@ namespace GeekDB.GUI.Pages
                 try
                 {
                     var value = BsonSerializer.Deserialize<MongoState>(v);
-                    datas.Add(value);
+                    var state = new RocksDbBackUpState { Id = value.Id, Timestamp = value.Timestamp, Data = MessagePack.MessagePackSerializer.SerializeToJson(value.Data) };
+                    datas.Add(state);
                 }
                 catch (Exception)
                 {
