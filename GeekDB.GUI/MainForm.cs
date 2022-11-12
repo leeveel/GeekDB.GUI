@@ -1,6 +1,7 @@
 ﻿using Geek.Server;
 using GeekDB.GUI.Logic;
 using GeekDB.GUI.Pages;
+using MessagePack;
 using RocksDbSharp;
 using Sunny.UI;
 using Sunny.UI.Win32;
@@ -27,6 +28,14 @@ namespace GeekDB.GUI
         Dictionary<string, Guid> tableName2Guid = new();
         List<Guid> openPageGuids = new List<Guid>();
         EmbeddedDB rockDb;
+
+        [MessagePackObject(true)]
+        public class HistoryItem
+        {
+            public string pathOrUrl;
+            public DateTime time;
+        }
+
         EmbeddedDB editorDb;
         public MainForm()
         {
@@ -35,10 +44,6 @@ namespace GeekDB.GUI
             MainTabControl = TabControl;
 
             var editorDbPath = System.IO.Path.GetTempPath() + "rocksdb_editor/db";
-            if (!Directory.Exists(editorDbPath))
-            {
-                Directory.CreateDirectory(editorDbPath);
-            }
             editorDb = new EmbeddedDB(editorDbPath, false);
 
             EnterMainPage();
@@ -91,35 +96,53 @@ namespace GeekDB.GUI
             leftMenu.NodeMouseDoubleClick += OnHistoryMenuItemDoubleClick;
         }
 
+        Table<HistoryItem> GetHistoryTable(string type)
+        {
+            return type == "mongodb" ? editorDb.GetTable<HistoryItem>("mongodb_history") : editorDb.GetTable<HistoryItem>("rocksdb_history");
+        }
+
         void AddHistoryLeftMenu(TreeNode treeNode, string type)
         {
-            var table = type == "mongodb" ? editorDb.GetTable<string>("mongodb_history") : editorDb.GetTable<string>("rocksdb_history");
-            foreach (var i in table)
+            var table = GetHistoryTable(type);
+            var list = table.ToList();
+            list.Sort((a, b) => a.time > b.time ? -1 : 1);
+            foreach (var i in list)
             {
-                var node = leftMenu.CreateChildNode(treeNode, i, int.MaxValue);
+                var node = leftMenu.CreateChildNode(treeNode, i.pathOrUrl, int.MaxValue);
             }
             treeNode.ExpandAll();
         }
 
         public void AddHistory(string type, string urlOrPath)
         {
-            var table = type == "mongodb" ? editorDb.GetTable<string>("mongodb_history") : editorDb.GetTable<string>("rocksdb_history");
-            table.Set(urlOrPath, urlOrPath);
+            var table = GetHistoryTable(type);
+            table.Set(urlOrPath, new HistoryItem { pathOrUrl = urlOrPath, time = DateTime.Now });
         }
 
         public void RemoveHistory(string type, string urlOrPath)
         {
-            var table = type == "mongodb" ? editorDb.GetTable<string>("mongodb_history") : editorDb.GetTable<string>("rocksdb_history");
+            var table = GetHistoryTable(type);
             table.Delete(urlOrPath);
+        }
+
+        public void UpdateHistory(string type, string urlOrPath)
+        {
+            RemoveHistory(type, urlOrPath);
+            AddHistory(type, urlOrPath);
         }
 
         public void EnterRocksDBPage(string dbPath)
         {
-            AddHistory("rocksdb", dbPath);
+            UpdateHistory("rocksdb", dbPath);
             ClearAll();
 
-            //得到临时路径 
-            rockDb = new EmbeddedDB(dbPath, true);
+            //得到临时路径
+            var tempPath = System.IO.Path.GetTempPath() + "rocksdb_editor/" + Path.GetFileName(dbPath) + "_temp";
+            if (Directory.Exists(tempPath))
+            {
+                Directory.Delete(tempPath, true);
+            }
+            rockDb = new EmbeddedDB(dbPath, true, tempPath);
 
             TabControl.TabVisible = true;
             var parent = leftMenu.CreateNode(Path.GetFileName(dbPath), int.MaxValue);

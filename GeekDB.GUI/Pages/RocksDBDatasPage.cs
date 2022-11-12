@@ -30,7 +30,7 @@ namespace GeekDB.GUI.Pages
             private byte[] Data { get; set; }
             private string jsonStr = null;
             private string jsonPartStr = null;
-            [DisplayName("value(二进制，json模式显示)")]
+            [DisplayName("value")]
             public string DataJsonPart
             {
                 get

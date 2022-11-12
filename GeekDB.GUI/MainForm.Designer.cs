@@ -34,11 +34,11 @@
             // 
             // leftMenu
             // 
-            this.leftMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(54)))), ((int)(((byte)(66)))));
+            this.leftMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(44)))), ((int)(((byte)(56)))));
             this.leftMenu.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.leftMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftMenu.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
-            this.leftMenu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(54)))), ((int)(((byte)(66)))));
+            this.leftMenu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(44)))), ((int)(((byte)(56)))));
             this.leftMenu.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.leftMenu.ForeColor = System.Drawing.Color.White;
             this.leftMenu.FullRowSelect = true;
@@ -50,8 +50,8 @@
             this.leftMenu.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.leftMenu.ScrollBarHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.leftMenu.ScrollBarPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.leftMenu.SelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.leftMenu.SelectedHighColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.leftMenu.SelectedForeColor = System.Drawing.Color.White;
+            this.leftMenu.SelectedHighColor = System.Drawing.Color.Silver;
             this.leftMenu.ShowLines = false;
             this.leftMenu.Size = new System.Drawing.Size(250, 719);
             this.leftMenu.Style = Sunny.UI.UIStyle.Custom;

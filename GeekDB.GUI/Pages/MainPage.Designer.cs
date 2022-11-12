@@ -87,7 +87,7 @@
             // 
             // mongodbURLTextBox
             // 
-            this.mongodbURLTextBox.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.mongodbURLTextBox.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.mongodbURLTextBox.Location = new System.Drawing.Point(4, 28);
             this.mongodbURLTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mongodbURLTextBox.MinimumSize = new System.Drawing.Size(1, 16);
@@ -162,12 +162,22 @@
             // 
             // rocksdbSelectDirBtn
             // 
+            this.rocksdbSelectDirBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.rocksdbSelectDirBtn.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.rocksdbSelectDirBtn.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
+            this.rocksdbSelectDirBtn.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
+            this.rocksdbSelectDirBtn.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.rocksdbSelectDirBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.rocksdbSelectDirBtn.Location = new System.Drawing.Point(570, 107);
             this.rocksdbSelectDirBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.rocksdbSelectDirBtn.Name = "rocksdbSelectDirBtn";
+            this.rocksdbSelectDirBtn.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.rocksdbSelectDirBtn.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
+            this.rocksdbSelectDirBtn.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
+            this.rocksdbSelectDirBtn.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.rocksdbSelectDirBtn.Size = new System.Drawing.Size(103, 35);
-            this.rocksdbSelectDirBtn.Style = Sunny.UI.UIStyle.Custom;
+            this.rocksdbSelectDirBtn.Style = Sunny.UI.UIStyle.LayuiGreen;
+            this.rocksdbSelectDirBtn.StyleCustomMode = true;
             this.rocksdbSelectDirBtn.TabIndex = 5;
             this.rocksdbSelectDirBtn.Text = "选择db";
             this.rocksdbSelectDirBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -175,7 +185,7 @@
             // 
             // rocksdbPathTextBox
             // 
-            this.rocksdbPathTextBox.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rocksdbPathTextBox.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.rocksdbPathTextBox.Location = new System.Drawing.Point(4, 28);
             this.rocksdbPathTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.rocksdbPathTextBox.MinimumSize = new System.Drawing.Size(1, 16);
@@ -207,7 +217,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1172, 887);
+            this.ClientSize = new System.Drawing.Size(1002, 887);
             this.Controls.Add(this.rocksdbPanel);
             this.Controls.Add(this.mongodbPanel);
             this.ForeColor = System.Drawing.Color.Black;

@@ -38,6 +38,7 @@ namespace GeekDB.GUI.Pages
             // 
             // jsonTreeView
             // 
+            this.jsonTreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.jsonTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.jsonTreeView.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.jsonTreeView.ForeColor = System.Drawing.Color.Black;
