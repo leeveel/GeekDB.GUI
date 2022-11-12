@@ -1,7 +1,10 @@
 ﻿using Geek.Server;
+using Geek.Server.RemoteBackup.Logic;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using SharpCompress.Writers;
 using Sunny.UI;
 using System;
 using System.Collections;
@@ -30,9 +33,13 @@ namespace GeekDB.GUI.Pages
             public DataItem(BsonDocument Data)
             {
                 this.Data = Data;
+                // Id = Data.is
             }
             private BsonDocument Data { get; set; }
             private string jsonPartStr = null;
+
+            [DisplayName("Key")]
+            private string Id { get; set; }
             [DisplayName("value")]
             public string DataJsonPart
             {
@@ -56,7 +63,7 @@ namespace GeekDB.GUI.Pages
             }
         }
 
-        List<DataItem> datas = new List<DataItem>();
+        List<object> datas = new List<object>();
         List<DataItem> searchResults = new List<DataItem>();
 
         public MongoDBDatasPage(IMongoCollection<BsonDocument> dbCollection, string dbName, string tableName)
@@ -89,7 +96,15 @@ namespace GeekDB.GUI.Pages
             datas.Clear();
             foreach (var v in result)
             {
-                datas.Add(new DataItem(v));
+                try
+                {
+                    var value = BsonSerializer.Deserialize<MongoState>(v);
+                    datas.Add(value);
+                }
+                catch (Exception)
+                {
+                    datas.Add(new DataItem(v));
+                }
             }
             dataGridView.DataSource = datas;
         }
@@ -116,7 +131,7 @@ namespace GeekDB.GUI.Pages
             if (e.ColumnIndex == 0)
             {
                 var data = datas[e.RowIndex];
-                new JsonViewForm("", data.GetAllJson()).ShowDialog();
+                // new JsonViewForm("", data.GetAllJson()).ShowDialog();
             }
         }
     }
