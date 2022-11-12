@@ -77,7 +77,7 @@ namespace GeekDB.GUI
             }
             if (!ExistPage(guid))
             {
-                page.Text = tabText;
+                page.Text = tabText.Length > 14 ? tabText.Substring(0, 13) + "..." : tabText;
                 AddPage(page, guid);
             }
         }
@@ -160,8 +160,8 @@ namespace GeekDB.GUI
         public void EnterMongodbPage(string url)
         {
             ClearAll();
-            leftMenu.ClearAll();
         }
+
         private void OnHistoryMenuItemDoubleClick(object? sender, TreeNodeMouseClickEventArgs e)
         {
             var node = e.Node;

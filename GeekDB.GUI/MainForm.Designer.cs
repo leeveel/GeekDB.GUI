@@ -34,11 +34,11 @@
             // 
             // leftMenu
             // 
-            this.leftMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(44)))), ((int)(((byte)(56)))));
+            this.leftMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.leftMenu.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.leftMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftMenu.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
-            this.leftMenu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(44)))), ((int)(((byte)(56)))));
+            this.leftMenu.ExpandSelectFirst = false;
             this.leftMenu.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.leftMenu.ForeColor = System.Drawing.Color.White;
             this.leftMenu.FullRowSelect = true;
@@ -55,6 +55,7 @@
             this.leftMenu.ShowLines = false;
             this.leftMenu.Size = new System.Drawing.Size(250, 719);
             this.leftMenu.Style = Sunny.UI.UIStyle.Custom;
+            this.leftMenu.StyleCustomMode = true;
             this.leftMenu.TabIndex = 0;
             this.leftMenu.TipsFont = new System.Drawing.Font("微软雅黑 Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.leftMenu.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -77,7 +78,7 @@
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.ShowCloseButton = true;
-            this.TabControl.Size = new System.Drawing.Size(1010, 716);
+            this.TabControl.Size = new System.Drawing.Size(875, 716);
             this.TabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControl.Style = Sunny.UI.UIStyle.Custom;
             this.TabControl.StyleCustomMode = true;
@@ -95,8 +96,8 @@
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.ClientSize = new System.Drawing.Size(1261, 754);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1126, 754);
             this.ControlBoxFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
             this.ControlBoxForeColor = System.Drawing.Color.Black;
             this.Controls.Add(this.leftMenu);
@@ -106,6 +107,7 @@
             this.ShowRadius = false;
             this.ShowTitleIcon = true;
             this.Style = Sunny.UI.UIStyle.Custom;
+            this.StyleCustomMode = true;
             this.Text = "rocksdb";
             this.TitleColor = System.Drawing.Color.White;
             this.TitleForeColor = System.Drawing.Color.Black;

@@ -85,9 +85,10 @@ namespace GeekDB.GUI.Pages
             searchResults.AddRange(datas);
             dataGridView.DataSource = searchResults;
             dataGridView.RowHeadersWidth = 100;
-            dataGridView.SetRowHeight(37);
+            //dataGridView.SetRowHeight(45);
             //dataGridView.Columns[0].Width = 200;
-            //dataGridView.Columns[1].Width = 900;
+            //dataGridView.Columns[1].Width = 1000;
+            dataGridView.Columns[1].CellTemplate.Style.WrapMode = DataGridViewTriState.True;
         }
 
         private void FindBtn_Click(object sender, EventArgs e)
