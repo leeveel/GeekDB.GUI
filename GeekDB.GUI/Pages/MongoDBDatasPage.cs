@@ -139,13 +139,17 @@ namespace GeekDB.GUI.Pages
             if (e.ColumnIndex == 0)
             {
                 var data = datas[e.RowIndex];
+                if (data as DataItem != null)
+                {
+                    new JsonViewForm("", (data as DataItem).GetAllJson()).ShowDialog();
+                }
+            }
+            else if (e.ColumnIndex == 2)
+            {
+                var data = datas[e.RowIndex];
                 if (data as RocksDbBackUpState != null)
                 {
                     new JsonViewForm("", (data as RocksDbBackUpState).Data).ShowDialog();
-                }
-                else
-                {
-                    new JsonViewForm("", (data as DataItem).GetAllJson()).ShowDialog();
                 }
             }
         }
