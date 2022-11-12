@@ -34,26 +34,27 @@
             // 
             // leftMenu
             // 
+            this.leftMenu.AllowDrop = true;
             this.leftMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.leftMenu.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.leftMenu.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
             this.leftMenu.ExpandSelectFirst = false;
-            this.leftMenu.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.leftMenu.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.leftMenu.ForeColor = System.Drawing.Color.White;
             this.leftMenu.FullRowSelect = true;
             this.leftMenu.ItemHeight = 50;
-            this.leftMenu.Location = new System.Drawing.Point(0, 35);
+            this.leftMenu.Location = new System.Drawing.Point(1, 35);
             this.leftMenu.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
             this.leftMenu.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
             this.leftMenu.Name = "leftMenu";
             this.leftMenu.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.leftMenu.ScrollBarHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.leftMenu.ScrollBarPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.leftMenu.SelectedForeColor = System.Drawing.Color.White;
+            this.leftMenu.ScrollBarPressColor = System.Drawing.Color.Red;
+            this.leftMenu.SelectedForeColor = System.Drawing.Color.Turquoise;
             this.leftMenu.SelectedHighColor = System.Drawing.Color.Silver;
             this.leftMenu.ShowLines = false;
-            this.leftMenu.Size = new System.Drawing.Size(250, 719);
+            this.leftMenu.Size = new System.Drawing.Size(277, 719);
             this.leftMenu.Style = Sunny.UI.UIStyle.Custom;
             this.leftMenu.StyleCustomMode = true;
             this.leftMenu.TabIndex = 0;
@@ -71,14 +72,14 @@
             this.TabControl.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TabControl.Frame = null;
             this.TabControl.ItemSize = new System.Drawing.Size(190, 70);
-            this.TabControl.Location = new System.Drawing.Point(248, 35);
+            this.TabControl.Location = new System.Drawing.Point(283, 35);
             this.TabControl.MainPage = "";
             this.TabControl.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
             this.TabControl.Multiline = true;
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.ShowCloseButton = true;
-            this.TabControl.Size = new System.Drawing.Size(875, 716);
+            this.TabControl.Size = new System.Drawing.Size(840, 716);
             this.TabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControl.Style = Sunny.UI.UIStyle.Custom;
             this.TabControl.StyleCustomMode = true;

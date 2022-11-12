@@ -69,6 +69,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Geek.DB\Geek.DB.csproj" />
+    <PackageReference Include="MongoDB.Driver" Version="2.15.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +78,9 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>NodeImages.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\MongoDBDatasPage.cs">
+      <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
 

@@ -49,13 +49,13 @@
             this.mongodbPanel.FillColor = System.Drawing.Color.White;
             this.mongodbPanel.FillColor2 = System.Drawing.Color.White;
             this.mongodbPanel.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.mongodbPanel.Location = new System.Drawing.Point(86, 107);
+            this.mongodbPanel.Location = new System.Drawing.Point(12, 107);
             this.mongodbPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mongodbPanel.MinimumSize = new System.Drawing.Size(1, 1);
             this.mongodbPanel.Name = "mongodbPanel";
             this.mongodbPanel.RectColor = System.Drawing.Color.White;
             this.mongodbPanel.RectDisableColor = System.Drawing.Color.White;
-            this.mongodbPanel.Size = new System.Drawing.Size(798, 184);
+            this.mongodbPanel.Size = new System.Drawing.Size(799, 184);
             this.mongodbPanel.Style = Sunny.UI.UIStyle.Custom;
             this.mongodbPanel.TabIndex = 0;
             this.mongodbPanel.Text = null;
@@ -125,12 +125,12 @@
             this.rocksdbPanel.FillColor = System.Drawing.Color.White;
             this.rocksdbPanel.FillColor2 = System.Drawing.Color.White;
             this.rocksdbPanel.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.rocksdbPanel.Location = new System.Drawing.Point(86, 347);
+            this.rocksdbPanel.Location = new System.Drawing.Point(11, 271);
             this.rocksdbPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.rocksdbPanel.MinimumSize = new System.Drawing.Size(1, 1);
             this.rocksdbPanel.Name = "rocksdbPanel";
             this.rocksdbPanel.RectColor = System.Drawing.Color.White;
-            this.rocksdbPanel.Size = new System.Drawing.Size(798, 189);
+            this.rocksdbPanel.Size = new System.Drawing.Size(799, 189);
             this.rocksdbPanel.Style = Sunny.UI.UIStyle.Custom;
             this.rocksdbPanel.TabIndex = 1;
             this.rocksdbPanel.Text = null;
@@ -217,7 +217,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1207, 887);
+            this.ClientSize = new System.Drawing.Size(1134, 887);
             this.Controls.Add(this.rocksdbPanel);
             this.Controls.Add(this.mongodbPanel);
             this.ForeColor = System.Drawing.Color.Black;

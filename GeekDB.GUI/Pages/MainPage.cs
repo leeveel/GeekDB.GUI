@@ -1,5 +1,4 @@
-﻿using GeekDB.GUI.Logic;
-using Sunny.UI;
+﻿using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +23,7 @@ namespace GeekDB.GUI.Pages
 
         private void mongodbConnectBtn_Click(object sender, EventArgs e)
         {
-
+            MainForm.Instance.EnterMongodbPage(this.mongodbURLTextBox.Text);
         }
 
         private void rocksdbSelectDirBtn_Click(object sender, EventArgs e)
@@ -59,6 +58,10 @@ namespace GeekDB.GUI.Pages
                 UIMessageTip.ShowError("选择路径不是有效的rocksdb路径");
                 return false;
             }
+        }
+        public void SetMongoDbPath(string path)
+        {
+            mongodbURLTextBox.Text = path;
         }
 
         public void SetRocksDbPath(string path)

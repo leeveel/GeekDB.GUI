@@ -1,7 +1,8 @@
 ﻿using Geek.Server;
-using GeekDB.GUI.Logic;
 using GeekDB.GUI.Pages;
 using MessagePack;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using RocksDbSharp;
 using Sunny.UI;
 using Sunny.UI.Win32;
@@ -23,11 +24,20 @@ namespace GeekDB.GUI
 {
     public partial class MainForm : UIForm
     {
+        public enum DBType
+        {
+            MongoDb,
+            RocksDb
+        }
+
         public static MainForm Instance { get; private set; }
         MainPage mainPage;
         Dictionary<string, Guid> tableName2Guid = new();
         List<Guid> openPageGuids = new List<Guid>();
-        EmbeddedDB rockDb;
+        EmbeddedDB curRockDb;
+        Dictionary<string, MongoClient> allMongodbClient = new();
+        string curMongoDBUrl = "";
+        MongoClient curMongoDbClient;
 
         [MessagePackObject(true)]
         public class HistoryItem
@@ -54,12 +64,13 @@ namespace GeekDB.GUI
             tableName2Guid.Clear();
             leftMenu.MenuItemClick -= OnHistoryMenuItemClick;
             leftMenu.MenuItemClick -= OnRocksDBMenuItemClick;
+            leftMenu.MenuItemClick -= OnMongoDBMenuItemClick;
             leftMenu.NodeMouseDoubleClick -= OnHistoryMenuItemDoubleClick;
             leftMenu.ClearAll();
-            if (rockDb != null)
+            if (curRockDb != null)
             {
-                rockDb.Close();
-                rockDb = null;
+                curRockDb.Close();
+                curRockDb = null;
             }
 
             foreach (var v in openPageGuids)
@@ -67,6 +78,40 @@ namespace GeekDB.GUI
                 RemovePage(v);
             }
             openPageGuids.Clear();
+        }
+
+        Table<HistoryItem> GetHistoryTable(DBType type)
+        {
+            return type == DBType.MongoDb ? editorDb.GetTable<HistoryItem>("mongodb_history") : editorDb.GetTable<HistoryItem>("rocksdb_history");
+        }
+        void AddHistoryLeftMenu(TreeNode treeNode, DBType type)
+        {
+            var table = GetHistoryTable(type);
+            var list = table.ToList();
+            list.Sort((a, b) => a.time > b.time ? -1 : 1);
+            foreach (var i in list)
+            {
+                var node = leftMenu.CreateChildNode(treeNode, i.pathOrUrl, int.MaxValue);
+            }
+            treeNode.ExpandAll();
+        }
+
+        public void AddHistory(DBType type, string urlOrPath)
+        {
+            var table = GetHistoryTable(type);
+            table.Set(urlOrPath, new HistoryItem { pathOrUrl = urlOrPath, time = DateTime.Now });
+        }
+
+        public void RemoveHistory(DBType type, string urlOrPath)
+        {
+            var table = GetHistoryTable(type);
+            table.Delete(urlOrPath);
+        }
+
+        public void UpdateHistory(DBType type, string urlOrPath)
+        {
+            RemoveHistory(type, urlOrPath);
+            AddHistory(type, urlOrPath);
         }
 
         void AddPageWithGuid(UIPage page, string tabText, Guid guid)
@@ -88,61 +133,26 @@ namespace GeekDB.GUI
             TabControl.TabVisible = false;
             TreeNode mongodbHistory = leftMenu.CreateNode("mongodb打开历史", 61451, 24, int.MaxValue);
             TreeNode rocksdbHistory = leftMenu.CreateNode("rocksdb打开历史", 61451, 24, int.MaxValue);
-            AddHistoryLeftMenu(mongodbHistory, "mongodb");
-            AddHistoryLeftMenu(rocksdbHistory, "rocksdb");
+            AddHistoryLeftMenu(mongodbHistory, DBType.MongoDb);
+            AddHistoryLeftMenu(rocksdbHistory, DBType.RocksDb);
             mainPage = new MainPage();
             AddPageWithGuid(mainPage, "Index", Guid.NewGuid());
             leftMenu.MenuItemClick += OnHistoryMenuItemClick;
             leftMenu.NodeMouseDoubleClick += OnHistoryMenuItemDoubleClick;
         }
 
-        Table<HistoryItem> GetHistoryTable(string type)
-        {
-            return type == "mongodb" ? editorDb.GetTable<HistoryItem>("mongodb_history") : editorDb.GetTable<HistoryItem>("rocksdb_history");
-        }
-
-        void AddHistoryLeftMenu(TreeNode treeNode, string type)
-        {
-            var table = GetHistoryTable(type);
-            var list = table.ToList();
-            list.Sort((a, b) => a.time > b.time ? -1 : 1);
-            foreach (var i in list)
-            {
-                var node = leftMenu.CreateChildNode(treeNode, i.pathOrUrl, int.MaxValue);
-            }
-            treeNode.ExpandAll();
-        }
-
-        public void AddHistory(string type, string urlOrPath)
-        {
-            var table = GetHistoryTable(type);
-            table.Set(urlOrPath, new HistoryItem { pathOrUrl = urlOrPath, time = DateTime.Now });
-        }
-
-        public void RemoveHistory(string type, string urlOrPath)
-        {
-            var table = GetHistoryTable(type);
-            table.Delete(urlOrPath);
-        }
-
-        public void UpdateHistory(string type, string urlOrPath)
-        {
-            RemoveHistory(type, urlOrPath);
-            AddHistory(type, urlOrPath);
-        }
-
         public void EnterRocksDBPage(string dbPath)
         {
-            UpdateHistory("rocksdb", dbPath);
+            UpdateHistory(DBType.RocksDb, dbPath);
             ClearAll();
 
             //得到临时路径
-            var tempPath = System.IO.Path.GetTempPath() + "rocksdb_editor/" + Path.GetFileName(dbPath) + "_temp";
+            var tempPath = Path.GetTempPath() + "rocksdb_editor/" + Path.GetFileName(dbPath) + "_temp";
             if (Directory.Exists(tempPath))
             {
                 Directory.Delete(tempPath, true);
             }
-            rockDb = new EmbeddedDB(dbPath, true, tempPath);
+            curRockDb = new EmbeddedDB(dbPath, true, tempPath);
 
             TabControl.TabVisible = true;
             var parent = leftMenu.CreateNode(Path.GetFileName(dbPath), int.MaxValue);
@@ -159,7 +169,44 @@ namespace GeekDB.GUI
 
         public void EnterMongodbPage(string url)
         {
+            var dbNames = new List<string>();
+            if (allMongodbClient.ContainsKey(url))
+            {
+                curMongoDbClient = allMongodbClient[url];
+            }
+            else
+            {
+                try
+                {
+                    var settings = MongoClientSettings.FromConnectionString(url);
+                    curMongoDbClient = new MongoClient(settings);
+                    dbNames = curMongoDbClient.ListDatabaseNames().ToList();
+                    allMongodbClient[url] = curMongoDbClient;
+                    curMongoDBUrl = url;
+                }
+                catch (Exception e)
+                {
+                    UIMessageTip.ShowError(e.Message);
+                    return;
+                }
+            }
             ClearAll();
+            UpdateHistory(DBType.MongoDb, url);
+            TabControl.TabVisible = true;
+
+            foreach (var n in dbNames)
+            {
+                var parent = leftMenu.CreateNode(n, int.MaxValue);
+                var db = curMongoDbClient.GetDatabase(n);
+                var tables = db.ListCollectionNames().ToList();
+                foreach (var t in tables)
+                {
+                    var guid = Guid.NewGuid();
+                    tableName2Guid[n + "_" + t] = guid;
+                    var tabelNode = leftMenu.CreateChildNode(parent, t, guid);
+                }
+            }
+            leftMenu.MenuItemClick += OnMongoDBMenuItemClick;
         }
 
         private void OnHistoryMenuItemDoubleClick(object? sender, TreeNodeMouseClickEventArgs e)
@@ -175,7 +222,7 @@ namespace GeekDB.GUI
             {
                 if (!mainPage.TryEntryRocksDb(node.Text))
                 {
-                    RemoveHistory("rocksdb", node.Text);
+                    RemoveHistory(DBType.RocksDb, node.Text);
                 }
             }
         }
@@ -185,7 +232,7 @@ namespace GeekDB.GUI
                 return;
             if (node.Parent.Text.ToLower().Contains("mongodb"))
             {
-
+                mainPage.SetMongoDbPath(node.Text);
             }
             else
             {
@@ -206,7 +253,27 @@ namespace GeekDB.GUI
             else
             {
                 var strs = tableName.Split(new char[] { '.' });
-                AddPageWithGuid(new RocksDBDatasPage(rockDb, node.Text), strs[strs.Length - 1], pageGuid);
+                AddPageWithGuid(new RocksDBDatasPage(curRockDb, node.Text), strs[strs.Length - 1], pageGuid);
+                SelectPage(pageGuid);
+            }
+        }
+
+        private void OnMongoDBMenuItemClick(TreeNode node, NavMenuItem item, int pageIndex)
+        {
+            if (item.PageIndex == int.MaxValue)
+                return;
+            var dbName = node.Parent.Text;
+            var tableName = node.Text;
+            var pageGuid = tableName2Guid[dbName + "_" + tableName];
+            if (ExistPage(pageGuid))
+            {
+                SelectPage(pageGuid);
+            }
+            else
+            {
+                var strs = tableName.Split(new char[] { '.' });
+                var db = curMongoDbClient.GetDatabase(dbName);
+                AddPageWithGuid(new MongoDBDatasPage(db.GetCollection<BsonDocument>(tableName), curMongoDBUrl + "  " + dbName, tableName), strs[strs.Length - 1], pageGuid);
                 SelectPage(pageGuid);
             }
         }
