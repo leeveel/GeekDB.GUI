@@ -160,7 +160,7 @@ namespace GeekDB.GUI.Pages
             }
             curQueryStr = query;
             refreshData(0);
-            UIMessageTip.ShowOk($"结果{datas.Count}条");
+            UIMessageTip.ShowOk($"结果{curQueryTotalCount}条");
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)
