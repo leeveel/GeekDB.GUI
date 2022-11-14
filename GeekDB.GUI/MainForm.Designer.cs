@@ -30,12 +30,15 @@
         {
             this.leftMenu = new Sunny.UI.UINavMenu();
             this.TabControl = new Sunny.UI.UITabControl();
+            this.uiContextMenuStrip = new Sunny.UI.UIContextMenuStrip();
+            this.DisconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uiContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // leftMenu
             // 
             this.leftMenu.AllowDrop = true;
-            this.leftMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.leftMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.leftMenu.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.leftMenu.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
@@ -64,8 +67,8 @@
             // TabControl
             // 
             this.TabControl.AllowDrop = true;
-            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.TabControl.FillColor = System.Drawing.Color.White;
@@ -76,7 +79,6 @@
             this.TabControl.MainPage = "";
             this.TabControl.Margin = new System.Windows.Forms.Padding(0);
             this.TabControl.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
-            this.TabControl.Multiline = true;
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.ShowCloseButton = true;
@@ -95,8 +97,28 @@
             this.TabControl.TipsForeColor = System.Drawing.Color.Gray;
             this.TabControl.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
+            // uiContextMenuStrip
+            // 
+            this.uiContextMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.uiContextMenuStrip.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiContextMenuStrip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DisconnectToolStripMenuItem});
+            this.uiContextMenuStrip.Name = "uiContextMenuStrip1";
+            this.uiContextMenuStrip.Size = new System.Drawing.Size(181, 52);
+            this.uiContextMenuStrip.Style = Sunny.UI.UIStyle.Custom;
+            this.uiContextMenuStrip.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // DisconnectToolStripMenuItem
+            // 
+            this.DisconnectToolStripMenuItem.Name = "DisconnectToolStripMenuItem";
+            this.DisconnectToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.DisconnectToolStripMenuItem.Text = "Disconnect";
+            this.DisconnectToolStripMenuItem.Click += new System.EventHandler(this.DisconnectToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
+            this.AllowAddControlOnTitle = true;
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
@@ -107,6 +129,7 @@
             this.Controls.Add(this.leftMenu);
             this.Controls.Add(this.TabControl);
             this.ExtendBox = true;
+            this.ExtendMenu = this.uiContextMenuStrip;
             this.Name = "MainForm";
             this.RectColor = System.Drawing.Color.Black;
             this.ShowRadius = false;
@@ -121,6 +144,7 @@
             this.TitleForeColor = System.Drawing.Color.Black;
             this.ZoomScaleDisabled = true;
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
+            this.uiContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -129,5 +153,7 @@
 
         private Sunny.UI.UINavMenu leftMenu;
         private Sunny.UI.UITabControl TabControl;
+        private Sunny.UI.UIContextMenuStrip uiContextMenuStrip;
+        private ToolStripMenuItem DisconnectToolStripMenuItem;
     }
 }
