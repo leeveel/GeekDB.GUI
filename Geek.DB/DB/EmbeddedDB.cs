@@ -149,12 +149,18 @@ namespace Geek.Server
             }
         }
 
+        public bool CanUse()
+        {
+            return InnerDB != null;
+        }
+
         public void Close()
         {
             Flush(true);
             Native.Instance.rocksdb_cancel_all_background_work(InnerDB.Handle, true);
             Native.Instance.rocksdb_free(flushOption.Handle);
-            Native.Instance.rocksdb_close(InnerDB.Handle);
+            InnerDB.Dispose();
+            InnerDB = null;
         }
     }
 }

@@ -19,17 +19,29 @@ namespace GeekDB.GUI.Pages
     {
         EmbeddedDB db;
         string tableName;
+        long dbTotalCount = 0;
+        long curQueryTotalCount;
+        int onePageDataCount = 20;
+        int curPageIndex = 0;
 
         class DataItem
         {
-            public DataItem(string k, byte[] value)
+            public DataItem(byte[] keyBytes, byte[] value)
             {
-                Key = k;
-                Data = value;
+                this.keyBytes = keyBytes;
+                valueBytes = value;
             }
+
+            private byte[] keyBytes { get; set; }
+            private byte[] valueBytes { get; set; }
             [DisplayName("key")]
-            public string Key { get; set; }
-            private byte[] Data { get; set; }
+            public string Key
+            {
+                get
+                {
+                    return Encoding.UTF8.GetString(keyBytes);
+                }
+            }
             private string jsonStr = null;
             private string jsonPartStr = null;
             [DisplayName("value")]
@@ -39,7 +51,7 @@ namespace GeekDB.GUI.Pages
                 {
                     if (jsonStr == null)
                     {
-                        jsonStr = MessagePack.MessagePackSerializer.ConvertToJson(Data);
+                        jsonStr = MessagePack.MessagePackSerializer.ConvertToJson(valueBytes);
                         if (jsonStr.Length > 150)
                         {
                             jsonPartStr = jsonStr.Substring(0, 150) + "...";
@@ -59,8 +71,9 @@ namespace GeekDB.GUI.Pages
             }
         }
 
-        List<DataItem> datas = new List<DataItem>();
-        List<DataItem> searchResults = new List<DataItem>();
+        List<DataItem> sourceDatas = new();
+        List<DataItem> searchResults;
+        List<DataItem> showResults = new List<DataItem>();
 
         public RocksDBDatasPage(EmbeddedDB db, string name)
         {
@@ -78,34 +91,14 @@ namespace GeekDB.GUI.Pages
                 var iter = table.GetKVEnumerator();
                 while (iter.MoveNext())
                 {
-                    datas.Add(new DataItem(iter.Key, iter.Current));
+                    sourceDatas.Add(new DataItem(iter.KeyBytes, iter.Current));
                     num++;
                 }
             }
-
-            this.dataCountLable.Text = num.ToString();
-            searchResults.AddRange(datas);
-            //dataGridView.DataSource = searchResults;
-            dataGridView.RowHeadersWidth = 60;
-
-
-            //用虚拟模式 
-            dataGridView.VirtualMode = true;
-            dataGridView.AllowUserToAddRows = false;
-            dataGridView.AllowUserToOrderColumns = false;
-            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-
-            DataGridViewTextBoxColumn keyColumn = new DataGridViewTextBoxColumn();
-            keyColumn.HeaderText = "Key";
-            keyColumn.Name = "Key";
-            DataGridViewTextBoxColumn valueColumn = new DataGridViewTextBoxColumn();
-            valueColumn.HeaderText = "Value";
-            valueColumn.Name = "Value";
-
-            dataGridView.Columns.Add(keyColumn);
-            dataGridView.Columns.Add(valueColumn);
-            dataGridView.CellValueNeeded += new DataGridViewCellValueEventHandler(dataGridView_CellValueNeeded);
+            dbTotalCount = num;
+            searchResults = new List<DataItem>(sourceDatas.Count);
+            searchResults.AddRange(sourceDatas);
+            //dataGridView.RowHeadersWidth = 60; 
 
             RefreshGridView();
         }
@@ -128,10 +121,28 @@ namespace GeekDB.GUI.Pages
             }
         }
 
-        void RefreshGridView()
+        void RefreshGridView(int pageIndex = 0)
         {
-            dataGridView.RowCount = 0;
-            dataGridView.RowCount = searchResults.Count;
+            this.curPageIndex = pageIndex;
+            curQueryTotalCount = searchResults.Count;
+            this.dataCountLable.Text = dbTotalCount.ToString();
+            var startIndex = onePageDataCount * pageIndex;
+            var curPageItemCount = Math.Min(onePageDataCount, curQueryTotalCount - startIndex);
+            var endIndex = startIndex + curPageItemCount - 1;
+            this.displayCountLable.Text = string.Format("displaying documents {0}-{1} of {2}", Math.Min(startIndex + 1, curQueryTotalCount), endIndex + 1, curQueryTotalCount);
+            var isFirstPage = pageIndex == 0;
+            var isLastPage = startIndex + curPageItemCount >= curQueryTotalCount;
+            this.leftBtn.Enabled = !isFirstPage;
+            this.rightBtn.Enabled = !isLastPage;
+
+            showResults.Clear();
+            for (int i = startIndex; i <= endIndex; i++)
+            {
+                showResults.Add(searchResults[i]);
+            }
+            dataGridView.ClearAll();
+            dataGridView.DataSource = showResults;
+            dataGridView.Refresh();
         }
 
         private void FindBtn_Click(object sender, EventArgs e)
@@ -146,7 +157,7 @@ namespace GeekDB.GUI.Pages
                 if (string.IsNullOrWhiteSpace(str))
                     continue;
                 var idl = id.ToLower();
-                foreach (var data in datas)
+                foreach (var data in sourceDatas)
                 {
                     if (data.Key.ToLower().Contains(idl))
                     {
@@ -165,7 +176,7 @@ namespace GeekDB.GUI.Pages
         {
             this.searchTextBox.Text = "";
             searchResults.Clear();
-            searchResults.AddRange(datas);
+            searchResults.AddRange(sourceDatas);
             RefreshGridView();
         }
 
@@ -180,9 +191,26 @@ namespace GeekDB.GUI.Pages
                 return;
             if (e.ColumnIndex == 1)
             {
-                var data = searchResults[e.RowIndex];
+                var data = showResults[e.RowIndex];
                 new JsonViewForm(data.Key, data.GetAllJson()).ShowDialog();
             }
+        }
+
+        private void rightBtn_Click(object sender, EventArgs e)
+        {
+            curPageIndex = Math.Min(curPageIndex + 1, (int)(curQueryTotalCount / onePageDataCount));
+            RefreshGridView(curPageIndex);
+        }
+
+        private void leftBtn_Click(object sender, EventArgs e)
+        {
+            curPageIndex = Math.Max(curPageIndex - 1, 0);
+            RefreshGridView(curPageIndex);
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            RefreshGridView(0);
         }
     }
 }

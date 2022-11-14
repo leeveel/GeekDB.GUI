@@ -158,14 +158,17 @@ namespace GeekDB.GUI.Pages
                 UIMessageTip.ShowWarning("当前查询条件为空");
                 return;
             }
-            curQueryStr = query;
+            if (!query.StartsWith("{"))
+                curQueryStr = "{ _id: " + query + "}";
+            else
+                curQueryStr = query;
             refreshData(0);
             UIMessageTip.ShowOk($"结果{curQueryTotalCount}条");
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)
         {
-            this.searchTextBox.Text = "{_id:your id}";
+            this.searchTextBox.Text = "";
             curQueryStr = "{}";
             refreshData(0);
         }

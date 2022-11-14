@@ -44,6 +44,10 @@ namespace GeekDB.GUI.Pages
             this.searchTextBox = new Sunny.UI.UITextBox();
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.dataGridView = new Sunny.UI.UIDataGridView();
+            this.displayCountLable = new Sunny.UI.UILabel();
+            this.refreshBtn = new Sunny.UI.UIButton();
+            this.rightBtn = new Sunny.UI.UISymbolButton();
+            this.leftBtn = new Sunny.UI.UISymbolButton();
             this.uiPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -68,7 +72,7 @@ namespace GeekDB.GUI.Pages
             this.uiPanel1.Name = "uiPanel1";
             this.uiPanel1.RectColor = System.Drawing.Color.White;
             this.uiPanel1.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
-            this.uiPanel1.Size = new System.Drawing.Size(1543, 131);
+            this.uiPanel1.Size = new System.Drawing.Size(1146, 131);
             this.uiPanel1.Style = Sunny.UI.UIStyle.Custom;
             this.uiPanel1.TabIndex = 0;
             this.uiPanel1.Text = null;
@@ -95,13 +99,13 @@ namespace GeekDB.GUI.Pages
             // 
             this.ResetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ResetBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ResetBtn.Location = new System.Drawing.Point(1431, 97);
+            this.ResetBtn.Location = new System.Drawing.Point(1034, 97);
             this.ResetBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.ResetBtn.Name = "ResetBtn";
             this.ResetBtn.Size = new System.Drawing.Size(92, 29);
             this.ResetBtn.Style = Sunny.UI.UIStyle.Custom;
             this.ResetBtn.TabIndex = 4;
-            this.ResetBtn.Text = "RESET";
+            this.ResetBtn.Text = "重置";
             this.ResetBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.ResetBtn.Click += new System.EventHandler(this.ResetBtn_Click);
             // 
@@ -129,7 +133,7 @@ namespace GeekDB.GUI.Pages
             this.FindBtn.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.FindBtn.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(109)))));
             this.FindBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FindBtn.Location = new System.Drawing.Point(1333, 97);
+            this.FindBtn.Location = new System.Drawing.Point(936, 97);
             this.FindBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.FindBtn.Name = "FindBtn";
             this.FindBtn.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
@@ -140,7 +144,7 @@ namespace GeekDB.GUI.Pages
             this.FindBtn.Style = Sunny.UI.UIStyle.LayuiGreen;
             this.FindBtn.StyleCustomMode = true;
             this.FindBtn.TabIndex = 3;
-            this.FindBtn.Text = "FIND";
+            this.FindBtn.Text = "查找";
             this.FindBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.FindBtn.Click += new System.EventHandler(this.FindBtn_Click);
             // 
@@ -149,7 +153,7 @@ namespace GeekDB.GUI.Pages
             this.dataCountLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dataCountLable.Font = new System.Drawing.Font("微软雅黑", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.dataCountLable.ForeColor = System.Drawing.Color.Green;
-            this.dataCountLable.Location = new System.Drawing.Point(1378, 3);
+            this.dataCountLable.Location = new System.Drawing.Point(981, 3);
             this.dataCountLable.Name = "dataCountLable";
             this.dataCountLable.Size = new System.Drawing.Size(158, 59);
             this.dataCountLable.Style = Sunny.UI.UIStyle.Custom;
@@ -168,9 +172,10 @@ namespace GeekDB.GUI.Pages
             this.searchTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.searchTextBox.MinimumSize = new System.Drawing.Size(1, 16);
             this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.Radius = 1;
             this.searchTextBox.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.searchTextBox.ShowText = false;
-            this.searchTextBox.Size = new System.Drawing.Size(1314, 29);
+            this.searchTextBox.Size = new System.Drawing.Size(114, 29);
             this.searchTextBox.Style = Sunny.UI.UIStyle.Custom;
             this.searchTextBox.StyleCustomMode = true;
             this.searchTextBox.TabIndex = 2;
@@ -183,7 +188,7 @@ namespace GeekDB.GUI.Pages
             // 
             this.uiLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uiLabel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiLabel1.Location = new System.Drawing.Point(1370, 62);
+            this.uiLabel1.Location = new System.Drawing.Point(973, 62);
             this.uiLabel1.Name = "uiLabel1";
             this.uiLabel1.Size = new System.Drawing.Size(174, 20);
             this.uiLabel1.Style = Sunny.UI.UIStyle.Custom;
@@ -226,7 +231,7 @@ namespace GeekDB.GUI.Pages
             this.dataGridView.EnableHeadersVisualStyles = false;
             this.dataGridView.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(164)))), ((int)(((byte)(152)))));
-            this.dataGridView.Location = new System.Drawing.Point(12, 156);
+            this.dataGridView.Location = new System.Drawing.Point(12, 190);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
@@ -247,13 +252,13 @@ namespace GeekDB.GUI.Pages
             this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.dataGridView.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.RowTemplate.Height = 45;
+            this.dataGridView.RowTemplate.Height = 35;
             this.dataGridView.ScrollBarBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.dataGridView.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
             this.dataGridView.ScrollBarHandleWidth = 18;
             this.dataGridView.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
             this.dataGridView.SelectedIndex = -1;
-            this.dataGridView.Size = new System.Drawing.Size(1518, 328);
+            this.dataGridView.Size = new System.Drawing.Size(1121, 685);
             this.dataGridView.StripeOddColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.dataGridView.Style = Sunny.UI.UIStyle.Custom;
             this.dataGridView.StyleCustomMode = true;
@@ -264,11 +269,92 @@ namespace GeekDB.GUI.Pages
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             this.dataGridView.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridView_RowStateChanged);
             // 
+            // displayCountLable
+            // 
+            this.displayCountLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.displayCountLable.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.displayCountLable.Location = new System.Drawing.Point(476, 149);
+            this.displayCountLable.Name = "displayCountLable";
+            this.displayCountLable.Size = new System.Drawing.Size(469, 35);
+            this.displayCountLable.Style = Sunny.UI.UIStyle.Custom;
+            this.displayCountLable.TabIndex = 7;
+            this.displayCountLable.Text = "displaying documents 1-20 of 500";
+            this.displayCountLable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.displayCountLable.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // refreshBtn
+            // 
+            this.refreshBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.refreshBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.refreshBtn.Location = new System.Drawing.Point(1038, 150);
+            this.refreshBtn.MinimumSize = new System.Drawing.Size(1, 1);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(92, 29);
+            this.refreshBtn.Style = Sunny.UI.UIStyle.Custom;
+            this.refreshBtn.TabIndex = 13;
+            this.refreshBtn.Text = "刷新";
+            this.refreshBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
+            // 
+            // rightBtn
+            // 
+            this.rightBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rightBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rightBtn.FillColor = System.Drawing.Color.Transparent;
+            this.rightBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rightBtn.Location = new System.Drawing.Point(990, 149);
+            this.rightBtn.MinimumSize = new System.Drawing.Size(1, 1);
+            this.rightBtn.Name = "rightBtn";
+            this.rightBtn.RectColor = System.Drawing.Color.Transparent;
+            this.rightBtn.RectDisableColor = System.Drawing.Color.White;
+            this.rightBtn.RectHoverColor = System.Drawing.Color.Black;
+            this.rightBtn.Size = new System.Drawing.Size(37, 35);
+            this.rightBtn.Style = Sunny.UI.UIStyle.Custom;
+            this.rightBtn.StyleCustomMode = true;
+            this.rightBtn.Symbol = 61518;
+            this.rightBtn.SymbolColor = System.Drawing.Color.Black;
+            this.rightBtn.SymbolDisableColor = System.Drawing.Color.Silver;
+            this.rightBtn.SymbolPressColor = System.Drawing.Color.DarkGray;
+            this.rightBtn.SymbolSelectedColor = System.Drawing.Color.Gainsboro;
+            this.rightBtn.TabIndex = 12;
+            this.rightBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.rightBtn.Click += new System.EventHandler(this.rightBtn_Click);
+            // 
+            // leftBtn
+            // 
+            this.leftBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.leftBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.leftBtn.FillColor = System.Drawing.Color.Transparent;
+            this.leftBtn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.leftBtn.ForeHoverColor = System.Drawing.Color.Gray;
+            this.leftBtn.ForeSelectedColor = System.Drawing.Color.Gray;
+            this.leftBtn.Location = new System.Drawing.Point(951, 149);
+            this.leftBtn.MinimumSize = new System.Drawing.Size(1, 1);
+            this.leftBtn.Name = "leftBtn";
+            this.leftBtn.RectColor = System.Drawing.Color.Transparent;
+            this.leftBtn.RectDisableColor = System.Drawing.SystemColors.ScrollBar;
+            this.leftBtn.RectHoverColor = System.Drawing.Color.Black;
+            this.leftBtn.Size = new System.Drawing.Size(37, 35);
+            this.leftBtn.Style = Sunny.UI.UIStyle.Custom;
+            this.leftBtn.StyleCustomMode = true;
+            this.leftBtn.Symbol = 61514;
+            this.leftBtn.SymbolColor = System.Drawing.Color.Black;
+            this.leftBtn.SymbolDisableColor = System.Drawing.Color.LightGray;
+            this.leftBtn.SymbolPressColor = System.Drawing.Color.Gray;
+            this.leftBtn.SymbolSelectedColor = System.Drawing.Color.DarkGray;
+            this.leftBtn.TabIndex = 10;
+            this.leftBtn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.leftBtn.Click += new System.EventHandler(this.leftBtn_Click);
+            // 
             // RocksDBDatasPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1542, 496);
+            this.ClientSize = new System.Drawing.Size(1145, 887);
+            this.Controls.Add(this.displayCountLable);
+            this.Controls.Add(this.refreshBtn);
+            this.Controls.Add(this.rightBtn);
+            this.Controls.Add(this.leftBtn);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.uiPanel1);
             this.Name = "RocksDBDatasPage";
@@ -291,5 +377,9 @@ namespace GeekDB.GUI.Pages
         private Sunny.UI.UIButton FindBtn;
         private Sunny.UI.UIButton ResetBtn;
         private Sunny.UI.UIMarkLabel dbPathLable;
+        private Sunny.UI.UILabel displayCountLable;
+        private Sunny.UI.UIButton refreshBtn;
+        private Sunny.UI.UISymbolButton rightBtn;
+        private Sunny.UI.UISymbolButton leftBtn;
     }
 }
