@@ -57,11 +57,11 @@ namespace Geek.Server
             }
             else
             {
+                flushOption = new FlushOptions();
                 option.SetCreateIfMissing(true).SetCreateMissingColumnFamilies(true);
                 InnerDB = RocksDb.Open(option, DbPath, cfs);
             }
 
-            flushOption = new FlushOptions();
         }
 
         ColumnFamilyHandle GetOrCreateColumnFamilyHandle(string name)
@@ -158,7 +158,6 @@ namespace Geek.Server
         {
             Flush(true);
             Native.Instance.rocksdb_cancel_all_background_work(InnerDB.Handle, true);
-            Native.Instance.rocksdb_free(flushOption.Handle);
             InnerDB.Dispose();
             InnerDB = null;
         }

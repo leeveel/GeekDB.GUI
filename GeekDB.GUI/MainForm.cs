@@ -94,7 +94,7 @@ namespace GeekDB.GUI
 
         void ReleaseEditorDB()
         {
-            if (editorDb == null)
+            if (editorDb != null)
             {
                 editorDb.Close();
                 editorDb = null;
