@@ -7,9 +7,11 @@ using System.Data;
 using System.DirectoryServices;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static BrightIdeasSoftware.TreeListView;
 
 namespace GeekDB.GUI.Pages
 {
@@ -83,12 +85,53 @@ namespace GeekDB.GUI.Pages
 
             this.dataCountLable.Text = num.ToString();
             searchResults.AddRange(datas);
-            dataGridView.DataSource = searchResults;
-            dataGridView.RowHeadersWidth = 100;
-            //dataGridView.SetRowHeight(45);
-            //dataGridView.Columns[0].Width = 200;
-            //dataGridView.Columns[1].Width = 1000;
-            dataGridView.Columns[1].CellTemplate.Style.WrapMode = DataGridViewTriState.True;
+            //dataGridView.DataSource = searchResults;
+            dataGridView.RowHeadersWidth = 60;
+
+
+            //用虚拟模式 
+            dataGridView.VirtualMode = true;
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToOrderColumns = false;
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+            DataGridViewTextBoxColumn keyColumn = new DataGridViewTextBoxColumn();
+            keyColumn.HeaderText = "Key";
+            keyColumn.Name = "Key";
+            DataGridViewTextBoxColumn valueColumn = new DataGridViewTextBoxColumn();
+            valueColumn.HeaderText = "Value";
+            valueColumn.Name = "Value";
+
+            dataGridView.Columns.Add(keyColumn);
+            dataGridView.Columns.Add(valueColumn);
+            dataGridView.CellValueNeeded += new DataGridViewCellValueEventHandler(dataGridView_CellValueNeeded);
+
+            RefreshGridView();
+        }
+
+        void dataGridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            if (e.RowIndex >= searchResults.Count)
+                return;
+            var data = searchResults[e.RowIndex];
+
+            switch (e.ColumnIndex)
+            {
+                case 0:
+                    e.Value = data.Key;
+                    break;
+
+                case 1:
+                    e.Value = data.DataJsonPart;
+                    break;
+            }
+        }
+
+        void RefreshGridView()
+        {
+            dataGridView.RowCount = 0;
+            dataGridView.RowCount = searchResults.Count;
         }
 
         private void FindBtn_Click(object sender, EventArgs e)
@@ -115,19 +158,15 @@ namespace GeekDB.GUI.Pages
                 }
             }
 
-            dataGridView.ClearAll();
-            dataGridView.DataSource = searchResults;
-            dataGridView.Refresh();
+            RefreshGridView();
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)
         {
             this.searchTextBox.Text = "";
-            dataGridView.ClearAll();
             searchResults.Clear();
             searchResults.AddRange(datas);
-            dataGridView.DataSource = searchResults;
-            dataGridView.Refresh();
+            RefreshGridView();
         }
 
         private void dataGridView_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)

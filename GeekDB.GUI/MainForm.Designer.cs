@@ -35,7 +35,7 @@
             // leftMenu
             // 
             this.leftMenu.AllowDrop = true;
-            this.leftMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.leftMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.leftMenu.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.leftMenu.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
@@ -44,7 +44,7 @@
             this.leftMenu.ForeColor = System.Drawing.Color.White;
             this.leftMenu.FullRowSelect = true;
             this.leftMenu.ItemHeight = 50;
-            this.leftMenu.Location = new System.Drawing.Point(1, 35);
+            this.leftMenu.Location = new System.Drawing.Point(0, 35);
             this.leftMenu.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
             this.leftMenu.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
             this.leftMenu.Name = "leftMenu";
@@ -64,22 +64,23 @@
             // TabControl
             // 
             this.TabControl.AllowDrop = true;
-            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.TabControl.FillColor = System.Drawing.Color.White;
             this.TabControl.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TabControl.Frame = null;
             this.TabControl.ItemSize = new System.Drawing.Size(190, 70);
-            this.TabControl.Location = new System.Drawing.Point(283, 35);
+            this.TabControl.Location = new System.Drawing.Point(275, 35);
             this.TabControl.MainPage = "";
+            this.TabControl.Margin = new System.Windows.Forms.Padding(0);
             this.TabControl.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
             this.TabControl.Multiline = true;
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.ShowCloseButton = true;
-            this.TabControl.Size = new System.Drawing.Size(840, 716);
+            this.TabControl.Size = new System.Drawing.Size(848, 716);
             this.TabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControl.Style = Sunny.UI.UIStyle.Custom;
             this.TabControl.StyleCustomMode = true;
@@ -96,22 +97,29 @@
             // 
             // MainForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1126, 754);
             this.ControlBoxFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
             this.ControlBoxForeColor = System.Drawing.Color.Black;
             this.Controls.Add(this.leftMenu);
             this.Controls.Add(this.TabControl);
+            this.ExtendBox = true;
             this.Name = "MainForm";
             this.RectColor = System.Drawing.Color.Black;
             this.ShowRadius = false;
             this.ShowTitleIcon = true;
             this.Style = Sunny.UI.UIStyle.Custom;
             this.StyleCustomMode = true;
+            this.Tag = "";
+            this.TagString = "";
             this.Text = "rocksdb";
             this.TitleColor = System.Drawing.Color.White;
+            this.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TitleForeColor = System.Drawing.Color.Black;
+            this.ZoomScaleDisabled = true;
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
             this.ResumeLayout(false);
 
