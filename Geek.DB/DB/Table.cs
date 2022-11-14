@@ -135,12 +135,12 @@ namespace Geek.Server
         }
         public Enumerator GetKVEnumerator()
         {
-            return new Enumerator(this, true);
+            return new Enumerator(this);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new Enumerator(this, false);
+            return new Enumerator(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -153,14 +153,11 @@ namespace Geek.Server
             //private Snapshot snapshot;
             private Iterator dbIterator;
             private T curValue = default(T);
-            private string curKey = "";
             private byte[] curKeyBytes;
             private Table<T> table;
-            private bool parseKey;
 
-            internal Enumerator(Table<T> table, bool parseKey)
+            internal Enumerator(Table<T> table)
             {
-                this.parseKey = parseKey;
                 this.table = table;
                 dbIterator = table.db.InnerDB.NewIterator(table.cfHandle);
                 dbIterator.SeekToFirst();
