@@ -158,8 +158,22 @@ namespace GeekDB.GUI.Pages
                 UIMessageTip.ShowWarning("当前查询条件为空");
                 return;
             }
-            if (!query.StartsWith("{"))
-                curQueryStr = "{ _id: " + query + "}";
+            if (!query.StartsWith("{") && !query.StartsWith("["))
+            {
+                var strs = query.Split(new char[] { ',', '，' });
+                curQueryStr = "{$or:[";
+                for (int i = 0; i < strs.Length; i++)
+                {
+                    var s = strs[i];
+                    if (!string.IsNullOrWhiteSpace(s))
+                        curQueryStr += "{ _id: " + s + "}";
+                    if (i != strs.Length - 1)
+                    {
+                        curQueryStr += ",";
+                    }
+                }
+                curQueryStr += "]}";
+            }
             else
                 curQueryStr = query;
             refreshData(0);
