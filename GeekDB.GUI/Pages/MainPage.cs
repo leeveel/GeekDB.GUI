@@ -59,6 +59,11 @@ namespace GeekDB.GUI.Pages
                 return false;
             }
         }
+
+        public void TryEntryMongoDb()
+        {
+
+        }
         public void SetMongoDbPath(string path)
         {
             mongodbURLTextBox.Text = path;

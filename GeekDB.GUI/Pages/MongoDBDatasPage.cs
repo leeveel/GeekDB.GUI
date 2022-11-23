@@ -23,24 +23,32 @@ namespace GeekDB.GUI.Pages
 {
     public partial class MongoDBDatasPage : UIPage
     {
+        enum DataSourceType
+        {
+            DB,
+            QueryResult
+        }
+
         IMongoCollection<BsonDocument> dbCollection;
         string tableName;
-        long count;
-        int pageCount = 20;
+        long dbTotalCount = 0;
+        long curQueryTotalCount;
+        int onePageDataCount = 20;
+        int curPageIndex = 0;
+
+        string curQueryStr = "{}";
+
         class DataItem
         {
             static JsonWriterSettings jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.RelaxedExtendedJson };
             public DataItem(BsonDocument Data)
             {
                 this.Data = Data;
-                // Id = Data.is
+                Id = Data["_id"].ToString();
             }
             private BsonDocument Data { get; set; }
             private string jsonPartStr = null;
-
-            [DisplayName("Key")]
-            private string Id { get; set; }
-            [DisplayName("value")]
+            public string Id { get; set; }
             public string DataJsonPart
             {
                 get
@@ -48,9 +56,9 @@ namespace GeekDB.GUI.Pages
                     if (jsonPartStr == null)
                     {
                         jsonPartStr = Data.ToJson(jsonWriterSettings);
-                        if (jsonPartStr.Length > 150)
+                        if (jsonPartStr.Length > 250)
                         {
-                            jsonPartStr = jsonPartStr.Substring(0, 150) + "...";
+                            jsonPartStr = jsonPartStr.Substring(0, 248) + "...";
                         }
                     }
                     return jsonPartStr;
@@ -71,7 +79,6 @@ namespace GeekDB.GUI.Pages
         }
 
         List<object> datas = new List<object>();
-        List<DataItem> searchResults = new List<DataItem>();
 
         public MongoDBDatasPage(IMongoCollection<BsonDocument> dbCollection, string dbName, string tableName)
         {
@@ -81,25 +88,49 @@ namespace GeekDB.GUI.Pages
             this.tableName = tableName;
             this.dbPathLable.Text = dbName;
             tableNameLable.Text = tableName;
-            refrshData();
-
-            //this.dataCountLable.Text = num.ToString();
-            //searchResults.AddRange(datas);
-            //dataGridView.DataSource = searchResults;
-            //dataGridView.RowHeadersWidth = 100;
-            ////dataGridView.SetRowHeight(45);
-            ////dataGridView.Columns[0].Width = 200;
-            ////dataGridView.Columns[1].Width = 1000;
-            //dataGridView.Columns[1].CellTemplate.Style.WrapMode = DataGridViewTriState.True;
+            indexCountLable.Text = dbCollection.Indexes.List().ToList().Count.ToString();
+            refreshData();
         }
 
-        void refrshData(int pageIndex = 0)
+        void refreshData(int pageIndex = 0)
         {
-            count = dbCollection.CountDocuments(new BsonDocument());
-            this.dataCountLable.Text = count.ToString();
-            var startIndex = pageCount * pageIndex;
-            //limit skip 
-            var result = dbCollection.Find(new BsonDocument()).Limit(pageCount).Skip(startIndex).ToList();
+            this.curPageIndex = pageIndex;
+            try
+            {
+                curQueryTotalCount = dbCollection.CountDocuments(curQueryStr);
+
+            }
+            catch (Exception e)
+            {
+                UIMessageTip.ShowError(e.InnerException != null ? e.InnerException.Message : e.Message);
+                curQueryTotalCount = 0;
+            }
+
+            if (dbTotalCount == 0)
+            {
+                dbTotalCount = curQueryTotalCount;
+            }
+            this.dataCountLable.Text = dbTotalCount.ToString();
+            var startIndex = onePageDataCount * pageIndex;
+            var curPageItemCount = Math.Min(onePageDataCount, curQueryTotalCount - startIndex);
+            this.displayCountLable.Text = string.Format("displaying documents {0}-{1} of {2}", Math.Min(startIndex + 1, curQueryTotalCount), startIndex + curPageItemCount, curQueryTotalCount);
+            var isFirstPage = pageIndex == 0;
+            var isLastPage = startIndex + curPageItemCount >= curQueryTotalCount;
+            this.leftBtn.Enabled = !isFirstPage;
+            this.rightBtn.Enabled = !isLastPage;
+            if (curQueryTotalCount > 0)
+            {
+                var result = dbCollection.Find(curQueryStr).Limit(onePageDataCount).Skip(startIndex).ToList();
+                ParseQueryResult(result);
+            }
+            else
+            {
+                ParseQueryResult(new List<BsonDocument>());
+            }
+        }
+
+        void ParseQueryResult(List<BsonDocument> result)
+        {
             datas.Clear();
             foreach (var v in result)
             {
@@ -114,17 +145,46 @@ namespace GeekDB.GUI.Pages
                     datas.Add(new DataItem(v));
                 }
             }
+            dataGridView.ClearAll();
             dataGridView.DataSource = datas;
+            dataGridView.Refresh();
         }
 
         private void FindBtn_Click(object sender, EventArgs e)
         {
-
+            var query = this.searchTextBox.Text;
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                UIMessageTip.ShowWarning("当前查询条件为空");
+                return;
+            }
+            if (!query.StartsWith("{") && !query.StartsWith("["))
+            {
+                var strs = query.Split(new char[] { ',', '，' });
+                curQueryStr = "{$or:[";
+                for (int i = 0; i < strs.Length; i++)
+                {
+                    var s = strs[i];
+                    if (!string.IsNullOrWhiteSpace(s))
+                        curQueryStr += "{ _id: " + s + "}";
+                    if (i != strs.Length - 1)
+                    {
+                        curQueryStr += ",";
+                    }
+                }
+                curQueryStr += "]}";
+            }
+            else
+                curQueryStr = query;
+            refreshData(0);
+            UIMessageTip.ShowOk($"结果{curQueryTotalCount}条");
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)
         {
-            refrshData(0);
+            this.searchTextBox.Text = "";
+            curQueryStr = "{}";
+            refreshData(0);
         }
 
         private void dataGridView_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
@@ -136,7 +196,9 @@ namespace GeekDB.GUI.Pages
         {
             if (e.ColumnIndex < 0 || e.RowIndex < 0)
                 return;
-            if (e.ColumnIndex == 0)
+            if (e.RowIndex >= datas.Count)
+                return;
+            if (e.ColumnIndex == 1)
             {
                 var data = datas[e.RowIndex];
                 if (data as DataItem != null)
@@ -147,11 +209,28 @@ namespace GeekDB.GUI.Pages
             else if (e.ColumnIndex == 2)
             {
                 var data = datas[e.RowIndex];
-                if (data as RocksDbBackUpState != null)
+                if (data is RocksDbBackUpState rdbs)
                 {
-                    new JsonViewForm("", (data as RocksDbBackUpState).Data).ShowDialog();
+                    new JsonViewForm("", rdbs.Data).ShowDialog();
                 }
             }
+        }
+
+        private void rightBtn_Click(object sender, EventArgs e)
+        {
+            curPageIndex = Math.Min(curPageIndex + 1, (int)(curQueryTotalCount / onePageDataCount));
+            refreshData(curPageIndex);
+        }
+
+        private void leftBtn_Click(object sender, EventArgs e)
+        {
+            curPageIndex = Math.Max(curPageIndex - 1, 0);
+            refreshData(curPageIndex);
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            refreshData(0);
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Text;
 using RocksDbSharp;
 using NLog;
 using System.Collections;
+using System.Reflection.Metadata;
 
 namespace Geek.Server
 {
@@ -134,12 +135,12 @@ namespace Geek.Server
         }
         public Enumerator GetKVEnumerator()
         {
-            return new Enumerator(this, true);
+            return new Enumerator(this);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new Enumerator(this, false);
+            return new Enumerator(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -152,16 +153,13 @@ namespace Geek.Server
             //private Snapshot snapshot;
             private Iterator dbIterator;
             private T curValue = default(T);
-            private string curKey = "";
+            private byte[] curKeyBytes;
             private Table<T> table;
-            private bool parseKey;
 
-            internal Enumerator(Table<T> table, bool parseKey)
+            internal Enumerator(Table<T> table)
             {
-                this.parseKey = parseKey;
                 this.table = table;
-                var option = new ReadOptions();
-                dbIterator = table.db.InnerDB.NewIterator(table.cfHandle, option);
+                dbIterator = table.db.InnerDB.NewIterator(table.cfHandle);
                 dbIterator.SeekToFirst();
             }
 
@@ -174,13 +172,15 @@ namespace Geek.Server
 
             void Dispose(bool disposing)
             {
+                if (!table.db.CanUse())
+                    return;
                 if (!isDisposed)
                 {
                     curValue = default(T);
                     if (dbIterator != null)
                     {
                         dbIterator.Dispose();
-                        //snapshot.Dispose();
+                        dbIterator = null;
                     }
                 }
                 isDisposed = true;
@@ -199,8 +199,7 @@ namespace Geek.Server
                         curValue = (T)(object)dbIterator.Value();
                     else
                         curValue = Serializer.Deserialize<T>(dbIterator.Value());
-                    if (parseKey)
-                        curKey = Encoding.UTF8.GetString(dbIterator.Key());
+                    curKeyBytes = dbIterator.Key();
                     dbIterator.Next();
                     return true;
                 }
@@ -211,7 +210,14 @@ namespace Geek.Server
             {
                 get
                 {
-                    return curKey;
+                    return Encoding.UTF8.GetString(curKeyBytes);
+                }
+            }
+            public byte[] KeyBytes
+            {
+                get
+                {
+                    return curKeyBytes;
                 }
             }
 

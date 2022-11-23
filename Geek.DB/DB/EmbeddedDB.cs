@@ -29,9 +29,9 @@ namespace Geek.Server
             }
         }
 
-        public EmbeddedDB(string path, bool readOnlay = false, string readonlyPath = null)
+        public EmbeddedDB(string path, bool readOnly = false, string readonlyPath = null)
         {
-            this.ReadOnly = readOnlay;
+            this.ReadOnly = readOnly;
             var dir = Path.GetDirectoryName(path);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
@@ -46,7 +46,7 @@ namespace Geek.Server
                 columnFamilie[cf] = null;
             }
 
-            if (readOnlay)
+            if (readOnly)
             {
                 option.SetMaxOpenFiles(-1);
                 if (string.IsNullOrEmpty(readonlyPath))
@@ -57,11 +57,11 @@ namespace Geek.Server
             }
             else
             {
+                flushOption = new FlushOptions();
                 option.SetCreateIfMissing(true).SetCreateMissingColumnFamilies(true);
                 InnerDB = RocksDb.Open(option, DbPath, cfs);
             }
 
-            flushOption = new FlushOptions();
         }
 
         ColumnFamilyHandle GetOrCreateColumnFamilyHandle(string name)
@@ -149,12 +149,17 @@ namespace Geek.Server
             }
         }
 
+        public bool CanUse()
+        {
+            return InnerDB != null;
+        }
+
         public void Close()
         {
             Flush(true);
             Native.Instance.rocksdb_cancel_all_background_work(InnerDB.Handle, true);
-            Native.Instance.rocksdb_free(flushOption.Handle);
             InnerDB.Dispose();
+            InnerDB = null;
         }
     }
 }

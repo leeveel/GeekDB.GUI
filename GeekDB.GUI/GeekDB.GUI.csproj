@@ -64,7 +64,7 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="ObjectListView.Updated" Version="2.9.3" />
-    <PackageReference Include="SunnyUI" Version="3.2.8.1" />
+    <PackageReference Include="SunnyUI" Version="3.2.9" />
   </ItemGroup>
 
   <ItemGroup>

@@ -53,37 +53,54 @@ namespace GeekDB.GUI
             InitializeComponent();
             MainTabControl = TabControl;
 
-            var editorDbPath = System.IO.Path.GetTempPath() + "rocksdb_editor/db";
-            editorDb = new EmbeddedDB(editorDbPath, false);
-
             EnterMainPage();
         }
 
         void ClearAll()
         {
-            tableName2Guid.Clear();
             leftMenu.MenuItemClick -= OnHistoryMenuItemClick;
             leftMenu.MenuItemClick -= OnRocksDBMenuItemClick;
             leftMenu.MenuItemClick -= OnMongoDBMenuItemClick;
             leftMenu.NodeMouseDoubleClick -= OnHistoryMenuItemDoubleClick;
+            MainTabControl.AutoClosePage = true;
+            foreach (var v in openPageGuids)
+            {
+                RemovePage(v);
+            }
+            MainTabControl.TabPages.Clear();
+            MainTabControl.Refresh();
+
             leftMenu.ClearAll();
+            tableName2Guid.Clear();
+            openPageGuids.Clear();
+
             if (curRockDb != null)
             {
                 curRockDb.Close();
                 curRockDb = null;
             }
-
-            foreach (var v in openPageGuids)
-            {
-                RemovePage(v);
-            }
-            openPageGuids.Clear();
         }
 
         Table<HistoryItem> GetHistoryTable(DBType type)
         {
+            //每次重新打开，可能会存在多个编辑器实例情况
+            var editorDbPath = System.IO.Path.GetTempPath() + "rocksdb_editor/db";
+            if (editorDb == null)
+            {
+                editorDb = new EmbeddedDB(editorDbPath, false);
+            }
             return type == DBType.MongoDb ? editorDb.GetTable<HistoryItem>("mongodb_history") : editorDb.GetTable<HistoryItem>("rocksdb_history");
         }
+
+        void ReleaseEditorDB()
+        {
+            if (editorDb != null)
+            {
+                editorDb.Close();
+                editorDb = null;
+            }
+        }
+
         void AddHistoryLeftMenu(TreeNode treeNode, DBType type)
         {
             var table = GetHistoryTable(type);
@@ -94,24 +111,29 @@ namespace GeekDB.GUI
                 var node = leftMenu.CreateChildNode(treeNode, i.pathOrUrl, int.MaxValue);
             }
             treeNode.ExpandAll();
+            ReleaseEditorDB();
         }
 
         public void AddHistory(DBType type, string urlOrPath)
         {
             var table = GetHistoryTable(type);
             table.Set(urlOrPath, new HistoryItem { pathOrUrl = urlOrPath, time = DateTime.Now });
+            ReleaseEditorDB();
         }
 
         public void RemoveHistory(DBType type, string urlOrPath)
         {
             var table = GetHistoryTable(type);
             table.Delete(urlOrPath);
+            ReleaseEditorDB();
         }
 
         public void UpdateHistory(DBType type, string urlOrPath)
         {
-            RemoveHistory(type, urlOrPath);
-            AddHistory(type, urlOrPath);
+            var table = GetHistoryTable(type);
+            table.Delete(urlOrPath);
+            table.Set(urlOrPath, new HistoryItem { pathOrUrl = urlOrPath, time = DateTime.Now });
+            ReleaseEditorDB();
         }
 
         void AddPageWithGuid(UIPage page, string tabText, Guid guid)
@@ -136,7 +158,7 @@ namespace GeekDB.GUI
             AddHistoryLeftMenu(mongodbHistory, DBType.MongoDb);
             AddHistoryLeftMenu(rocksdbHistory, DBType.RocksDb);
             mainPage = new MainPage();
-            AddPageWithGuid(mainPage, "Index", Guid.NewGuid());
+            AddPageWithGuid(mainPage, "index", Guid.NewGuid());
             leftMenu.MenuItemClick += OnHistoryMenuItemClick;
             leftMenu.NodeMouseDoubleClick += OnHistoryMenuItemDoubleClick;
         }
@@ -173,6 +195,7 @@ namespace GeekDB.GUI
             if (allMongodbClient.ContainsKey(url))
             {
                 curMongoDbClient = allMongodbClient[url];
+                dbNames = curMongoDbClient.ListDatabaseNames().ToList();
             }
             else
             {
@@ -216,7 +239,8 @@ namespace GeekDB.GUI
                 return;
             if (node.Parent.Text.ToLower().Contains("mongodb"))
             {
-
+                mainPage.SetMongoDbPath(node.Text);
+                EnterMongodbPage(node.Text);
             }
             else
             {
@@ -276,6 +300,11 @@ namespace GeekDB.GUI
                 AddPageWithGuid(new MongoDBDatasPage(db.GetCollection<BsonDocument>(tableName), curMongoDBUrl + "   " + dbName, tableName), strs[strs.Length - 1], pageGuid);
                 SelectPage(pageGuid);
             }
+        }
+
+        private void DisconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EnterMainPage();
         }
     }
 }
