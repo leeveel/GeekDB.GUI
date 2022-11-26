@@ -62,6 +62,8 @@ namespace GeekDB.GUI
             leftMenu.MenuItemClick -= OnRocksDBMenuItemClick;
             leftMenu.MenuItemClick -= OnMongoDBMenuItemClick;
             leftMenu.NodeMouseDoubleClick -= OnHistoryMenuItemDoubleClick;
+            leftMenu.NodeRightSymbolClick -= OnHistoryNodeRightSymbolClick;
+
             MainTabControl.AutoClosePage = true;
             foreach (var v in openPageGuids)
             {
@@ -161,6 +163,7 @@ namespace GeekDB.GUI
             AddPageWithGuid(mainPage, "index", Guid.NewGuid());
             leftMenu.MenuItemClick += OnHistoryMenuItemClick;
             leftMenu.NodeMouseDoubleClick += OnHistoryMenuItemDoubleClick;
+            leftMenu.NodeRightSymbolClick += OnHistoryNodeRightSymbolClick;
         }
 
         public void EnterRocksDBPage(string dbPath)
@@ -232,11 +235,20 @@ namespace GeekDB.GUI
             leftMenu.MenuItemClick += OnMongoDBMenuItemClick;
         }
 
+        private void OnHistoryNodeRightSymbolClick(object sender, TreeNode node, int index, int symbol)
+        {
+            RemoveHistory(node.Parent.Text.ToLower().Contains("mongodb") ? DBType.MongoDb : DBType.RocksDb, node.Text);
+            node.Remove();
+        }
+
         private void OnHistoryMenuItemDoubleClick(object? sender, TreeNodeMouseClickEventArgs e)
         {
             var node = e.Node;
             if (node.Parent == null)
                 return;
+
+            RemoveAllNodeRightSymbol();
+
             if (node.Parent.Text.ToLower().Contains("mongodb"))
             {
                 mainPage.SetMongoDbPath(node.Text);
@@ -247,13 +259,29 @@ namespace GeekDB.GUI
                 if (!mainPage.TryEntryRocksDb(node.Text))
                 {
                     RemoveHistory(DBType.RocksDb, node.Text);
+                    node.Remove();
                 }
             }
         }
+
+        private void RemoveAllNodeRightSymbol()
+        {
+            foreach (var parent in leftMenu.Nodes)
+            {
+                foreach (var n in (parent as TreeNode).Nodes)
+                {
+                    leftMenu.ClearNodeRightSymbol(n as TreeNode);
+                }
+            }
+        }
+
         private void OnHistoryMenuItemClick(TreeNode node, NavMenuItem item, int pageIndex)
         {
             if (node.Parent == null)
                 return;
+
+            RemoveAllNodeRightSymbol();
+
             if (node.Parent.Text.ToLower().Contains("mongodb"))
             {
                 mainPage.SetMongoDbPath(node.Text);
@@ -262,6 +290,8 @@ namespace GeekDB.GUI
             {
                 mainPage.SetRocksDbPath(node.Text);
             }
+
+            leftMenu.AddNodeRightSymbol(node, 61453);
         }
 
         private void OnRocksDBMenuItemClick(TreeNode node, NavMenuItem item, int pageIndex)
