@@ -1,4 +1,5 @@
 ﻿using Geek.Server;
+using Newtonsoft.Json.Linq;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -49,9 +50,9 @@ namespace GeekDB.GUI.Pages
             {
                 get
                 {
-                    if (jsonStr == null)
+                    if (jsonPartStr == null)
                     {
-                        jsonStr = MessagePack.MessagePackSerializer.ConvertToJson(valueBytes);
+                        jsonStr = JsonText();
                         if (jsonStr.Length > 150)
                         {
                             jsonPartStr = jsonStr.Substring(0, 150) + "...";
@@ -65,8 +66,12 @@ namespace GeekDB.GUI.Pages
                 }
             }
 
-            public string GetAllJson()
+            public string JsonText()
             {
+                if (jsonStr == null)
+                {
+                    jsonStr = MessagePack.MessagePackSerializer.ConvertToJson(valueBytes);
+                }
                 return jsonStr;
             }
         }
@@ -147,19 +152,20 @@ namespace GeekDB.GUI.Pages
 
         private void FindBtn_Click(object sender, EventArgs e)
         {
-            var str = this.searchTextBox.Text;
-            if (string.IsNullOrWhiteSpace(str))
+            var queryStr = this.searchTextBox.Text;
+            if (string.IsNullOrWhiteSpace(queryStr))
                 return;
-            var ids = str.Split(new char[] { ',', ';', '，', '；' });
+
             searchResults.Clear();
-            foreach (var id in ids)
+            var keys = queryStr.Split(new char[] { ',', ';', '，', '；' });
+            foreach (var key in keys)
             {
-                if (string.IsNullOrWhiteSpace(str))
+                if (string.IsNullOrWhiteSpace(queryStr))
                     continue;
-                var idl = id.ToLower();
+                var lkey = key.ToLower();
                 foreach (var data in sourceDatas)
                 {
-                    if (data.Key.ToLower().Contains(idl))
+                    if (data.Key.ToLower().Contains(lkey) || data.JsonText().ToLower().Contains(lkey))
                     {
                         if (searchResults.Find(d => d.Key == data.Key) == null)
                         {
@@ -192,7 +198,7 @@ namespace GeekDB.GUI.Pages
             if (e.ColumnIndex == 1)
             {
                 var data = showResults[e.RowIndex];
-                new JsonViewForm(data.Key, data.GetAllJson()).ShowDialog();
+                new JsonViewForm(data.Key, data.JsonText()).ShowDialog();
             }
         }
 

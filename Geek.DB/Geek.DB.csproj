@@ -24,9 +24,9 @@
 
 
 	<ItemGroup>
-	    <PackageReference Include="NLog" Version="5.0.5" />
-	    <PackageReference Include="RocksDB" Version="7.7.3.33461" />
-		<PackageReference Include="MessagePack" Version="2.4.35" />
+	    <PackageReference Include="NLog" Version="5.2.0" />
+	    <PackageReference Include="RocksDB" Version="8.1.1.38647" />
+		<PackageReference Include="MessagePack" Version="2.5.108" />
     </ItemGroup>
 
 </Project>
