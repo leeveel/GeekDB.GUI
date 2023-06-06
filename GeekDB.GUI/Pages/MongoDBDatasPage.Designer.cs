@@ -81,7 +81,6 @@ namespace GeekDB.GUI.Pages
             uiPanel1.TabIndex = 0;
             uiPanel1.Text = null;
             uiPanel1.TextAlignment = ContentAlignment.MiddleCenter;
-            uiPanel1.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             // 
             // export2rocksdbButton
             // 
@@ -104,7 +103,6 @@ namespace GeekDB.GUI.Pages
             export2rocksdbButton.StyleCustomMode = true;
             export2rocksdbButton.TabIndex = 8;
             export2rocksdbButton.Text = "导出到rocksdb";
-            export2rocksdbButton.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             export2rocksdbButton.Click += export2rocksdbButton_Click;
             // 
             // indexCountLable
@@ -120,7 +118,6 @@ namespace GeekDB.GUI.Pages
             indexCountLable.TabIndex = 7;
             indexCountLable.Text = "999";
             indexCountLable.TextAlign = ContentAlignment.MiddleCenter;
-            indexCountLable.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             // 
             // uiLabel2
             // 
@@ -133,7 +130,6 @@ namespace GeekDB.GUI.Pages
             uiLabel2.TabIndex = 6;
             uiLabel2.Text = "INDEXES";
             uiLabel2.TextAlign = ContentAlignment.MiddleCenter;
-            uiLabel2.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             // 
             // dbPathLable
             // 
@@ -150,7 +146,6 @@ namespace GeekDB.GUI.Pages
             dbPathLable.TabIndex = 5;
             dbPathLable.Text = "name";
             dbPathLable.TextAlign = ContentAlignment.MiddleLeft;
-            dbPathLable.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             // 
             // ResetBtn
             // 
@@ -163,7 +158,6 @@ namespace GeekDB.GUI.Pages
             ResetBtn.Style = Sunny.UI.UIStyle.Custom;
             ResetBtn.TabIndex = 4;
             ResetBtn.Text = "重置";
-            ResetBtn.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             ResetBtn.Click += ResetBtn_Click;
             // 
             // tableNameLable
@@ -180,7 +174,6 @@ namespace GeekDB.GUI.Pages
             tableNameLable.TabIndex = 2;
             tableNameLable.Text = "name";
             tableNameLable.TextAlign = ContentAlignment.MiddleLeft;
-            tableNameLable.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             // 
             // FindBtn
             // 
@@ -203,7 +196,6 @@ namespace GeekDB.GUI.Pages
             FindBtn.StyleCustomMode = true;
             FindBtn.TabIndex = 3;
             FindBtn.Text = "查找";
-            FindBtn.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             FindBtn.Click += FindBtn_Click;
             // 
             // dataCountLable
@@ -219,7 +211,6 @@ namespace GeekDB.GUI.Pages
             dataCountLable.TabIndex = 1;
             dataCountLable.Text = "999";
             dataCountLable.TextAlign = ContentAlignment.MiddleCenter;
-            dataCountLable.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             // 
             // searchTextBox
             // 
@@ -230,6 +221,7 @@ namespace GeekDB.GUI.Pages
             searchTextBox.Margin = new Padding(4, 5, 4, 5);
             searchTextBox.MinimumSize = new Size(1, 16);
             searchTextBox.Name = "searchTextBox";
+            searchTextBox.Padding = new Padding(5);
             searchTextBox.RectColor = Color.FromArgb(224, 224, 224);
             searchTextBox.ShowText = false;
             searchTextBox.Size = new Size(1302, 29);
@@ -240,7 +232,6 @@ namespace GeekDB.GUI.Pages
             searchTextBox.TagString = "";
             searchTextBox.TextAlignment = ContentAlignment.MiddleLeft;
             searchTextBox.Watermark = "";
-            searchTextBox.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             searchTextBox.DoEnter += FindBtn_Click;
             // 
             // uiLabel1
@@ -254,7 +245,6 @@ namespace GeekDB.GUI.Pages
             uiLabel1.TabIndex = 0;
             uiLabel1.Text = "DOCUMENTS";
             uiLabel1.TextAlign = ContentAlignment.MiddleCenter;
-            uiLabel1.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             // 
             // dataGridView
             // 
@@ -313,14 +303,13 @@ namespace GeekDB.GUI.Pages
             dataGridView.ScrollBarHandleWidth = 16;
             dataGridView.ScrollBarRectColor = Color.FromArgb(0, 150, 136);
             dataGridView.SelectedIndex = -1;
-            dataGridView.Size = new Size(1506, 370);
+            dataGridView.Size = new Size(1507, 382);
             dataGridView.StripeOddColor = Color.FromArgb(238, 248, 248);
             dataGridView.Style = Sunny.UI.UIStyle.Custom;
             dataGridView.StyleCustomMode = true;
             dataGridView.TabIndex = 1;
             dataGridView.VirtualMode = true;
             dataGridView.ZoomScaleDisabled = true;
-            dataGridView.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             dataGridView.CellDoubleClick += dataGridView_CellDoubleClick;
             dataGridView.RowStateChanged += dataGridView_RowStateChanged;
             // 
@@ -335,7 +324,6 @@ namespace GeekDB.GUI.Pages
             displayCountLable.TabIndex = 2;
             displayCountLable.Text = "displaying documents 1-20 of 500";
             displayCountLable.TextAlign = ContentAlignment.MiddleRight;
-            displayCountLable.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             // 
             // leftBtn
             // 
@@ -360,7 +348,6 @@ namespace GeekDB.GUI.Pages
             leftBtn.SymbolPressColor = Color.Gray;
             leftBtn.SymbolSelectedColor = Color.DarkGray;
             leftBtn.TabIndex = 3;
-            leftBtn.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             leftBtn.Click += leftBtn_Click;
             // 
             // rightBtn
@@ -384,7 +371,6 @@ namespace GeekDB.GUI.Pages
             rightBtn.SymbolPressColor = Color.DarkGray;
             rightBtn.SymbolSelectedColor = Color.Gainsboro;
             rightBtn.TabIndex = 4;
-            rightBtn.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             rightBtn.Click += rightBtn_Click;
             // 
             // refreshBtn
@@ -398,7 +384,6 @@ namespace GeekDB.GUI.Pages
             refreshBtn.Style = Sunny.UI.UIStyle.Custom;
             refreshBtn.TabIndex = 6;
             refreshBtn.Text = "刷新";
-            refreshBtn.ZoomScaleRect = new Rectangle(0, 0, 0, 0);
             refreshBtn.Click += refreshBtn_Click;
             // 
             // MongoDBDatasPage

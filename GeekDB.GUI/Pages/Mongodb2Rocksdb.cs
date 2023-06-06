@@ -1,6 +1,7 @@
 ﻿using Geek.Server;
 using Geek.Server.RemoteBackup.Logic;
 using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Sunny.UI;
@@ -107,6 +108,12 @@ namespace GeekDB.GUI.Pages
             isExport = false;
         }
 
+        void UpdateProcess(float max, float curr)
+        {
+            processBar.Maximum = (int)(max * 100);
+            processBar.Value = (int)(curr * 100);
+        }
+
         EmbeddedDB rocksDb;
         async Task export()
         {
@@ -116,6 +123,13 @@ namespace GeekDB.GUI.Pages
                 {
                     rocksDb = new EmbeddedDB(path);
                     var tableNames = mongoDBbase.ListCollectionNames().ToList();
+
+
+                    JsonWriterSettings jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.RelaxedExtendedJson };
+
+                    var processMax = tableNames.Count;
+                    UpdateProcess(processMax, 0);
+                    int curTableIndex = 0;
                     foreach (var name in tableNames)
                     {
                         addLog("开始导出" + name);
@@ -124,6 +138,7 @@ namespace GeekDB.GUI.Pages
                         var mongoQueryStr = "{}";
                         var totalCount = mongoTable.CountDocuments(mongoQueryStr);
                         int startIndex = 0;
+                        var mongodbTableId = (int)MurmurHash3.Hash(name);
                         while (startIndex < totalCount)
                         {
                             if (rocksDb == null)
@@ -135,19 +150,29 @@ namespace GeekDB.GUI.Pages
                             startIndex += everyTimeQueryCount;
                             foreach (var data in result)
                             {
+                                string id;
+                                byte[] rdata;
                                 try
                                 {
                                     var value = BsonSerializer.Deserialize<MongoState>(data);
-                                    rocksdbTable.SetRaw(value.Id, value.Data);
+                                    id = value.Id;
+                                    rdata = value.Data;
                                 }
                                 catch (Exception e)
                                 {
-                                    addErr($"导出数据出错:{e.Message}");
-                                    return;
+                                    //说明数据不是rocksdb备份到mongodb的数据，尝试直接写 
+                                    var json = data.ToJson(jsonWriterSettings);
+                                    json = $"[{mongodbTableId},{json}]";
+                                    id = data["_id"].ToString();
+                                    rdata = MessagePack.MessagePackSerializer.ConvertFromJson(json);
                                 }
+                                rocksdbTable.SetRaw(id, rdata);
                             }
-                        }
 
+                            UpdateProcess(processMax, curTableIndex + startIndex * 1f / MathF.Max(totalCount, 1));
+                        }
+                        curTableIndex++;
+                        UpdateProcess(processMax, curTableIndex);
                         addLog($"导出{name}完成,共导出{totalCount}条数据");
                     }
                 }

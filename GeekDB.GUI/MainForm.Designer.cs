@@ -61,7 +61,7 @@
             leftMenu.SelectedForeColor = Color.Turquoise;
             leftMenu.SelectedHighColor = Color.Silver;
             leftMenu.ShowLines = false;
-            leftMenu.Size = new Size(363, 719);
+            leftMenu.Size = new Size(361, 719);
             leftMenu.Style = Sunny.UI.UIStyle.Custom;
             leftMenu.StyleCustomMode = true;
             leftMenu.TabIndex = 0;
@@ -82,7 +82,7 @@
             TabControl.Name = "TabControl";
             TabControl.SelectedIndex = 0;
             TabControl.ShowCloseButton = true;
-            TabControl.Size = new Size(926, 719);
+            TabControl.Size = new Size(928, 719);
             TabControl.SizeMode = TabSizeMode.Fixed;
             TabControl.Style = Sunny.UI.UIStyle.Custom;
             TabControl.StyleCustomMode = true;
@@ -115,8 +115,10 @@
             // 
             // uiSplitContainer1
             // 
+            uiSplitContainer1.ArrowColor = Color.FromArgb(0, 150, 136);
             uiSplitContainer1.Dock = DockStyle.Fill;
             uiSplitContainer1.Location = new Point(0, 35);
+            uiSplitContainer1.Margin = new Padding(10, 3, 3, 10);
             uiSplitContainer1.MinimumSize = new Size(20, 20);
             uiSplitContainer1.Name = "uiSplitContainer1";
             // 
@@ -128,7 +130,7 @@
             // 
             uiSplitContainer1.Panel2.Controls.Add(TabControl);
             uiSplitContainer1.Size = new Size(1300, 719);
-            uiSplitContainer1.SplitterDistance = 363;
+            uiSplitContainer1.SplitterDistance = 361;
             uiSplitContainer1.SplitterWidth = 11;
             uiSplitContainer1.Style = Sunny.UI.UIStyle.Custom;
             uiSplitContainer1.TabIndex = 2;

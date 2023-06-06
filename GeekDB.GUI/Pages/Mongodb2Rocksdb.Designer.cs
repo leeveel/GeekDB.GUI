@@ -34,6 +34,7 @@
             exportBtn = new Sunny.UI.UIButton();
             pathLable = new Sunny.UI.UILabel();
             logTxtbox = new Sunny.UI.UIRichTextBox();
+            processBar = new Sunny.UI.UIProcessBar();
             SuspendLayout();
             // 
             // selectBtn
@@ -114,22 +115,37 @@
             // 
             logTxtbox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             logTxtbox.FillColor = Color.White;
-            logTxtbox.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            logTxtbox.Font = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
             logTxtbox.Location = new Point(4, 89);
             logTxtbox.Margin = new Padding(4, 5, 4, 5);
             logTxtbox.MinimumSize = new Size(1, 1);
             logTxtbox.Name = "logTxtbox";
             logTxtbox.Padding = new Padding(2);
+            logTxtbox.RectColor = Color.Black;
+            logTxtbox.RectSides = ToolStripStatusLabelBorderSides.Top | ToolStripStatusLabelBorderSides.Bottom;
             logTxtbox.ShowText = false;
             logTxtbox.Size = new Size(826, 508);
             logTxtbox.Style = Sunny.UI.UIStyle.Custom;
             logTxtbox.TabIndex = 8;
             logTxtbox.TextAlignment = ContentAlignment.MiddleCenter;
             // 
+            // processBar
+            // 
+            processBar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            processBar.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            processBar.Location = new Point(4, 607);
+            processBar.MinimumSize = new Size(70, 3);
+            processBar.Name = "processBar";
+            processBar.Size = new Size(713, 31);
+            processBar.Style = Sunny.UI.UIStyle.Custom;
+            processBar.TabIndex = 9;
+            processBar.Text = "uiProcessBar1";
+            // 
             // Mongodb2Rocksdb
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(834, 643);
+            Controls.Add(processBar);
             Controls.Add(logTxtbox);
             Controls.Add(pathLable);
             Controls.Add(exportBtn);
@@ -153,5 +169,6 @@
         private Sunny.UI.UIButton exportBtn;
         private Sunny.UI.UILabel pathLable;
         private Sunny.UI.UIRichTextBox logTxtbox;
+        private Sunny.UI.UIProcessBar processBar;
     }
 }

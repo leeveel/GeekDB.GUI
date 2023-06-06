@@ -30,73 +30,71 @@ namespace GeekDB.GUI.Pages
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.jsonTreeView = new Alex75.JsonViewer.WindowsForm.JsonTreeView();
-            this.uiPanel1 = new Sunny.UI.UIPanel();
-            this.uiPanel1.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            jsonTreeView = new JsonTreeView();
+            uiPanel1 = new Sunny.UI.UIPanel();
+            uiPanel1.SuspendLayout();
+            SuspendLayout();
             // 
             // jsonTreeView
             // 
-            this.jsonTreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.jsonTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.jsonTreeView.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.jsonTreeView.ForeColor = System.Drawing.Color.Black;
-            this.jsonTreeView.FullRowSelect = true;
-            this.jsonTreeView.HideSelection = false;
-            this.jsonTreeView.ImageIndex = 0;
-            this.jsonTreeView.Location = new System.Drawing.Point(0, 0);
-            this.jsonTreeView.Margin = new System.Windows.Forms.Padding(2);
-            this.jsonTreeView.Name = "jsonTreeView";
-            this.jsonTreeView.SelectedImageIndex = 0;
-            this.jsonTreeView.ShowNodeToolTips = true;
-            this.jsonTreeView.ShowRootLines = false;
-            this.jsonTreeView.Size = new System.Drawing.Size(472, 487);
-            this.jsonTreeView.TabIndex = 0;
+            jsonTreeView.BorderStyle = BorderStyle.None;
+            jsonTreeView.Dock = DockStyle.Fill;
+            jsonTreeView.Font = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            jsonTreeView.ForeColor = Color.Black;
+            jsonTreeView.FullRowSelect = true;
+            jsonTreeView.HideSelection = false;
+            jsonTreeView.ImageIndex = 0;
+            jsonTreeView.Location = new Point(0, 0);
+            jsonTreeView.Margin = new Padding(2);
+            jsonTreeView.Name = "jsonTreeView";
+            jsonTreeView.SelectedImageIndex = 0;
+            jsonTreeView.ShowNodeToolTips = true;
+            jsonTreeView.ShowRootLines = false;
+            jsonTreeView.Size = new Size(770, 539);
+            jsonTreeView.TabIndex = 0;
             // 
             // uiPanel1
             // 
-            this.uiPanel1.Controls.Add(this.jsonTreeView);
-            this.uiPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiPanel1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.uiPanel1.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.uiPanel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiPanel1.Location = new System.Drawing.Point(2, 29);
-            this.uiPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel1.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiPanel1.Name = "uiPanel1";
-            this.uiPanel1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.uiPanel1.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
-            this.uiPanel1.Size = new System.Drawing.Size(472, 487);
-            this.uiPanel1.Style = Sunny.UI.UIStyle.LayuiGreen;
-            this.uiPanel1.TabIndex = 0;
-            this.uiPanel1.Text = null;
-            this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-            this.uiPanel1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            uiPanel1.Controls.Add(jsonTreeView);
+            uiPanel1.Dock = DockStyle.Fill;
+            uiPanel1.FillColor = Color.FromArgb(238, 248, 248);
+            uiPanel1.FillColor2 = Color.FromArgb(238, 248, 248);
+            uiPanel1.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            uiPanel1.Location = new Point(2, 29);
+            uiPanel1.Margin = new Padding(4, 5, 4, 5);
+            uiPanel1.MinimumSize = new Size(1, 1);
+            uiPanel1.Name = "uiPanel1";
+            uiPanel1.RectColor = Color.FromArgb(0, 150, 136);
+            uiPanel1.RectSides = ToolStripStatusLabelBorderSides.None;
+            uiPanel1.Size = new Size(770, 539);
+            uiPanel1.Style = Sunny.UI.UIStyle.LayuiGreen;
+            uiPanel1.TabIndex = 0;
+            uiPanel1.Text = null;
+            uiPanel1.TextAlignment = ContentAlignment.MiddleCenter;
             // 
             // JsonViewForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.ClientSize = new System.Drawing.Size(476, 518);
-            this.ControlBoxFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
-            this.Controls.Add(this.uiPanel1);
-            this.EscClose = true;
-            this.Name = "JsonViewForm";
-            this.Padding = new System.Windows.Forms.Padding(2, 29, 2, 2);
-            this.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.ShowDragStretch = true;
-            this.ShowIcon = false;
-            this.ShowRadius = false;
-            this.Style = Sunny.UI.UIStyle.LayuiGreen;
-            this.Text = "JsonView";
-            this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TitleHeight = 29;
-            this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 520, 505);
-            this.uiPanel1.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleMode = AutoScaleMode.None;
+            BackColor = Color.FromArgb(238, 248, 248);
+            ClientSize = new Size(774, 570);
+            ControlBoxFillHoverColor = Color.FromArgb(51, 171, 160);
+            Controls.Add(uiPanel1);
+            EscClose = true;
+            Name = "JsonViewForm";
+            Padding = new Padding(2, 29, 2, 2);
+            RectColor = Color.FromArgb(0, 150, 136);
+            ShowDragStretch = true;
+            ShowIcon = false;
+            ShowRadius = false;
+            Style = Sunny.UI.UIStyle.LayuiGreen;
+            Text = "JsonView";
+            TitleColor = Color.FromArgb(0, 150, 136);
+            TitleFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            TitleHeight = 29;
+            ZoomScaleRect = new Rectangle(15, 15, 520, 505);
+            uiPanel1.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
