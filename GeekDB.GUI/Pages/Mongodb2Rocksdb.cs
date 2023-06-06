@@ -42,9 +42,16 @@ namespace GeekDB.GUI.Pages
             addColorLog(txt, Color.Red);
         }
 
+        void clearLog()
+        {
+            logs.Clear();
+            logColors.Clear();
+            logTxtbox.Lines = logs.ToArray();
+        }
+
         void addColorLog(string txt, Color color)
         {
-            if (logs.Count > 200)
+            if (logs.Count > 400)
             {
                 logs.RemoveAt(0);
                 logColors.RemoveAt(0);
@@ -72,7 +79,6 @@ namespace GeekDB.GUI.Pages
                 {
                     path = dialog.SelectedPath;
                     this.pathLable.Text = path;
-                    //  this.rocksdbPathTextBox.Text = dialog.SelectedPath;
                 }
             }
         }
@@ -81,11 +87,21 @@ namespace GeekDB.GUI.Pages
         {
             if (isExport)
                 return;
-            if (!Directory.Exists(path))
+            clearLog();
+            if (string.IsNullOrEmpty(path))
             {
-                addErr($"错误,路径不存在:{path}");
+                addErr($"路径不存在:{path}");
                 return;
             }
+
+            if (Directory.GetDirectories(path).Length > 0 || Directory.GetFiles(path).Length > 0)
+            {
+                addErr($"导出失败,目录不为空:{path}");
+                return;
+            }
+
+
+
             isExport = true;
             await export();
             isExport = false;
@@ -102,7 +118,7 @@ namespace GeekDB.GUI.Pages
                     var tableNames = mongoDBbase.ListCollectionNames().ToList();
                     foreach (var name in tableNames)
                     {
-                        addLog("处理table:" + name);
+                        addLog("开始导出" + name);
                         var rocksdbTable = rocksDb.GetRawTable(name);
                         var mongoTable = mongoDBbase.GetCollection<BsonDocument>(name);
                         var mongoQueryStr = "{}";
@@ -131,6 +147,8 @@ namespace GeekDB.GUI.Pages
                                 }
                             }
                         }
+
+                        addLog($"导出{name}完成,共导出{totalCount}条数据");
                     }
                 }
                 finally
