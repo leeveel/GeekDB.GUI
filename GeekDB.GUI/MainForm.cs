@@ -50,9 +50,9 @@ namespace GeekDB.GUI
         public MainForm()
         {
             Instance = this;
+            WindowState = FormWindowState.Maximized;
             InitializeComponent();
             MainTabControl = TabControl;
-
             EnterMainPage();
         }
 
@@ -327,7 +327,7 @@ namespace GeekDB.GUI
             {
                 var strs = tableName.Split(new char[] { '.' });
                 var db = curMongoDbClient.GetDatabase(dbName);
-                AddPageWithGuid(new MongoDBDatasPage(db.GetCollection<BsonDocument>(tableName), curMongoDBUrl + "   " + dbName, tableName), strs[strs.Length - 1], pageGuid);
+                AddPageWithGuid(new MongoDBDatasPage(db, db.GetCollection<BsonDocument>(tableName), curMongoDBUrl + "   " + dbName, tableName), strs[strs.Length - 1], pageGuid);
                 SelectPage(pageGuid);
             }
         }

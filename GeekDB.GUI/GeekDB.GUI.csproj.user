@@ -13,6 +13,9 @@
     <Compile Update="Pages\MainPage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Pages\Mongodb2Rocksdb.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Pages\RocksDBDatasPage.cs">
       <SubType>Form</SubType>
     </Compile>

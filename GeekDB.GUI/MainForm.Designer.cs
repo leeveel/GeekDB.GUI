@@ -28,125 +28,144 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.leftMenu = new Sunny.UI.UINavMenu();
-            this.TabControl = new Sunny.UI.UITabControl();
-            this.uiContextMenuStrip = new Sunny.UI.UIContextMenuStrip();
-            this.DisconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uiContextMenuStrip.SuspendLayout();
-            this.SuspendLayout();
+            leftMenu = new Sunny.UI.UINavMenu();
+            TabControl = new Sunny.UI.UITabControl();
+            uiContextMenuStrip = new Sunny.UI.UIContextMenuStrip();
+            DisconnectToolStripMenuItem = new ToolStripMenuItem();
+            uiSplitContainer1 = new Sunny.UI.UISplitContainer();
+            uiContextMenuStrip.SuspendLayout();
+            uiSplitContainer1.BeginInit();
+            uiSplitContainer1.Panel1.SuspendLayout();
+            uiSplitContainer1.Panel2.SuspendLayout();
+            uiSplitContainer1.SuspendLayout();
+            SuspendLayout();
             // 
             // leftMenu
             // 
-            this.leftMenu.AllowDrop = true;
-            this.leftMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.leftMenu.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.leftMenu.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
-            this.leftMenu.ExpandSelectFirst = false;
-            this.leftMenu.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.leftMenu.ForeColor = System.Drawing.Color.White;
-            this.leftMenu.FullRowSelect = true;
-            this.leftMenu.ItemHeight = 50;
-            this.leftMenu.Location = new System.Drawing.Point(0, 35);
-            this.leftMenu.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
-            this.leftMenu.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
-            this.leftMenu.Name = "leftMenu";
-            this.leftMenu.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.leftMenu.ScrollBarHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.leftMenu.ScrollBarPressColor = System.Drawing.Color.Red;
-            this.leftMenu.SelectedForeColor = System.Drawing.Color.Turquoise;
-            this.leftMenu.SelectedHighColor = System.Drawing.Color.Silver;
-            this.leftMenu.ShowLines = false;
-            this.leftMenu.Size = new System.Drawing.Size(277, 719);
-            this.leftMenu.Style = Sunny.UI.UIStyle.Custom;
-            this.leftMenu.StyleCustomMode = true;
-            this.leftMenu.TabIndex = 0;
-            this.leftMenu.TipsFont = new System.Drawing.Font("微软雅黑 Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.leftMenu.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            leftMenu.AllowDrop = true;
+            leftMenu.BorderStyle = BorderStyle.None;
+            leftMenu.Dock = DockStyle.Fill;
+            leftMenu.DrawMode = TreeViewDrawMode.OwnerDrawAll;
+            leftMenu.ExpandSelectFirst = false;
+            leftMenu.Font = new Font("微软雅黑", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
+            leftMenu.ForeColor = Color.White;
+            leftMenu.FullRowSelect = true;
+            leftMenu.ItemHeight = 50;
+            leftMenu.Location = new Point(0, 0);
+            leftMenu.Margin = new Padding(0, 3, 3, 0);
+            leftMenu.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
+            leftMenu.Name = "leftMenu";
+            leftMenu.ScrollBarColor = Color.FromArgb(240, 240, 240);
+            leftMenu.ScrollBarHoverColor = Color.FromArgb(240, 240, 240);
+            leftMenu.ScrollBarPressColor = Color.Red;
+            leftMenu.SelectedForeColor = Color.Turquoise;
+            leftMenu.SelectedHighColor = Color.Silver;
+            leftMenu.ShowLines = false;
+            leftMenu.Size = new Size(363, 719);
+            leftMenu.Style = Sunny.UI.UIStyle.Custom;
+            leftMenu.StyleCustomMode = true;
+            leftMenu.TabIndex = 0;
+            leftMenu.TipsFont = new Font("微软雅黑 Light", 9F, FontStyle.Regular, GraphicsUnit.Point);
             // 
             // TabControl
             // 
-            this.TabControl.AllowDrop = true;
-            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.TabControl.FillColor = System.Drawing.Color.White;
-            this.TabControl.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TabControl.Frame = null;
-            this.TabControl.ItemSize = new System.Drawing.Size(190, 70);
-            this.TabControl.Location = new System.Drawing.Point(275, 35);
-            this.TabControl.MainPage = "";
-            this.TabControl.Margin = new System.Windows.Forms.Padding(0);
-            this.TabControl.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
-            this.TabControl.Name = "TabControl";
-            this.TabControl.SelectedIndex = 0;
-            this.TabControl.ShowCloseButton = true;
-            this.TabControl.Size = new System.Drawing.Size(848, 716);
-            this.TabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.TabControl.Style = Sunny.UI.UIStyle.Custom;
-            this.TabControl.StyleCustomMode = true;
-            this.TabControl.TabBackColor = System.Drawing.Color.White;
-            this.TabControl.TabIndex = 1;
-            this.TabControl.TabSelectedColor = System.Drawing.Color.White;
-            this.TabControl.TabSelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.TabControl.TabSelectedHighColor = System.Drawing.Color.Green;
-            this.TabControl.TabUnSelectedForeColor = System.Drawing.Color.Gray;
-            this.TabControl.TagString = "";
-            this.TabControl.TipsFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TabControl.TipsForeColor = System.Drawing.Color.Gray;
-            this.TabControl.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            TabControl.AllowDrop = true;
+            TabControl.Dock = DockStyle.Fill;
+            TabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+            TabControl.FillColor = Color.White;
+            TabControl.Font = new Font("微软雅黑", 10.5F, FontStyle.Regular, GraphicsUnit.Point);
+            TabControl.ItemSize = new Size(190, 70);
+            TabControl.Location = new Point(0, 0);
+            TabControl.MainPage = "";
+            TabControl.Margin = new Padding(0);
+            TabControl.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
+            TabControl.Name = "TabControl";
+            TabControl.SelectedIndex = 0;
+            TabControl.ShowCloseButton = true;
+            TabControl.Size = new Size(926, 719);
+            TabControl.SizeMode = TabSizeMode.Fixed;
+            TabControl.Style = Sunny.UI.UIStyle.Custom;
+            TabControl.StyleCustomMode = true;
+            TabControl.TabBackColor = Color.White;
+            TabControl.TabIndex = 1;
+            TabControl.TabSelectedColor = Color.White;
+            TabControl.TabSelectedForeColor = Color.FromArgb(0, 150, 136);
+            TabControl.TabSelectedHighColor = Color.Green;
+            TabControl.TabUnSelectedForeColor = Color.Gray;
+            TabControl.TagString = "";
+            TabControl.TipsFont = new Font("微软雅黑", 10.5F, FontStyle.Regular, GraphicsUnit.Point);
+            TabControl.TipsForeColor = Color.Gray;
             // 
             // uiContextMenuStrip
             // 
-            this.uiContextMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.uiContextMenuStrip.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiContextMenuStrip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DisconnectToolStripMenuItem});
-            this.uiContextMenuStrip.Name = "uiContextMenuStrip1";
-            this.uiContextMenuStrip.Size = new System.Drawing.Size(181, 52);
-            this.uiContextMenuStrip.Style = Sunny.UI.UIStyle.Custom;
-            this.uiContextMenuStrip.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            uiContextMenuStrip.BackColor = Color.FromArgb(248, 248, 248);
+            uiContextMenuStrip.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            uiContextMenuStrip.ForeColor = Color.FromArgb(48, 48, 48);
+            uiContextMenuStrip.Items.AddRange(new ToolStripItem[] { DisconnectToolStripMenuItem });
+            uiContextMenuStrip.Name = "uiContextMenuStrip1";
+            uiContextMenuStrip.Size = new Size(165, 30);
+            uiContextMenuStrip.Style = Sunny.UI.UIStyle.Custom;
             // 
             // DisconnectToolStripMenuItem
             // 
-            this.DisconnectToolStripMenuItem.Name = "DisconnectToolStripMenuItem";
-            this.DisconnectToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
-            this.DisconnectToolStripMenuItem.Text = "Disconnect";
-            this.DisconnectToolStripMenuItem.Click += new System.EventHandler(this.DisconnectToolStripMenuItem_Click);
+            DisconnectToolStripMenuItem.Name = "DisconnectToolStripMenuItem";
+            DisconnectToolStripMenuItem.Size = new Size(164, 26);
+            DisconnectToolStripMenuItem.Text = "Disconnect";
+            DisconnectToolStripMenuItem.Click += DisconnectToolStripMenuItem_Click;
+            // 
+            // uiSplitContainer1
+            // 
+            uiSplitContainer1.Dock = DockStyle.Fill;
+            uiSplitContainer1.Location = new Point(0, 35);
+            uiSplitContainer1.MinimumSize = new Size(20, 20);
+            uiSplitContainer1.Name = "uiSplitContainer1";
+            // 
+            // uiSplitContainer1.Panel1
+            // 
+            uiSplitContainer1.Panel1.Controls.Add(leftMenu);
+            // 
+            // uiSplitContainer1.Panel2
+            // 
+            uiSplitContainer1.Panel2.Controls.Add(TabControl);
+            uiSplitContainer1.Size = new Size(1300, 719);
+            uiSplitContainer1.SplitterDistance = 363;
+            uiSplitContainer1.SplitterWidth = 11;
+            uiSplitContainer1.Style = Sunny.UI.UIStyle.Custom;
+            uiSplitContainer1.TabIndex = 2;
             // 
             // MainForm
             // 
-            this.AllowAddControlOnTitle = true;
-            this.AllowDrop = true;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1126, 754);
-            this.ControlBoxFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(171)))), ((int)(((byte)(160)))));
-            this.ControlBoxForeColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.leftMenu);
-            this.Controls.Add(this.TabControl);
-            this.ExtendBox = true;
-            this.ExtendMenu = this.uiContextMenuStrip;
-            this.Name = "MainForm";
-            this.RectColor = System.Drawing.Color.Black;
-            this.ShowRadius = false;
-            this.ShowTitleIcon = true;
-            this.Style = Sunny.UI.UIStyle.Custom;
-            this.StyleCustomMode = true;
-            this.Tag = "";
-            this.TagString = "";
-            this.Text = "rocksdb";
-            this.TitleColor = System.Drawing.Color.White;
-            this.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TitleForeColor = System.Drawing.Color.Black;
-            this.ZoomScaleDisabled = true;
-            this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
-            this.uiContextMenuStrip.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AllowAddControlOnTitle = true;
+            AllowDrop = true;
+            AutoScaleMode = AutoScaleMode.None;
+            AutoSize = true;
+            BackColor = Color.White;
+            ClientSize = new Size(1300, 754);
+            ControlBoxFillHoverColor = Color.FromArgb(51, 171, 160);
+            ControlBoxForeColor = Color.Black;
+            Controls.Add(uiSplitContainer1);
+            ExtendBox = true;
+            ExtendMenu = uiContextMenuStrip;
+            Name = "MainForm";
+            RectColor = Color.Black;
+            ShowRadius = false;
+            ShowTitleIcon = true;
+            Style = Sunny.UI.UIStyle.Custom;
+            StyleCustomMode = true;
+            Tag = "";
+            TagString = "";
+            Text = "rocksdb";
+            TitleColor = Color.White;
+            TitleFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
+            TitleForeColor = Color.Black;
+            ZoomScaleDisabled = true;
+            ZoomScaleRect = new Rectangle(15, 15, 800, 450);
+            uiContextMenuStrip.ResumeLayout(false);
+            uiSplitContainer1.Panel1.ResumeLayout(false);
+            uiSplitContainer1.Panel2.ResumeLayout(false);
+            uiSplitContainer1.EndInit();
+            uiSplitContainer1.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
@@ -155,5 +174,6 @@
         private Sunny.UI.UITabControl TabControl;
         private Sunny.UI.UIContextMenuStrip uiContextMenuStrip;
         private ToolStripMenuItem DisconnectToolStripMenuItem;
+        private Sunny.UI.UISplitContainer uiSplitContainer1;
     }
 }

@@ -28,7 +28,7 @@ namespace GeekDB.GUI.Pages
             DB,
             QueryResult
         }
-
+        IMongoDatabase db;
         IMongoCollection<BsonDocument> dbCollection;
         string tableName;
         long dbTotalCount = 0;
@@ -80,10 +80,10 @@ namespace GeekDB.GUI.Pages
 
         List<object> datas = new List<object>();
 
-        public MongoDBDatasPage(IMongoCollection<BsonDocument> dbCollection, string dbName, string tableName)
+        public MongoDBDatasPage(IMongoDatabase db, IMongoCollection<BsonDocument> dbCollection, string dbName, string tableName)
         {
             InitializeComponent();
-
+            this.db = db;
             this.dbCollection = dbCollection;
             this.tableName = tableName;
             this.dbPathLable.Text = dbName;
@@ -231,6 +231,11 @@ namespace GeekDB.GUI.Pages
         private void refreshBtn_Click(object sender, EventArgs e)
         {
             refreshData(0);
+        }
+
+        private void export2rocksdbButton_Click(object sender, EventArgs e)
+        {
+            new Mongodb2Rocksdb(db).ShowDialog();
         }
     }
 }
