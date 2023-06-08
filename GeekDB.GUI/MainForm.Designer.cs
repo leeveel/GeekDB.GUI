@@ -50,7 +50,7 @@
             leftMenu.Font = new Font("微软雅黑", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             leftMenu.ForeColor = Color.White;
             leftMenu.FullRowSelect = true;
-            leftMenu.ItemHeight = 50;
+            leftMenu.ItemHeight = 30;
             leftMenu.Location = new Point(0, 0);
             leftMenu.Margin = new Padding(0, 3, 3, 0);
             leftMenu.MenuStyle = Sunny.UI.UIMenuStyle.Custom;

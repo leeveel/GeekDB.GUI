@@ -182,6 +182,7 @@ namespace GeekDB.GUI
             TabControl.TabVisible = true;
             var parent = leftMenu.CreateNode(Path.GetFileName(dbPath), int.MaxValue);
             var tables = Helper.GetAllTableNames(dbPath);
+            tables.Sort();
             foreach (var name in tables)
             {
                 var guid = Guid.NewGuid();

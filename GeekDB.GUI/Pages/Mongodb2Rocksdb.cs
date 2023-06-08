@@ -1,17 +1,23 @@
 ﻿using Geek.Server;
 using Geek.Server.RemoteBackup.Logic;
+using MessagePack;
+using MessagePack.Resolvers;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Sunny.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,11 +30,13 @@ namespace GeekDB.GUI.Pages
     {
         IMongoDatabase mongoDBbase;
         string path;
+        string externDllPath;
         bool isExport;
         public Mongodb2Rocksdb(IMongoDatabase database)
         {
             this.mongoDBbase = database;
             InitializeComponent();
+            Control.CheckForIllegalCrossThreadCalls = false;
         }
 
         List<string> logs = new List<string>();
@@ -84,6 +92,23 @@ namespace GeekDB.GUI.Pages
             }
         }
 
+        private void selectDllBtn_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new OpenFileDialog())
+            {
+                dialog.Multiselect = false;
+                dialog.Title = "请选择dll";
+                dialog.Filter = "所有文件(*dll*)|*.dll";
+                var result = dialog.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    externDllPath = dialog.FileName;
+                    this.dllPath.Text = externDllPath;
+                }
+            }
+        }
+
         private async void exportBtn_ClickAsync(object sender, EventArgs e)
         {
             if (isExport)
@@ -114,6 +139,112 @@ namespace GeekDB.GUI.Pages
             processBar.Value = (int)(curr * 100);
         }
 
+        [MessagePackObject(true)]
+        class KVDic
+        {
+            public string k;
+            public object v;
+        }
+
+        Dictionary<object, object> ConvertKVDicToNormalDic(IDictionary dic)
+        {
+            var newDic = new Dictionary<object, object>();
+            //如果是kv数组，转成dic
+            foreach (var key in dic.Keys)
+            {
+                newDic[key] = dic[key];
+                var value = dic[key];
+                if (value is IDictionary dicValue)
+                {
+                    newDic[key] = ConvertKVDicToNormalDic(dicValue);
+                }
+                if (value is IList listValue)
+                {
+                    if (listValue.Count > 0)
+                    {
+                        if (listValue[0] is IDictionary dicValue2)
+                        {
+                            var newListDic = new Dictionary<object, object>();
+                            newDic[key] = newListDic;
+                            if (dicValue2.Contains("k") && dicValue2.Contains("v"))
+                            {
+                                foreach (var value2 in listValue)
+                                {
+                                    var dicv2 = value2 as IDictionary;
+                                    var dicv2v = dicv2["v"];
+                                    if (dicv2v is IDictionary)
+                                    {
+                                        newListDic[dicv2["k"]] = ConvertKVDicToNormalDic(dicv2v as IDictionary);
+                                    }
+                                    else
+                                        newListDic[dicv2["k"]] = dicv2v;
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0; i < listValue.Count; i++)
+                                {
+                                    var value2 = listValue[i];
+                                    if (value2 is IDictionary dicValue3)
+                                    {
+                                        listValue[i] = ConvertKVDicToNormalDic(dicValue3);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        newDic.Remove(key);
+                    }
+                }
+            }
+            return newDic;
+        }
+
+        void ConvertPolymorphic(IDictionary dic)
+        {
+            foreach (var k in dic.Keys)
+            {
+                var value = dic[k];
+                if (value is IDictionary vdic1)
+                {
+                    if (vdic1.Contains("_t"))
+                    {
+                        var value2 = vdic1["_t"] as string;
+                        if (value2 != null)
+                        {
+                            vdic1.Remove("_t");
+                            dic[k] = new List<object> { value2, vdic1 };
+                        }
+                    }
+                    ConvertPolymorphic(vdic1);
+                }
+
+                if (value is IList vlist)
+                {
+                    for (int i = 0; i < vlist.Count; i++)
+                    {
+                        var lv = vlist[i];
+                        if (lv is IDictionary vdic2)
+                        {
+                            if (vdic2.Contains("_t"))
+                            {
+                                var value3 = vdic2["_t"] as string;
+                                if (value3 != null)
+                                {
+                                    vdic2.Remove("_t");
+                                    dic[k] = new List<object> { value3, vdic2 };
+                                }
+                            }
+                            ConvertPolymorphic(vdic2);
+                        }
+                    }
+                }
+            }
+        }
+
+
         EmbeddedDB rocksDb;
         async Task export()
         {
@@ -121,9 +252,25 @@ namespace GeekDB.GUI.Pages
             {
                 try
                 {
+                    List<IFormatterResolver> innerResolver = new()
+                    {
+                           BuiltinResolver.Instance,
+                           StandardResolver.Instance,
+                           ContractlessStandardResolver.Instance,
+                            PrimitiveObjectResolver.Instance
+                    };
+                    StaticCompositeResolver.Instance.Register(innerResolver.ToArray());
+                    MessagePackSerializer.DefaultOptions = new MessagePackSerializerOptions(StaticCompositeResolver.Instance);
+
+                    //if (File.Exists(externDllPath))
+                    //{
+                    //    var app = AppDomain.CreateDomain("ed");
+                    //    Assembly dllAssembly = app.Load(AssemblyName.GetAssemblyName(externDllPath));
+                    //    AppDomain.Unload(app);
+                    //}
+
                     rocksDb = new EmbeddedDB(path);
                     var tableNames = mongoDBbase.ListCollectionNames().ToList();
-
 
                     JsonWriterSettings jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.RelaxedExtendedJson };
 
@@ -161,10 +308,15 @@ namespace GeekDB.GUI.Pages
                                 catch (Exception e)
                                 {
                                     //说明数据不是rocksdb备份到mongodb的数据，尝试直接写 
-                                    var json = data.ToJson(jsonWriterSettings);
-                                    json = $"[{mongodbTableId},{json}]";
                                     id = data["_id"].ToString();
-                                    rdata = MessagePack.MessagePackSerializer.ConvertFromJson(json);
+
+                                    var dic = data.ToDictionary();
+                                    dic["Id"] = dic["_id"];
+                                    dic.Remove("_id");
+
+                                    var newDic = ConvertKVDicToNormalDic(dic);
+                                    ConvertPolymorphic(newDic);
+                                    rdata = MessagePackSerializer.Serialize(new List<object> { mongodbTableId, newDic });
                                 }
                                 rocksdbTable.SetRaw(id, rdata);
                             }
@@ -175,6 +327,11 @@ namespace GeekDB.GUI.Pages
                         UpdateProcess(processMax, curTableIndex);
                         addLog($"导出{name}完成,共导出{totalCount}条数据");
                     }
+                    addLog($"全部导出完成,共导出{tableNames.Count}张表");
+                }
+                catch (Exception e)
+                {
+                    addErr($"导出异常:{e.Message}");
                 }
                 finally
                 {
@@ -196,5 +353,6 @@ namespace GeekDB.GUI.Pages
             }
             base.OnFormClosed(e);
         }
+
     }
 }

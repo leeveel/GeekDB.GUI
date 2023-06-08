@@ -35,6 +35,9 @@
             pathLable = new Sunny.UI.UILabel();
             logTxtbox = new Sunny.UI.UIRichTextBox();
             processBar = new Sunny.UI.UIProcessBar();
+            label3 = new Label();
+            dllPath = new Sunny.UI.UILabel();
+            selectDllBtn = new Sunny.UI.UIButton();
             SuspendLayout();
             // 
             // selectBtn
@@ -46,24 +49,24 @@
             selectBtn.FillPressColor = Color.FromArgb(0, 120, 109);
             selectBtn.FillSelectedColor = Color.FromArgb(0, 120, 109);
             selectBtn.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            selectBtn.Location = new Point(723, 51);
+            selectBtn.Location = new Point(1082, 51);
             selectBtn.MinimumSize = new Size(1, 1);
             selectBtn.Name = "selectBtn";
             selectBtn.RectColor = Color.FromArgb(0, 150, 136);
             selectBtn.RectHoverColor = Color.FromArgb(51, 171, 160);
             selectBtn.RectPressColor = Color.FromArgb(0, 120, 109);
             selectBtn.RectSelectedColor = Color.FromArgb(0, 120, 109);
-            selectBtn.Size = new Size(108, 35);
+            selectBtn.Size = new Size(108, 31);
             selectBtn.Style = Sunny.UI.UIStyle.LayuiGreen;
             selectBtn.StyleCustomMode = true;
             selectBtn.TabIndex = 3;
-            selectBtn.Text = "选择路径";
+            selectBtn.Text = "选择";
             selectBtn.Click += selectBtn_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(3, 51);
+            label1.Location = new Point(4, 56);
             label1.Name = "label1";
             label1.Size = new Size(78, 21);
             label1.TabIndex = 4;
@@ -86,7 +89,7 @@
             exportBtn.FillPressColor = Color.FromArgb(0, 120, 109);
             exportBtn.FillSelectedColor = Color.FromArgb(0, 120, 109);
             exportBtn.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            exportBtn.Location = new Point(722, 605);
+            exportBtn.Location = new Point(1081, 605);
             exportBtn.MinimumSize = new Size(1, 1);
             exportBtn.Name = "exportBtn";
             exportBtn.RectColor = Color.FromArgb(0, 150, 136);
@@ -104,9 +107,9 @@
             // 
             pathLable.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pathLable.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            pathLable.Location = new Point(87, 51);
+            pathLable.Location = new Point(87, 54);
             pathLable.Name = "pathLable";
-            pathLable.Size = new Size(630, 23);
+            pathLable.Size = new Size(989, 23);
             pathLable.Style = Sunny.UI.UIStyle.Custom;
             pathLable.TabIndex = 7;
             pathLable.TextAlign = ContentAlignment.MiddleLeft;
@@ -116,15 +119,14 @@
             logTxtbox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             logTxtbox.FillColor = Color.White;
             logTxtbox.Font = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            logTxtbox.Location = new Point(4, 89);
+            logTxtbox.Location = new Point(4, 130);
             logTxtbox.Margin = new Padding(4, 5, 4, 5);
             logTxtbox.MinimumSize = new Size(1, 1);
             logTxtbox.Name = "logTxtbox";
             logTxtbox.Padding = new Padding(2);
-            logTxtbox.RectColor = Color.Black;
-            logTxtbox.RectSides = ToolStripStatusLabelBorderSides.Top | ToolStripStatusLabelBorderSides.Bottom;
+            logTxtbox.Radius = 0;
             logTxtbox.ShowText = false;
-            logTxtbox.Size = new Size(826, 508);
+            logTxtbox.Size = new Size(1185, 467);
             logTxtbox.Style = Sunny.UI.UIStyle.Custom;
             logTxtbox.TabIndex = 8;
             logTxtbox.TextAlignment = ContentAlignment.MiddleCenter;
@@ -136,15 +138,61 @@
             processBar.Location = new Point(4, 607);
             processBar.MinimumSize = new Size(70, 3);
             processBar.Name = "processBar";
-            processBar.Size = new Size(713, 31);
+            processBar.Size = new Size(1072, 31);
             processBar.Style = Sunny.UI.UIStyle.Custom;
             processBar.TabIndex = 9;
             processBar.Text = "uiProcessBar1";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(4, 89);
+            label3.Name = "label3";
+            label3.Size = new Size(96, 21);
+            label3.TabIndex = 10;
+            label3.Text = "外部dll路径:";
+            // 
+            // dllPath
+            // 
+            dllPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dllPath.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dllPath.Location = new Point(106, 89);
+            dllPath.Name = "dllPath";
+            dllPath.Size = new Size(970, 23);
+            dllPath.Style = Sunny.UI.UIStyle.Custom;
+            dllPath.TabIndex = 11;
+            dllPath.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // selectDllBtn
+            // 
+            selectDllBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            selectDllBtn.FillColor = Color.FromArgb(0, 150, 136);
+            selectDllBtn.FillColor2 = Color.FromArgb(0, 150, 136);
+            selectDllBtn.FillHoverColor = Color.FromArgb(51, 171, 160);
+            selectDllBtn.FillPressColor = Color.FromArgb(0, 120, 109);
+            selectDllBtn.FillSelectedColor = Color.FromArgb(0, 120, 109);
+            selectDllBtn.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            selectDllBtn.Location = new Point(1081, 89);
+            selectDllBtn.MinimumSize = new Size(1, 1);
+            selectDllBtn.Name = "selectDllBtn";
+            selectDllBtn.RectColor = Color.FromArgb(0, 150, 136);
+            selectDllBtn.RectHoverColor = Color.FromArgb(51, 171, 160);
+            selectDllBtn.RectPressColor = Color.FromArgb(0, 120, 109);
+            selectDllBtn.RectSelectedColor = Color.FromArgb(0, 120, 109);
+            selectDllBtn.Size = new Size(108, 31);
+            selectDllBtn.Style = Sunny.UI.UIStyle.LayuiGreen;
+            selectDllBtn.StyleCustomMode = true;
+            selectDllBtn.TabIndex = 12;
+            selectDllBtn.Text = "选择";
+            selectDllBtn.Click += selectDllBtn_Click;
+            // 
             // Mongodb2Rocksdb
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(834, 643);
+            ClientSize = new Size(1193, 643);
+            Controls.Add(selectDllBtn);
+            Controls.Add(dllPath);
+            Controls.Add(label3);
             Controls.Add(processBar);
             Controls.Add(logTxtbox);
             Controls.Add(pathLable);
@@ -154,7 +202,7 @@
             Controls.Add(selectBtn);
             Name = "Mongodb2Rocksdb";
             Style = Sunny.UI.UIStyle.Custom;
-            Text = "Mongodb2RocksdbForm";
+            Text = "Mongodb2Rocksdb";
             TitleColor = Color.FromArgb(0, 150, 136);
             ZoomScaleRect = new Rectangle(15, 15, 800, 450);
             ResumeLayout(false);
@@ -170,5 +218,8 @@
         private Sunny.UI.UILabel pathLable;
         private Sunny.UI.UIRichTextBox logTxtbox;
         private Sunny.UI.UIProcessBar processBar;
+        private Label label3;
+        private Sunny.UI.UILabel dllPath;
+        private Sunny.UI.UIButton selectDllBtn;
     }
 }
