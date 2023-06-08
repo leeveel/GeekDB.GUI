@@ -92,22 +92,6 @@ namespace GeekDB.GUI.Pages
             }
         }
 
-        private void selectDllBtn_Click(object sender, EventArgs e)
-        {
-            using (var dialog = new OpenFileDialog())
-            {
-                dialog.Multiselect = false;
-                dialog.Title = "请选择dll";
-                dialog.Filter = "所有文件(*dll*)|*.dll";
-                var result = dialog.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    externDllPath = dialog.FileName;
-                    this.dllPath.Text = externDllPath;
-                }
-            }
-        }
 
         private async void exportBtn_ClickAsync(object sender, EventArgs e)
         {

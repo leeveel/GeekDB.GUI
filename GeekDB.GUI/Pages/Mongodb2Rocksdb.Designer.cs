@@ -35,9 +35,6 @@
             pathLable = new Sunny.UI.UILabel();
             logTxtbox = new Sunny.UI.UIRichTextBox();
             processBar = new Sunny.UI.UIProcessBar();
-            label3 = new Label();
-            dllPath = new Sunny.UI.UILabel();
-            selectDllBtn = new Sunny.UI.UIButton();
             SuspendLayout();
             // 
             // selectBtn
@@ -119,14 +116,14 @@
             logTxtbox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             logTxtbox.FillColor = Color.White;
             logTxtbox.Font = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            logTxtbox.Location = new Point(4, 130);
+            logTxtbox.Location = new Point(4, 90);
             logTxtbox.Margin = new Padding(4, 5, 4, 5);
             logTxtbox.MinimumSize = new Size(1, 1);
             logTxtbox.Name = "logTxtbox";
             logTxtbox.Padding = new Padding(2);
             logTxtbox.Radius = 0;
             logTxtbox.ShowText = false;
-            logTxtbox.Size = new Size(1185, 467);
+            logTxtbox.Size = new Size(1185, 507);
             logTxtbox.Style = Sunny.UI.UIStyle.Custom;
             logTxtbox.TabIndex = 8;
             logTxtbox.TextAlignment = ContentAlignment.MiddleCenter;
@@ -143,56 +140,10 @@
             processBar.TabIndex = 9;
             processBar.Text = "uiProcessBar1";
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(4, 89);
-            label3.Name = "label3";
-            label3.Size = new Size(96, 21);
-            label3.TabIndex = 10;
-            label3.Text = "外部dll路径:";
-            // 
-            // dllPath
-            // 
-            dllPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dllPath.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dllPath.Location = new Point(106, 89);
-            dllPath.Name = "dllPath";
-            dllPath.Size = new Size(970, 23);
-            dllPath.Style = Sunny.UI.UIStyle.Custom;
-            dllPath.TabIndex = 11;
-            dllPath.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // selectDllBtn
-            // 
-            selectDllBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            selectDllBtn.FillColor = Color.FromArgb(0, 150, 136);
-            selectDllBtn.FillColor2 = Color.FromArgb(0, 150, 136);
-            selectDllBtn.FillHoverColor = Color.FromArgb(51, 171, 160);
-            selectDllBtn.FillPressColor = Color.FromArgb(0, 120, 109);
-            selectDllBtn.FillSelectedColor = Color.FromArgb(0, 120, 109);
-            selectDllBtn.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            selectDllBtn.Location = new Point(1081, 89);
-            selectDllBtn.MinimumSize = new Size(1, 1);
-            selectDllBtn.Name = "selectDllBtn";
-            selectDllBtn.RectColor = Color.FromArgb(0, 150, 136);
-            selectDllBtn.RectHoverColor = Color.FromArgb(51, 171, 160);
-            selectDllBtn.RectPressColor = Color.FromArgb(0, 120, 109);
-            selectDllBtn.RectSelectedColor = Color.FromArgb(0, 120, 109);
-            selectDllBtn.Size = new Size(108, 31);
-            selectDllBtn.Style = Sunny.UI.UIStyle.LayuiGreen;
-            selectDllBtn.StyleCustomMode = true;
-            selectDllBtn.TabIndex = 12;
-            selectDllBtn.Text = "选择";
-            selectDllBtn.Click += selectDllBtn_Click;
-            // 
             // Mongodb2Rocksdb
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1193, 643);
-            Controls.Add(selectDllBtn);
-            Controls.Add(dllPath);
-            Controls.Add(label3);
             Controls.Add(processBar);
             Controls.Add(logTxtbox);
             Controls.Add(pathLable);
@@ -218,8 +169,5 @@
         private Sunny.UI.UILabel pathLable;
         private Sunny.UI.UIRichTextBox logTxtbox;
         private Sunny.UI.UIProcessBar processBar;
-        private Label label3;
-        private Sunny.UI.UILabel dllPath;
-        private Sunny.UI.UIButton selectDllBtn;
     }
 }
