@@ -26,6 +26,8 @@ namespace GeekDB.GUI
             public int index;
             public Guid guid;
             public bool isExpand = false;
+            int symbol;
+            int symbolSize;
             public List<Node> ChildNodes { get; set; } = new();
             bool _visible = true;
             public bool visible
@@ -82,6 +84,7 @@ namespace GeekDB.GUI
         {
             rootNode = new Node();
             searchTxt.Text = "";
+            searchTxt.Visible = true;
             leftMenu.MenuItemClick -= OnHistoryMenuItemClick;
             leftMenu.MenuItemClick -= OnRocksDBMenuItemClick;
             leftMenu.MenuItemClick -= OnMongoDBMenuItemClick;
@@ -162,6 +165,39 @@ namespace GeekDB.GUI
             ReleaseEditorDB();
         }
 
+        void createChildMenu(TreeNode parentTreeNode, Node node, bool expandAll = false)
+        {
+            foreach (var child in node.ChildNodes)
+            {
+                if (!child.visible)
+                    continue;
+                var tNode = leftMenu.CreateChildNode(parentTreeNode, child.text, child.guid);
+                createChildMenu(tNode, child, expandAll);
+                if (child.isExpand || expandAll)
+                {
+                    tNode.Expand();
+                }
+            }
+        }
+
+        void refreshMenu(bool expandAll = false)
+        {
+            leftMenu.BeginUpdate();
+            leftMenu.ClearAll();
+            foreach (var node in rootNode.ChildNodes)
+            {
+                if (!node.visible)
+                    continue;
+                var parent = leftMenu.CreateNode(node.text, node.index);
+                createChildMenu(parent, node, expandAll);
+                if (node.isExpand || expandAll)
+                {
+                    parent.Expand();
+                }
+            }
+            leftMenu.EndUpdate();
+        }
+
         void AddPageWithGuid(UIPage page, string tabText, Guid guid)
         {
             if (openPageGuids.IndexOf(guid) < 0)
@@ -181,6 +217,7 @@ namespace GeekDB.GUI
             TabControl.TabVisible = false;
             TreeNode mongodbHistory = leftMenu.CreateNode("mongodb打开历史", 61451, 24, int.MaxValue);
             TreeNode rocksdbHistory = leftMenu.CreateNode("rocksdb打开历史", 61451, 24, int.MaxValue);
+
             AddHistoryLeftMenu(mongodbHistory, DBType.MongoDb);
             AddHistoryLeftMenu(rocksdbHistory, DBType.RocksDb);
             mainPage = new MainPage();
@@ -188,6 +225,7 @@ namespace GeekDB.GUI
             leftMenu.MenuItemClick += OnHistoryMenuItemClick;
             leftMenu.NodeMouseDoubleClick += OnHistoryMenuItemDoubleClick;
             leftMenu.NodeRightSymbolClick += OnHistoryNodeRightSymbolClick;
+            searchTxt.Visible = false;
         }
 
 
@@ -222,36 +260,6 @@ namespace GeekDB.GUI
             leftMenu.MenuItemClick += OnRocksDBMenuItemClick;
         }
 
-        void createChildNode(TreeNode parentTreeNode, Node node, bool expandAll = false)
-        {
-            foreach (var child in node.ChildNodes)
-            {
-                if (!child.visible)
-                    continue;
-                var tNode = leftMenu.CreateChildNode(parentTreeNode, child.text, child.guid);
-                createChildNode(tNode, child, expandAll);
-                if (child.isExpand || expandAll)
-                {
-                    tNode.Expand();
-                }
-            }
-        }
-
-        void refreshMenu(bool expandAll = false)
-        {
-            leftMenu.ClearAll();
-            foreach (var node in rootNode.ChildNodes)
-            {
-                if (!node.visible)
-                    continue;
-                var parent = leftMenu.CreateNode(node.text, node.index);
-                createChildNode(parent, node, expandAll);
-                if (node.isExpand || expandAll)
-                {
-                    parent.Expand();
-                }
-            }
-        }
 
         public void EnterMongodbPage(string url)
         {
@@ -283,16 +291,21 @@ namespace GeekDB.GUI
 
             foreach (var n in dbNames)
             {
-                var parent = leftMenu.CreateNode(n, int.MaxValue);
+                var node = new Node { isExpand = false, text = n, index = int.MaxValue };
+                rootNode.AddNode(node);
+
+                //  var parent = leftMenu.CreateNode(n, int.MaxValue);
                 var db = curMongoDbClient.GetDatabase(n);
                 var tables = db.ListCollectionNames().ToList();
                 foreach (var t in tables)
                 {
                     var guid = Guid.NewGuid();
                     tableName2Guid[n + "_" + t] = guid;
-                    var tabelNode = leftMenu.CreateChildNode(parent, t, guid);
+                    node.AddNode(new Node { text = t, guid = guid });
+                    //leftMenu.CreateChildNode(parent, t, guid);
                 }
             }
+            refreshMenu();
             leftMenu.MenuItemClick += OnMongoDBMenuItemClick;
         }
 
@@ -417,7 +430,7 @@ namespace GeekDB.GUI
         private void searchTxt_TextChanged(object sender, EventArgs e)
         {
             research(rootNode, searchTxt.Text.ToLower());
-            refreshMenu(true);
+            refreshMenu(!string.IsNullOrEmpty(searchTxt.Text));
         }
     }
 }
