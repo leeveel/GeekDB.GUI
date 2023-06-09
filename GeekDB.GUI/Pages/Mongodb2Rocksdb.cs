@@ -30,7 +30,7 @@ namespace GeekDB.GUI.Pages
     {
         IMongoDatabase mongoDBbase;
         string path;
-        string externDllPath;
+        //string externDllPath;
         bool isExport;
         public Mongodb2Rocksdb(IMongoDatabase database)
         {

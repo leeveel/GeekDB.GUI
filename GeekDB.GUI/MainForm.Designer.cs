@@ -151,6 +151,7 @@
             Name = "MainForm";
             RectColor = Color.Black;
             ShowRadius = false;
+            ShowShadow = true;
             ShowTitleIcon = true;
             Style = Sunny.UI.UIStyle.Custom;
             StyleCustomMode = true;

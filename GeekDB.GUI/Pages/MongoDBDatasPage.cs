@@ -203,7 +203,7 @@ namespace GeekDB.GUI.Pages
                 var data = datas[e.RowIndex];
                 if (data as DataItem != null)
                 {
-                    new JsonViewForm("", (data as DataItem).GetAllJson()).ShowDialog();
+                    new JsonViewForm((data as DataItem).GetAllJson()).ShowDialog();
                 }
             }
             else if (e.ColumnIndex == 2)
@@ -211,7 +211,7 @@ namespace GeekDB.GUI.Pages
                 var data = datas[e.RowIndex];
                 if (data is RocksDbBackUpState rdbs)
                 {
-                    new JsonViewForm("", rdbs.Data).ShowDialog();
+                    new JsonViewForm(rdbs.Data).ShowDialog();
                 }
             }
         }

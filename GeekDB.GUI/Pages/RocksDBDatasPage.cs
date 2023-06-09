@@ -198,7 +198,7 @@ namespace GeekDB.GUI.Pages
             if (e.ColumnIndex == 1)
             {
                 var data = showResults[e.RowIndex];
-                new JsonViewForm(data.Key, data.JsonText()).ShowDialog();
+                new JsonViewForm(data.JsonText()).ShowDialog();
             }
         }
 
