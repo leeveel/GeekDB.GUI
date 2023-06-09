@@ -11,17 +11,29 @@ using Newtonsoft.Json.Linq;
 namespace Alex75.JsonViewer.WindowsForm
 {
     public class JsonTreeNode : TreeNode
-    {        
+    {
         public NodeType NodeType { get; set; }
 
-        public string TextWhenSelected {
-            get {
+        public string TextWhenSelected
+        {
+            get
+            {
                 return textWhenSelected;
             }
         }
 
-        public bool IsExpandable {
-            get {
+        public string SrcText
+        {
+            get
+            {
+                return srcText;
+            }
+        }
+
+        public bool IsExpandable
+        {
+            get
+            {
                 return NodeType == NodeType.Object || NodeType == NodeType.Array;
             }
         }
@@ -30,9 +42,11 @@ namespace Alex75.JsonViewer.WindowsForm
         {
             NodeType = nodeType;
             Text = text;
-            this.textWhenSelected = textWhenSelected ?? text;            
+            srcText = text;
+            this.textWhenSelected = textWhenSelected ?? text;
         }
 
         private string textWhenSelected;
+        private string srcText;
     }
 }

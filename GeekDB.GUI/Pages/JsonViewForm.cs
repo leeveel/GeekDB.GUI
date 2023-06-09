@@ -34,6 +34,7 @@ namespace GeekDB.GUI.Pages
         {
             if (num <= 0)
                 return;
+
             node.Expand();
             var childNodes = node.Nodes;
             var count = Math.Min(childNodes.Count, num);

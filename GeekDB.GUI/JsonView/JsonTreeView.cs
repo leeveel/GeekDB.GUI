@@ -33,6 +33,7 @@ namespace Alex75.JsonViewer.WindowsForm
             InitializeComponent();
             this.AfterSelect += this_AfterSelect;
             this.MouseDown += this_MouseDown;
+            this.KeyDown += this_KeyDown;
             expandAllMenuItem.Click += expandAllMenuItem_Click;
 
             LoadImgaeList();
@@ -160,7 +161,7 @@ namespace Alex75.JsonViewer.WindowsForm
         private new JsonTreeNode SelectedNode
         {
             get { return base.SelectedNode as JsonTreeNode; }
-            set { base.SelectedNode = value; ; }
+            set { base.SelectedNode = value; }
         }
 
         #region UI events
@@ -186,6 +187,18 @@ namespace Alex75.JsonViewer.WindowsForm
                 if (node != null)
                 {
                     base.SelectedNode = node;
+                }
+            }
+        }
+
+        private void this_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode.ToString() == "C")
+            {
+                if (this.SelectedNode != null)
+                {
+                    e.Handled = true;
+                    Clipboard.SetText(((JsonTreeNode)SelectedNode).SrcText);
                 }
             }
         }
