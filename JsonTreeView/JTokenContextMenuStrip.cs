@@ -17,8 +17,6 @@ namespace JsonTreeView
         protected ToolStripItem CollapseAllToolStripItem;
         protected ToolStripItem ExpandAllToolStripItem;
 
-        protected ToolStripItem CopyNodeToolStripItem;
-
         #region >> Constructors
 
         /// <summary>
@@ -28,10 +26,6 @@ namespace JsonTreeView
         {
             CollapseAllToolStripItem = new ToolStripMenuItem("收缩所有", null, CollapseAll_Click);
             ExpandAllToolStripItem = new ToolStripMenuItem("展开所有", null, ExpandAll_Click);
-
-
-            CopyNodeToolStripItem = new ToolStripMenuItem("拷贝", null, CopyNode_Click);
-
 
             Items.Add(CollapseAllToolStripItem);
             Items.Add(ExpandAllToolStripItem);
@@ -81,16 +75,6 @@ namespace JsonTreeView
 
                 JTokenNode.TreeView.EndUpdate();
             }
-        }
-
-        /// <summary>
-        /// Click event handler for <see cref="CopyNodeToolStripItem"/>.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void CopyNode_Click(Object sender, EventArgs e)
-        {
-            JTokenNode.ClipboardCopy();
         }
 
 

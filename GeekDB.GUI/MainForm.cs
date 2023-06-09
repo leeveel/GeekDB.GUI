@@ -3,21 +3,10 @@ using GeekDB.GUI.Pages;
 using MessagePack;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using RocksDbSharp;
 using Sunny.UI;
-using Sunny.UI.Win32;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using static System.Windows.Forms.TabControl;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace GeekDB.GUI
@@ -30,6 +19,38 @@ namespace GeekDB.GUI
             RocksDb
         }
 
+        class Node
+        {
+            public string text = "";
+            public Node parent;
+            public int index;
+            public Guid guid;
+            public bool isExpand = false;
+            public List<Node> ChildNodes { get; set; } = new();
+            bool _visible = true;
+            public bool visible
+            {
+                get
+                {
+                    return _visible;
+                }
+                set
+                {
+                    _visible = value;
+                    if (parent != null && value)
+                    {
+                        parent.visible = value;
+                    }
+                }
+            }
+
+            public void AddNode(Node node)
+            {
+                node.parent = this;
+                ChildNodes.Add(node);
+            }
+        }
+
         public static MainForm Instance { get; private set; }
         MainPage mainPage;
         Dictionary<string, Guid> tableName2Guid = new();
@@ -38,6 +59,7 @@ namespace GeekDB.GUI
         Dictionary<string, MongoClient> allMongodbClient = new();
         string curMongoDBUrl = "";
         MongoClient curMongoDbClient;
+        Node rootNode;
 
         [MessagePackObject(true)]
         public class HistoryItem
@@ -58,6 +80,8 @@ namespace GeekDB.GUI
 
         void ClearAll()
         {
+            rootNode = new Node();
+            searchTxt.Text = "";
             leftMenu.MenuItemClick -= OnHistoryMenuItemClick;
             leftMenu.MenuItemClick -= OnRocksDBMenuItemClick;
             leftMenu.MenuItemClick -= OnMongoDBMenuItemClick;
@@ -166,12 +190,12 @@ namespace GeekDB.GUI
             leftMenu.NodeRightSymbolClick += OnHistoryNodeRightSymbolClick;
         }
 
+
         public void EnterRocksDBPage(string dbPath)
         {
             UpdateHistory(DBType.RocksDb, dbPath);
             ClearAll();
 
-            //得到临时路径
             var tempPath = Path.GetTempPath() + "rocksdb_editor/" + Path.GetFileName(dbPath) + "_temp";
             if (Directory.Exists(tempPath))
             {
@@ -180,17 +204,53 @@ namespace GeekDB.GUI
             curRockDb = new EmbeddedDB(dbPath, true, tempPath);
 
             TabControl.TabVisible = true;
-            var parent = leftMenu.CreateNode(Path.GetFileName(dbPath), int.MaxValue);
+
+            var node = new Node { isExpand = true, text = Path.GetFileName(dbPath), index = int.MaxValue };
+            rootNode.AddNode(node);
+            //var parent = leftMenu.CreateNode(Path.GetFileName(dbPath), int.MaxValue);
             var tables = Helper.GetAllTableNames(dbPath);
             tables.Sort();
             foreach (var name in tables)
             {
                 var guid = Guid.NewGuid();
                 tableName2Guid[name] = guid;
-                var tabelNode = leftMenu.CreateChildNode(parent, name, guid);
+                // leftMenu.CreateChildNode(parent, name, guid);
+                node.AddNode(new Node { text = name, guid = guid });
             }
-            parent.Expand();
+            // parent.Expand();
+            refreshMenu();
             leftMenu.MenuItemClick += OnRocksDBMenuItemClick;
+        }
+
+        void createChildNode(TreeNode parentTreeNode, Node node, bool expandAll = false)
+        {
+            foreach (var child in node.ChildNodes)
+            {
+                if (!child.visible)
+                    continue;
+                var tNode = leftMenu.CreateChildNode(parentTreeNode, child.text, child.guid);
+                createChildNode(tNode, child, expandAll);
+                if (child.isExpand || expandAll)
+                {
+                    tNode.Expand();
+                }
+            }
+        }
+
+        void refreshMenu(bool expandAll = false)
+        {
+            leftMenu.ClearAll();
+            foreach (var node in rootNode.ChildNodes)
+            {
+                if (!node.visible)
+                    continue;
+                var parent = leftMenu.CreateNode(node.text, node.index);
+                createChildNode(parent, node, expandAll);
+                if (node.isExpand || expandAll)
+                {
+                    parent.Expand();
+                }
+            }
         }
 
         public void EnterMongodbPage(string url)
@@ -336,6 +396,28 @@ namespace GeekDB.GUI
         private void DisconnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EnterMainPage();
+        }
+
+        void research(Node node, string conTxt)
+        {
+            if (string.IsNullOrEmpty(conTxt) || node.text.ToLower().Contains(conTxt))
+            {
+                node.visible = true;
+            }
+            else
+            {
+                node.visible = false;
+            }
+            foreach (var c in node.ChildNodes)
+            {
+                research(c, conTxt);
+            }
+        }
+
+        private void searchTxt_TextChanged(object sender, EventArgs e)
+        {
+            research(rootNode, searchTxt.Text.ToLower());
+            refreshMenu(true);
         }
     }
 }

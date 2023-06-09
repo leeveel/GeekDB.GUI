@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Sunny.UI;
+using System.Windows.Forms;
 
 namespace GeekDB.GUI.Pages
 {
@@ -7,6 +8,7 @@ namespace GeekDB.GUI.Pages
     {
         public JsonViewForm(string json)
         {
+            KeyPreview = true;
             InitializeComponent();
 
             try
@@ -25,6 +27,14 @@ namespace GeekDB.GUI.Pages
             if (!jsonValueTextBox.Focused)
             {
                 jsonValueTextBox.Text = eventArgs.GetJsonString();
+            }
+        }
+
+        private void JsonViewForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                this.Close();
             }
         }
     }

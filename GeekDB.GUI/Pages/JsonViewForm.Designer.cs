@@ -61,7 +61,7 @@ namespace GeekDB.GUI.Pages
             jsonTreeViewSplitContainer.Panel2.Controls.Add(panel2);
             jsonTreeViewSplitContainer.Panel2MinSize = 320;
             jsonTreeViewSplitContainer.Size = new Size(1176, 566);
-            jsonTreeViewSplitContainer.SplitterDistance = 647;
+            jsonTreeViewSplitContainer.SplitterDistance = 590;
             jsonTreeViewSplitContainer.SplitterWidth = 5;
             jsonTreeViewSplitContainer.TabIndex = 8;
             // 
@@ -74,7 +74,7 @@ namespace GeekDB.GUI.Pages
             jTokenTree.Location = new Point(4, 4);
             jTokenTree.Margin = new Padding(7, 8, 7, 8);
             jTokenTree.Name = "jTokenTree";
-            jTokenTree.Size = new Size(640, 558);
+            jTokenTree.Size = new Size(583, 558);
             jTokenTree.TabIndex = 2;
             jTokenTree.AfterSelect += jTokenTree_AfterSelect;
             // 
@@ -86,7 +86,7 @@ namespace GeekDB.GUI.Pages
             panel2.Location = new Point(0, 0);
             panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(524, 566);
+            panel2.Size = new Size(581, 566);
             panel2.TabIndex = 1;
             // 
             // jsonValueTextBox
@@ -97,7 +97,7 @@ namespace GeekDB.GUI.Pages
             jsonValueTextBox.Margin = new Padding(4);
             jsonValueTextBox.Name = "jsonValueTextBox";
             jsonValueTextBox.ReadOnly = true;
-            jsonValueTextBox.Size = new Size(524, 566);
+            jsonValueTextBox.Size = new Size(581, 566);
             jsonValueTextBox.TabIndex = 15;
             jsonValueTextBox.Text = "";
             // 
@@ -127,6 +127,7 @@ namespace GeekDB.GUI.Pages
             Text = "";
             TitleColor = Color.FromArgb(0, 150, 136);
             ZoomScaleRect = new Rectangle(15, 15, 1176, 570);
+            KeyPress += JsonViewForm_KeyPress;
             jsonTreeViewSplitContainer.Panel1.ResumeLayout(false);
             jsonTreeViewSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)jsonTreeViewSplitContainer).EndInit();
