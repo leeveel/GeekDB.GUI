@@ -17,8 +17,6 @@ namespace JsonTreeView
         protected ToolStripItem CollapseAllToolStripItem;
         protected ToolStripItem ExpandAllToolStripItem;
 
-        protected ToolStripMenuItem EditToolStripItem;
-
         protected ToolStripItem CopyNodeToolStripItem;
 
         #region >> Constructors
@@ -31,17 +29,12 @@ namespace JsonTreeView
             CollapseAllToolStripItem = new ToolStripMenuItem("收缩所有", null, CollapseAll_Click);
             ExpandAllToolStripItem = new ToolStripMenuItem("展开所有", null, ExpandAll_Click);
 
-            EditToolStripItem = new ToolStripMenuItem("编辑");
 
             CopyNodeToolStripItem = new ToolStripMenuItem("拷贝", null, CopyNode_Click);
 
-            EditToolStripItem.DropDownItems.Add(CopyNodeToolStripItem);
-            EditToolStripItem.DropDownItems.Add(new ToolStripSeparator());
-            EditToolStripItem.DropDownItems.Add(new ToolStripSeparator());
 
             Items.Add(CollapseAllToolStripItem);
             Items.Add(ExpandAllToolStripItem);
-            Items.Add(EditToolStripItem);
         }
 
         #endregion
