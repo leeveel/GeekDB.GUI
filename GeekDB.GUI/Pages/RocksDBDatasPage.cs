@@ -70,7 +70,14 @@ namespace GeekDB.GUI.Pages
             {
                 if (jsonStr == null)
                 {
-                    jsonStr = MessagePack.MessagePackSerializer.ConvertToJson(valueBytes);
+                    try
+                    {
+                        jsonStr = MessagePack.MessagePackSerializer.ConvertToJson(valueBytes);
+                    }
+                    catch (Exception e)
+                    {
+                        jsonStr = UTF8Encoding.UTF8.GetString(valueBytes);
+                    }
                 }
                 return jsonStr;
             }
