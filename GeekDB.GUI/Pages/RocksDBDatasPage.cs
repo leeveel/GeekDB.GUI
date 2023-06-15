@@ -81,7 +81,24 @@ namespace GeekDB.GUI.Pages
                 }
                 return jsonStr;
             }
+
+            [DisplayName("size")]
+            public string size
+            {
+                get
+                {
+                    string[] Suffix = { "b", "kb", "mb", "gb", "tb" };
+                    int i = 0;
+                    long bytes = valueBytes.LongLength;
+                    double dblSByte = bytes;
+                    if (bytes > 1024)
+                        for (i = 0; (bytes / 1024) > 0; i++, bytes /= 1024)
+                            dblSByte = bytes / 1024.0;
+                    return String.Format("{0:0.##}{1}", dblSByte, Suffix[i]);
+                }
+            }
         }
+
 
         List<DataItem> sourceDatas = new();
         List<DataItem> searchResults;
