@@ -120,6 +120,7 @@
             mongodbConnectBtn.StyleCustomMode = true;
             mongodbConnectBtn.TabIndex = 2;
             mongodbConnectBtn.Text = "Connect";
+            mongodbConnectBtn.TipsFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
             mongodbConnectBtn.Click += mongodbConnectBtn_Click;
             // 
             // rocksdbPanel
@@ -164,6 +165,7 @@
             rocksdbStartBtn.StyleCustomMode = true;
             rocksdbStartBtn.TabIndex = 6;
             rocksdbStartBtn.Text = "Open";
+            rocksdbStartBtn.TipsFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
             rocksdbStartBtn.Click += rocksdbStartBtn_Click;
             // 
             // rocksdbPathTextBox
@@ -206,6 +208,7 @@
             rocksdbSelectDirBtn.StyleCustomMode = true;
             rocksdbSelectDirBtn.TabIndex = 5;
             rocksdbSelectDirBtn.Text = "选择db";
+            rocksdbSelectDirBtn.TipsFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
             rocksdbSelectDirBtn.Click += rocksdbSelectDirBtn_Click;
             // 
             // uiLabel2
@@ -259,7 +262,6 @@
             openRocksdbBackupBtn.StyleCustomMode = true;
             openRocksdbBackupBtn.TabIndex = 8;
             openRocksdbBackupBtn.Text = "Open";
-            openRocksdbBackupBtn.TipsFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
             openRocksdbBackupBtn.Click += openRocksdbBackupBtn_Click;
             // 
             // rocksdbBackupTextBox
@@ -302,7 +304,6 @@
             selectRocksdbBuckupBtn.StyleCustomMode = true;
             selectRocksdbBuckupBtn.TabIndex = 7;
             selectRocksdbBuckupBtn.Text = "选择file";
-            selectRocksdbBuckupBtn.TipsFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
             selectRocksdbBuckupBtn.Click += selectRocksdbBuckupBtn_Click;
             // 
             // uiLabel3
@@ -310,7 +311,7 @@
             uiLabel3.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
             uiLabel3.Location = new Point(16, 390);
             uiLabel3.Name = "uiLabel3";
-            uiLabel3.Size = new Size(190, 23);
+            uiLabel3.Size = new Size(328, 23);
             uiLabel3.Style = Sunny.UI.UIStyle.Custom;
             uiLabel3.TabIndex = 7;
             uiLabel3.Text = "rocksdb backup file(.zip):";
