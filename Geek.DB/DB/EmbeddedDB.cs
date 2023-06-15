@@ -50,7 +50,7 @@ namespace Geek.Server
             {
                 option.SetMaxOpenFiles(-1);
                 if (string.IsNullOrEmpty(readonlyPath))
-                    SecondPath = DbPath + "_$$$";
+                    SecondPath = DbPath + "_$$$@";
                 else
                     SecondPath = readonlyPath;
                 InnerDB = RocksDb.OpenAsSecondary(option, DbPath, SecondPath, cfs);

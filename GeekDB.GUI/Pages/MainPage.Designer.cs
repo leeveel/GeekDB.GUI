@@ -33,12 +33,18 @@
             uiLabel1 = new Sunny.UI.UILabel();
             mongodbConnectBtn = new Sunny.UI.UIButton();
             rocksdbPanel = new Sunny.UI.UIPanel();
-            rocksdbPathTextBox = new Sunny.UI.UITextBox();
-            uiLabel2 = new Sunny.UI.UILabel();
             rocksdbStartBtn = new Sunny.UI.UIButton();
+            rocksdbPathTextBox = new Sunny.UI.UITextBox();
             rocksdbSelectDirBtn = new Sunny.UI.UIButton();
+            uiLabel2 = new Sunny.UI.UILabel();
+            uiPanel1 = new Sunny.UI.UIPanel();
+            openRocksdbBackupBtn = new Sunny.UI.UIButton();
+            rocksdbBackupTextBox = new Sunny.UI.UITextBox();
+            selectRocksdbBuckupBtn = new Sunny.UI.UIButton();
+            uiLabel3 = new Sunny.UI.UILabel();
             mongodbPanel.SuspendLayout();
             rocksdbPanel.SuspendLayout();
+            uiPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // mongodbPanel
@@ -50,7 +56,7 @@
             mongodbPanel.FillColor = Color.White;
             mongodbPanel.FillColor2 = Color.White;
             mongodbPanel.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            mongodbPanel.Location = new Point(12, 93);
+            mongodbPanel.Location = new Point(12, 57);
             mongodbPanel.Margin = new Padding(4, 5, 4, 5);
             mongodbPanel.MinimumSize = new Size(1, 1);
             mongodbPanel.Name = "mongodbPanel";
@@ -126,46 +132,16 @@
             rocksdbPanel.FillColor = Color.White;
             rocksdbPanel.FillColor2 = Color.White;
             rocksdbPanel.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            rocksdbPanel.Location = new Point(11, 271);
+            rocksdbPanel.Location = new Point(11, 232);
             rocksdbPanel.Margin = new Padding(4, 5, 4, 5);
             rocksdbPanel.MinimumSize = new Size(1, 1);
             rocksdbPanel.Name = "rocksdbPanel";
             rocksdbPanel.RectColor = Color.White;
-            rocksdbPanel.Size = new Size(1271, 189);
+            rocksdbPanel.Size = new Size(1271, 153);
             rocksdbPanel.Style = Sunny.UI.UIStyle.Custom;
             rocksdbPanel.TabIndex = 1;
             rocksdbPanel.Text = null;
             rocksdbPanel.TextAlignment = ContentAlignment.MiddleCenter;
-            // 
-            // rocksdbPathTextBox
-            // 
-            rocksdbPathTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            rocksdbPathTextBox.Font = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            rocksdbPathTextBox.Location = new Point(4, 28);
-            rocksdbPathTextBox.Margin = new Padding(4, 5, 4, 5);
-            rocksdbPathTextBox.MinimumSize = new Size(1, 16);
-            rocksdbPathTextBox.Multiline = true;
-            rocksdbPathTextBox.Name = "rocksdbPathTextBox";
-            rocksdbPathTextBox.Padding = new Padding(5);
-            rocksdbPathTextBox.RectColor = Color.Silver;
-            rocksdbPathTextBox.ShowText = false;
-            rocksdbPathTextBox.Size = new Size(1263, 60);
-            rocksdbPathTextBox.Style = Sunny.UI.UIStyle.Custom;
-            rocksdbPathTextBox.StyleCustomMode = true;
-            rocksdbPathTextBox.TabIndex = 4;
-            rocksdbPathTextBox.TextAlignment = ContentAlignment.MiddleLeft;
-            rocksdbPathTextBox.Watermark = "";
-            // 
-            // uiLabel2
-            // 
-            uiLabel2.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            uiLabel2.Location = new Point(0, 0);
-            uiLabel2.Name = "uiLabel2";
-            uiLabel2.Size = new Size(190, 23);
-            uiLabel2.Style = Sunny.UI.UIStyle.Custom;
-            uiLabel2.TabIndex = 3;
-            uiLabel2.Text = "rocksdb path:";
-            uiLabel2.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // rocksdbStartBtn
             // 
@@ -190,6 +166,25 @@
             rocksdbStartBtn.Text = "Open";
             rocksdbStartBtn.Click += rocksdbStartBtn_Click;
             // 
+            // rocksdbPathTextBox
+            // 
+            rocksdbPathTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            rocksdbPathTextBox.Font = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            rocksdbPathTextBox.Location = new Point(4, 28);
+            rocksdbPathTextBox.Margin = new Padding(4, 5, 4, 5);
+            rocksdbPathTextBox.MinimumSize = new Size(1, 16);
+            rocksdbPathTextBox.Multiline = true;
+            rocksdbPathTextBox.Name = "rocksdbPathTextBox";
+            rocksdbPathTextBox.Padding = new Padding(5);
+            rocksdbPathTextBox.RectColor = Color.Silver;
+            rocksdbPathTextBox.ShowText = false;
+            rocksdbPathTextBox.Size = new Size(1263, 60);
+            rocksdbPathTextBox.Style = Sunny.UI.UIStyle.Custom;
+            rocksdbPathTextBox.StyleCustomMode = true;
+            rocksdbPathTextBox.TabIndex = 4;
+            rocksdbPathTextBox.TextAlignment = ContentAlignment.MiddleLeft;
+            rocksdbPathTextBox.Watermark = "";
+            // 
             // rocksdbSelectDirBtn
             // 
             rocksdbSelectDirBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -213,11 +208,121 @@
             rocksdbSelectDirBtn.Text = "选择db";
             rocksdbSelectDirBtn.Click += rocksdbSelectDirBtn_Click;
             // 
+            // uiLabel2
+            // 
+            uiLabel2.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            uiLabel2.Location = new Point(0, 0);
+            uiLabel2.Name = "uiLabel2";
+            uiLabel2.Size = new Size(190, 23);
+            uiLabel2.Style = Sunny.UI.UIStyle.Custom;
+            uiLabel2.TabIndex = 3;
+            uiLabel2.Text = "rocksdb path:";
+            uiLabel2.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // uiPanel1
+            // 
+            uiPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            uiPanel1.Controls.Add(openRocksdbBackupBtn);
+            uiPanel1.Controls.Add(rocksdbBackupTextBox);
+            uiPanel1.Controls.Add(selectRocksdbBuckupBtn);
+            uiPanel1.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            uiPanel1.Location = new Point(11, 422);
+            uiPanel1.Margin = new Padding(4, 5, 4, 5);
+            uiPanel1.MinimumSize = new Size(1, 1);
+            uiPanel1.Name = "uiPanel1";
+            uiPanel1.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            uiPanel1.RectColor = Color.Transparent;
+            uiPanel1.Size = new Size(1267, 163);
+            uiPanel1.Style = Sunny.UI.UIStyle.Custom;
+            uiPanel1.TabIndex = 2;
+            uiPanel1.Text = null;
+            uiPanel1.TextAlignment = ContentAlignment.MiddleCenter;
+            // 
+            // openRocksdbBackupBtn
+            // 
+            openRocksdbBackupBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            openRocksdbBackupBtn.FillColor = Color.FromArgb(0, 150, 136);
+            openRocksdbBackupBtn.FillColor2 = Color.FromArgb(0, 150, 136);
+            openRocksdbBackupBtn.FillHoverColor = Color.FromArgb(51, 171, 160);
+            openRocksdbBackupBtn.FillPressColor = Color.FromArgb(0, 120, 109);
+            openRocksdbBackupBtn.FillSelectedColor = Color.FromArgb(0, 120, 109);
+            openRocksdbBackupBtn.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            openRocksdbBackupBtn.Location = new Point(1164, 73);
+            openRocksdbBackupBtn.MinimumSize = new Size(1, 1);
+            openRocksdbBackupBtn.Name = "openRocksdbBackupBtn";
+            openRocksdbBackupBtn.RectColor = Color.FromArgb(0, 150, 136);
+            openRocksdbBackupBtn.RectHoverColor = Color.FromArgb(51, 171, 160);
+            openRocksdbBackupBtn.RectPressColor = Color.FromArgb(0, 120, 109);
+            openRocksdbBackupBtn.RectSelectedColor = Color.FromArgb(0, 120, 109);
+            openRocksdbBackupBtn.Size = new Size(103, 35);
+            openRocksdbBackupBtn.Style = Sunny.UI.UIStyle.LayuiGreen;
+            openRocksdbBackupBtn.StyleCustomMode = true;
+            openRocksdbBackupBtn.TabIndex = 8;
+            openRocksdbBackupBtn.Text = "Open";
+            openRocksdbBackupBtn.TipsFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            openRocksdbBackupBtn.Click += openRocksdbBackupBtn_Click;
+            // 
+            // rocksdbBackupTextBox
+            // 
+            rocksdbBackupTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            rocksdbBackupTextBox.Font = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            rocksdbBackupTextBox.Location = new Point(5, 5);
+            rocksdbBackupTextBox.Margin = new Padding(4, 5, 4, 5);
+            rocksdbBackupTextBox.MinimumSize = new Size(1, 16);
+            rocksdbBackupTextBox.Multiline = true;
+            rocksdbBackupTextBox.Name = "rocksdbBackupTextBox";
+            rocksdbBackupTextBox.Padding = new Padding(5);
+            rocksdbBackupTextBox.RectColor = Color.Silver;
+            rocksdbBackupTextBox.ShowText = false;
+            rocksdbBackupTextBox.Size = new Size(1258, 60);
+            rocksdbBackupTextBox.Style = Sunny.UI.UIStyle.Custom;
+            rocksdbBackupTextBox.StyleCustomMode = true;
+            rocksdbBackupTextBox.TabIndex = 5;
+            rocksdbBackupTextBox.TextAlignment = ContentAlignment.MiddleLeft;
+            rocksdbBackupTextBox.Watermark = "";
+            // 
+            // selectRocksdbBuckupBtn
+            // 
+            selectRocksdbBuckupBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            selectRocksdbBuckupBtn.FillColor = Color.FromArgb(0, 150, 136);
+            selectRocksdbBuckupBtn.FillColor2 = Color.FromArgb(0, 150, 136);
+            selectRocksdbBuckupBtn.FillHoverColor = Color.FromArgb(51, 171, 160);
+            selectRocksdbBuckupBtn.FillPressColor = Color.FromArgb(0, 120, 109);
+            selectRocksdbBuckupBtn.FillSelectedColor = Color.FromArgb(0, 120, 109);
+            selectRocksdbBuckupBtn.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            selectRocksdbBuckupBtn.Location = new Point(1039, 73);
+            selectRocksdbBuckupBtn.MinimumSize = new Size(1, 1);
+            selectRocksdbBuckupBtn.Name = "selectRocksdbBuckupBtn";
+            selectRocksdbBuckupBtn.RectColor = Color.FromArgb(0, 150, 136);
+            selectRocksdbBuckupBtn.RectHoverColor = Color.FromArgb(51, 171, 160);
+            selectRocksdbBuckupBtn.RectPressColor = Color.FromArgb(0, 120, 109);
+            selectRocksdbBuckupBtn.RectSelectedColor = Color.FromArgb(0, 120, 109);
+            selectRocksdbBuckupBtn.Size = new Size(103, 35);
+            selectRocksdbBuckupBtn.Style = Sunny.UI.UIStyle.LayuiGreen;
+            selectRocksdbBuckupBtn.StyleCustomMode = true;
+            selectRocksdbBuckupBtn.TabIndex = 7;
+            selectRocksdbBuckupBtn.Text = "选择file";
+            selectRocksdbBuckupBtn.TipsFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            selectRocksdbBuckupBtn.Click += selectRocksdbBuckupBtn_Click;
+            // 
+            // uiLabel3
+            // 
+            uiLabel3.Font = new Font("微软雅黑", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            uiLabel3.Location = new Point(16, 390);
+            uiLabel3.Name = "uiLabel3";
+            uiLabel3.Size = new Size(190, 23);
+            uiLabel3.Style = Sunny.UI.UIStyle.Custom;
+            uiLabel3.TabIndex = 7;
+            uiLabel3.Text = "rocksdb backup file(.zip):";
+            uiLabel3.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // MainPage
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
-            ClientSize = new Size(1306, 581);
+            ClientSize = new Size(1306, 643);
+            Controls.Add(uiLabel3);
+            Controls.Add(uiPanel1);
             Controls.Add(rocksdbPanel);
             Controls.Add(mongodbPanel);
             ForeColor = Color.Black;
@@ -225,6 +330,7 @@
             Style = Sunny.UI.UIStyle.Custom;
             mongodbPanel.ResumeLayout(false);
             rocksdbPanel.ResumeLayout(false);
+            uiPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -239,5 +345,10 @@
         private Sunny.UI.UITextBox rocksdbPathTextBox;
         private Sunny.UI.UIButton rocksdbSelectDirBtn;
         private Sunny.UI.UIButton rocksdbStartBtn;
+        private Sunny.UI.UIPanel uiPanel1;
+        private Sunny.UI.UILabel uiLabel3;
+        private Sunny.UI.UITextBox rocksdbBackupTextBox;
+        private Sunny.UI.UIButton openRocksdbBackupBtn;
+        private Sunny.UI.UIButton selectRocksdbBuckupBtn;
     }
 }
