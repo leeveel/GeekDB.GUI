@@ -107,6 +107,7 @@ namespace GeekDB.GUI.Pages
 
                 ZipFile.ExtractToDirectory(filePath, tempPath, false);
                 DBBackup.Restore(tempPath, tempRestorePath);
+                Directory.Delete(tempPath, true);
 
                 TryEntryRocksDb(tempRestorePath);
             }
