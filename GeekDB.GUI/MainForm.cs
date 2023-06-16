@@ -268,6 +268,7 @@ namespace GeekDB.GUI
             {
                 curMongoDbClient = allMongodbClient[url];
                 dbNames = curMongoDbClient.ListDatabaseNames().ToList();
+                dbNames.Sort();
             }
             else
             {
@@ -276,6 +277,7 @@ namespace GeekDB.GUI
                     var settings = MongoClientSettings.FromConnectionString(url);
                     curMongoDbClient = new MongoClient(settings);
                     dbNames = curMongoDbClient.ListDatabaseNames().ToList();
+                    dbNames.Sort();
                     allMongodbClient[url] = curMongoDbClient;
                     curMongoDBUrl = url;
                 }
@@ -297,6 +299,7 @@ namespace GeekDB.GUI
                 //  var parent = leftMenu.CreateNode(n, int.MaxValue);
                 var db = curMongoDbClient.GetDatabase(n);
                 var tables = db.ListCollectionNames().ToList();
+                tables.Sort();
                 foreach (var t in tables)
                 {
                     var guid = Guid.NewGuid();

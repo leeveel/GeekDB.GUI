@@ -64,10 +64,7 @@ namespace GeekDB.GUI.Pages
             }
         }
 
-        public void TryEntryMongoDb()
-        {
 
-        }
         public void SetMongoDbPath(string path)
         {
             mongodbURLTextBox.Text = path;
