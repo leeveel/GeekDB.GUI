@@ -3,6 +3,7 @@ using GeekDB.GUI.Pages;
 using MessagePack;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Renci.SshNet;
 using Sunny.UI;
 using System;
 using System.Windows.Forms;
@@ -226,6 +227,7 @@ namespace GeekDB.GUI
             leftMenu.NodeMouseDoubleClick += OnHistoryMenuItemDoubleClick;
             leftMenu.NodeRightSymbolClick += OnHistoryNodeRightSymbolClick;
             searchTxt.Visible = false;
+
         }
 
 
