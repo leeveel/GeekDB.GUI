@@ -6,6 +6,8 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
+using RocksDbSharp;
 using Sunny.UI;
 using System;
 using System.Collections;
@@ -16,6 +18,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -36,14 +39,18 @@ namespace GeekDB.GUI.Pages
         {
             this.mongoDBbase = database;
             InitializeComponent();
+            this.DoubleBuffered = true;
             Control.CheckForIllegalCrossThreadCalls = false;
         }
 
-        List<string> logs = new List<string>();
-        List<Color> logColors = new List<Color>();
         void addLog(string txt)
         {
             addColorLog(txt, Color.Black);
+        }
+
+        void addImportantLog(string txt)
+        {
+            addColorLog(txt, Color.Blue);
         }
 
         void addErr(string txt)
@@ -53,29 +60,17 @@ namespace GeekDB.GUI.Pages
 
         void clearLog()
         {
-            logs.Clear();
-            logColors.Clear();
-            logTxtbox.Lines = logs.ToArray();
+            logTxtbox.Text = "";
         }
 
         void addColorLog(string txt, Color color)
         {
-            if (logs.Count > 400)
-            {
-                logs.RemoveAt(0);
-                logColors.RemoveAt(0);
-            }
-            logs.Add(txt);
-            logColors.Add(color);
-            logTxtbox.Lines = logs.ToArray();
-            var charIndex = 0;
-            for (int i = 0; i < logs.Count; i++)
-            {
-                logTxtbox.SelectionStart = charIndex;
-                logTxtbox.SelectionLength = logs[i].Length;
-                logTxtbox.SelectionColor = logColors[i];
-                charIndex += logs[i].Length + 1;
-            }
+            var charIndex = logTxtbox.Text.Length;
+            logTxtbox.AppendText(txt + "\n");
+            logTxtbox.SelectionStart = charIndex;
+            logTxtbox.SelectionLength = txt.Length;
+            logTxtbox.SelectionColor = color;
+
         }
 
         private void selectBtn_Click(object sender, EventArgs e)
@@ -263,55 +258,26 @@ namespace GeekDB.GUI.Pages
                     int curTableIndex = 0;
                     foreach (var name in tableNames)
                     {
-                        addLog("开始导出" + name);
-                        var rocksdbTable = rocksDb.GetRawTable(name);
-                        var mongoTable = mongoDBbase.GetCollection<BsonDocument>(name);
-                        var mongoQueryStr = "{}";
-                        var totalCount = mongoTable.CountDocuments(mongoQueryStr);
-                        int startIndex = 0;
-                        var mongodbTableId = (int)MurmurHash3.Hash(name);
-                        while (startIndex < totalCount)
+                        long totalCount = 0;
+
+                        if (name == "fs.chunks")
                         {
-                            if (rocksDb == null)
-                            {
-                                return;
-                            }
-                            var everyTimeQueryCount = 200;
-                            var result = mongoTable.Find(mongoQueryStr).Limit(everyTimeQueryCount).Skip(startIndex).ToList();
-                            startIndex += everyTimeQueryCount;
-                            foreach (var data in result)
-                            {
-                                string id;
-                                byte[] rdata;
-                                try
-                                {
-                                    var value = BsonSerializer.Deserialize<MongoState>(data);
-                                    id = value.Id;
-                                    rdata = value.Data;
-                                }
-                                catch (Exception e)
-                                {
-                                    //说明数据不是rocksdb备份到mongodb的数据，尝试直接写 
-                                    id = data["_id"].ToString();
-
-                                    var dic = data.ToDictionary();
-                                    dic["Id"] = dic["_id"];
-                                    dic.Remove("_id");
-
-                                    var newDic = ConvertKVDicToNormalDic(dic);
-                                    ConvertPolymorphic(newDic);
-                                    rdata = MessagePackSerializer.Serialize(new List<object> { mongodbTableId, newDic });
-                                }
-                                rocksdbTable.SetRaw(id, rdata);
-                            }
-
-                            UpdateProcess(processMax, curTableIndex + startIndex * 1f / MathF.Max(totalCount, 1));
+                            curTableIndex++;
+                            continue;
+                        }
+                        if (name == "fs.files")
+                        {
+                            totalCount = exportFiles(processMax, curTableIndex);
+                        }
+                        else
+                        {
+                            totalCount = exportNormalTable(name, processMax, curTableIndex);
                         }
                         curTableIndex++;
                         UpdateProcess(processMax, curTableIndex);
                         addLog($"导出{name}完成,共导出{totalCount}条数据");
                     }
-                    addLog($"全部导出完成,共导出{tableNames.Count}张表");
+                    addImportantLog($"全部导出完成...");//共导出{tableNames.Count}张表
                 }
                 catch (Exception e)
                 {
@@ -328,6 +294,127 @@ namespace GeekDB.GUI.Pages
             });
         }
 
+        long exportFiles(int processMax, int curTableIndex)
+        {
+            addImportantLog("开始导出fs.files");
+            var bucket = new GridFSBucket(mongoDBbase);
+            var mongoTable = mongoDBbase.GetCollection<BsonDocument>("fs.files");
+            var mongoQueryStr = "{}";
+            var totalCount = mongoTable.CountDocuments(mongoQueryStr);
+            int startIndex = 0;
+
+            Dictionary<string, List<MongoFile>> files = new Dictionary<string, List<MongoFile>>();
+            while (startIndex < totalCount)
+            {
+                var everyTimeQueryCount = 200;
+                var result = mongoTable.Find(mongoQueryStr).Limit(everyTimeQueryCount).Skip(startIndex).ToList();
+                startIndex += everyTimeQueryCount;
+                foreach (var data in result)
+                {
+                    var fileData = BsonSerializer.Deserialize<MongoFile>(data);
+                    var strs = fileData.filename.Split('_');
+                    var stateName = strs[0];
+                    fileData.RocksdbId = strs[1];
+                    List<MongoFile> list;
+                    if (!files.TryGetValue(stateName, out list))
+                    {
+                        list = new List<MongoFile>();
+                        files[stateName] = list;
+                    }
+                    list.Add(fileData);
+                    fileData.Datas = bucket.DownloadAsBytes(fileData.Id);
+                }
+            }
+            foreach (var file in files)
+            {
+                var rocksdbTable = rocksDb.GetRawTable(file.Key);
+                var mongodbTableId = (int)MurmurHash3.Hash(file.Key);
+                foreach (var dataInfo in file.Value)
+                {
+                    var doc = BsonSerializer.Deserialize<BsonDocument>(dataInfo.Datas);
+                    var dic = doc.ToDictionary();
+                    dic["Id"] = dataInfo.RocksdbId;
+                    dic.Remove("_id");
+
+                    string newMongodbTableStr = null;
+
+                    if (dic.ContainsKey("_t"))
+                    {
+                        var value2 = dic["_t"] as string;
+                        if (value2 != null)
+                        {
+                            dic.Remove("_t");
+                            newMongodbTableStr = value2;
+                        }
+                    }
+
+                    var newDic = ConvertKVDicToNormalDic(dic);
+                    ConvertPolymorphic(newDic);
+                    var rdata = MessagePackSerializer.Serialize(new List<object> { newMongodbTableStr != null ? newMongodbTableStr : mongodbTableId, newDic });
+                    rocksdbTable.SetRaw(dataInfo.RocksdbId, rdata);
+                }
+                addImportantLog($"导出file to state:{file.Key},count:{file.Value.Count}");
+            }
+            return totalCount;
+        }
+        long exportNormalTable(string name, int processMax, int curTableIndex)
+        {
+            addLog("开始导出" + name);
+            var rocksdbTable = rocksDb.GetRawTable(name);
+            var mongoTable = mongoDBbase.GetCollection<BsonDocument>(name);
+            var mongoQueryStr = "{}";
+            var totalCount = mongoTable.CountDocuments(mongoQueryStr);
+            int startIndex = 0;
+            var mongodbTableId = (int)MurmurHash3.Hash(name);
+            while (startIndex < totalCount)
+            {
+                if (rocksDb == null)
+                {
+                    return 0;
+                }
+                var everyTimeQueryCount = 200;
+                var result = mongoTable.Find(mongoQueryStr).Limit(everyTimeQueryCount).Skip(startIndex).ToList();
+                startIndex += everyTimeQueryCount;
+                foreach (var data in result)
+                {
+                    string id;
+                    byte[] rdata;
+                    try
+                    {
+                        var value = BsonSerializer.Deserialize<MongoTimestampState>(data);
+                        id = value.Id;
+                        rdata = value.Data;
+                    }
+                    catch (Exception e)
+                    {
+                        id = data["_id"].ToString();
+                        var dic = data.ToDictionary();
+                        dic["Id"] = dic["_id"];
+                        dic.Remove("_id");
+
+                        string newMongodbTableStr = null;
+
+                        if (dic.ContainsKey("_t"))
+                        {
+                            var value2 = dic["_t"] as string;
+                            if (value2 != null)
+                            {
+                                dic.Remove("_t");
+                                newMongodbTableStr = value2;
+                            }
+                        }
+
+                        var newDic = ConvertKVDicToNormalDic(dic);
+                        ConvertPolymorphic(newDic);
+                        rdata = MessagePackSerializer.Serialize(new List<object> { newMongodbTableStr != null ? newMongodbTableStr : mongodbTableId, newDic });
+                    }
+                    rocksdbTable.SetRaw(id, rdata);
+                }
+
+                UpdateProcess(processMax, curTableIndex + startIndex * 1f / MathF.Max(totalCount, 1));
+            }
+            return totalCount;
+        }
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             if (rocksDb != null)

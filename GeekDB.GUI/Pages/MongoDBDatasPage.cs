@@ -136,7 +136,7 @@ namespace GeekDB.GUI.Pages
             {
                 try
                 {
-                    var value = BsonSerializer.Deserialize<MongoState>(v);
+                    var value = BsonSerializer.Deserialize<MongoTimestampState>(v);
                     var state = new RocksDbBackUpState { Id = value.Id, Timestamp = value.Timestamp, Data = MessagePack.MessagePackSerializer.ConvertToJson(value.Data) };
                     datas.Add(state);
                 }

@@ -43,7 +43,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Geek.DB\Geek.DB.csproj" />
     <ProjectReference Include="..\JsonTreeView\JsonTreeView.csproj" />
-    <PackageReference Include="MongoDB.Driver" Version="2.19.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
   </ItemGroup>
 
   <ItemGroup>

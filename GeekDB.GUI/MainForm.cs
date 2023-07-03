@@ -119,7 +119,7 @@ namespace GeekDB.GUI
             {
                 editorDb = new EmbeddedDB(editorDbPath, false);
             }
-            return type == DBType.MongoDb ? editorDb.GetTable<HistoryItem>("mongodb_history") : editorDb.GetTable<HistoryItem>("rocksdb_history");
+            return type == DBType.MongoDb ? editorDb.GetTable<HistoryItem>("mdb_history") : editorDb.GetTable<HistoryItem>("rdb_history");
         }
 
         void ReleaseEditorDB()
