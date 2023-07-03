@@ -249,6 +249,12 @@ namespace GeekDB.GUI.Pages
                     //}
 
                     rocksDb = new EmbeddedDB(path);
+                    if (rocksDb == null)
+                    {
+                        addErr("导出失败...");
+                        return;
+                    }
+
                     var tableNames = mongoDBbase.ListCollectionNames().ToList();
 
                     JsonWriterSettings jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.RelaxedExtendedJson };
@@ -357,6 +363,7 @@ namespace GeekDB.GUI.Pages
             }
             return totalCount;
         }
+
         long exportNormalTable(string name, int processMax, int curTableIndex)
         {
             addLog("开始导出" + name);
@@ -368,10 +375,6 @@ namespace GeekDB.GUI.Pages
             var mongodbTableId = (int)MurmurHash3.Hash(name);
             while (startIndex < totalCount)
             {
-                if (rocksDb == null)
-                {
-                    return 0;
-                }
                 var everyTimeQueryCount = 200;
                 var result = mongoTable.Find(mongoQueryStr).Limit(everyTimeQueryCount).Skip(startIndex).ToList();
                 startIndex += everyTimeQueryCount;
