@@ -23,6 +23,7 @@ namespace Geek.Server
         public static T Deserialize<T>(byte[] data)
         {
             InitOpt();
+            File.AppendAllLines("test.txt", new string[] { MessagePackSerializer.ConvertToJson(data) });
             return MessagePackSerializer.Deserialize<T>(data);
         }
     }

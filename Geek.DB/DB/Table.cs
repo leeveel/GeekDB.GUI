@@ -3,6 +3,7 @@ using RocksDbSharp;
 using NLog;
 using System.Collections;
 using System.Reflection.Metadata;
+using System.IO;
 
 namespace Geek.Server
 {

@@ -7,6 +7,7 @@ using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
+using Renci.SshNet.Security;
 using RocksDbSharp;
 using Sunny.UI;
 using System;
@@ -118,111 +119,105 @@ namespace GeekDB.GUI.Pages
             processBar.Value = (int)(curr * 100);
         }
 
-        [MessagePackObject(true)]
-        class KVDic
+        object ConvertKVDicToNormalDic(object obj)
         {
-            public string k;
-            public object v;
+            if (obj is IDictionary dic)
+            {
+                var newDic = new Dictionary<object, object>();
+                foreach (var key in dic.Keys)
+                {
+                    newDic[key] = ConvertKVDicToNormalDic(dic[key]);
+                    //if (newValue is IList vlist && vlist.Count == 0)
+                    //{
+                    //    newDic.Remove(key);
+                    //}
+                }
+                return newDic;
+            }
+
+            if (obj is IList list)
+            {
+                //如果确定是kv结构的数组
+                if (list.Count > 0 && list[0] is IDictionary dic2 && dic2.Contains("k") && dic2.Contains("v"))
+                {
+                    var newListDic = new Dictionary<object, object>();
+                    foreach (var item in list)
+                    {
+                        var dic3 = item as IDictionary;
+                        newListDic[dic3["k"]] = ConvertKVDicToNormalDic(dic3["v"]);
+                    }
+                    return newListDic;
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i] = ConvertKVDicToNormalDic(list[i]);
+                }
+                return list;
+            }
+            return obj;
         }
 
-        Dictionary<object, object> ConvertKVDicToNormalDic(IDictionary dic)
+        void ConvertPolymorphic(object obj)
         {
-            var newDic = new Dictionary<object, object>();
-            //如果是kv数组，转成dic
-            foreach (var key in dic.Keys)
+            var dic = obj as IDictionary;
+            if (dic != null)
             {
-                newDic[key] = dic[key];
-                var value = dic[key];
-                if (value is IDictionary dicValue)
+                foreach (var k in dic.Keys)
                 {
-                    newDic[key] = ConvertKVDicToNormalDic(dicValue);
-                }
-                if (value is IList listValue)
-                {
-                    if (listValue.Count > 0)
+                    var value = dic[k];
+                    if (value is IDictionary vdic1)
                     {
-                        if (listValue[0] is IDictionary dicValue2)
+                        if (vdic1.Contains("_t"))
                         {
-                            var newListDic = new Dictionary<object, object>();
-                            newDic[key] = newListDic;
-                            if (dicValue2.Contains("k") && dicValue2.Contains("v"))
+                            var value2 = vdic1["_t"] as string;
+                            if (value2 != null)
                             {
-                                foreach (var value2 in listValue)
-                                {
-                                    var dicv2 = value2 as IDictionary;
-                                    var dicv2v = dicv2["v"];
-                                    if (dicv2v is IDictionary)
-                                    {
-                                        newListDic[dicv2["k"]] = ConvertKVDicToNormalDic(dicv2v as IDictionary);
-                                    }
-                                    else
-                                        newListDic[dicv2["k"]] = dicv2v;
-                                }
-                            }
-                            else
-                            {
-                                for (int i = 0; i < listValue.Count; i++)
-                                {
-                                    var value2 = listValue[i];
-                                    if (value2 is IDictionary dicValue3)
-                                    {
-                                        listValue[i] = ConvertKVDicToNormalDic(dicValue3);
-                                    }
-                                }
+                                vdic1.Remove("_t");
+                                dic[k] = new List<object> { value2, vdic1 };
                             }
                         }
+                    }
+                    ConvertPolymorphic(value);
+                }
+            }
+            var vlist = obj as IList;
+            if (vlist != null)
+            {
+                for (int i = 0; i < vlist.Count; i++)
+                {
+                    ConvertPolymorphic(vlist[i]);
+                }
+            }
+        }
+
+        void RemoveEmptyDic(object obj)
+        {
+            var dic = obj as IDictionary;
+            if (dic != null)
+            {
+                foreach (var k in dic.Keys)
+                {
+                    var v = dic[k];
+                    if (v is IList list && list.Count == 0)
+                    {
+                        dic.Remove(k);
                     }
                     else
                     {
-                        newDic.Remove(key);
+                        RemoveEmptyDic(v);
                     }
                 }
             }
-            return newDic;
-        }
-
-        void ConvertPolymorphic(IDictionary dic)
-        {
-            foreach (var k in dic.Keys)
+            var list2 = obj as IList;
+            if (list2 != null)
             {
-                var value = dic[k];
-                if (value is IDictionary vdic1)
+                foreach (var v in list2)
                 {
-                    if (vdic1.Contains("_t"))
-                    {
-                        var value2 = vdic1["_t"] as string;
-                        if (value2 != null)
-                        {
-                            vdic1.Remove("_t");
-                            dic[k] = new List<object> { value2, vdic1 };
-                        }
-                    }
-                    ConvertPolymorphic(vdic1);
-                }
-
-                if (value is IList vlist)
-                {
-                    for (int i = 0; i < vlist.Count; i++)
-                    {
-                        var lv = vlist[i];
-                        if (lv is IDictionary vdic2)
-                        {
-                            if (vdic2.Contains("_t"))
-                            {
-                                var value3 = vdic2["_t"] as string;
-                                if (value3 != null)
-                                {
-                                    vdic2.Remove("_t");
-                                    dic[k] = new List<object> { value3, vdic2 };
-                                }
-                            }
-                            ConvertPolymorphic(vdic2);
-                        }
-                    }
+                    RemoveEmptyDic(v);
                 }
             }
         }
-
 
         EmbeddedDB rocksDb;
         async Task export()
@@ -256,8 +251,7 @@ namespace GeekDB.GUI.Pages
                     }
 
                     var tableNames = mongoDBbase.ListCollectionNames().ToList();
-
-                    JsonWriterSettings jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.RelaxedExtendedJson };
+                    //JsonWriterSettings jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.RelaxedExtendedJson };
 
                     var processMax = tableNames.Count;
                     UpdateProcess(processMax, 0);
@@ -333,13 +327,16 @@ namespace GeekDB.GUI.Pages
             }
             foreach (var file in files)
             {
+                //if (!file.Key.EndsWith("WorldArenaChampionState"))
+                //    continue;
+
                 var rocksdbTable = rocksDb.GetRawTable(file.Key);
                 var mongodbTableId = (int)MurmurHash3.Hash(file.Key);
                 foreach (var dataInfo in file.Value)
                 {
                     var doc = BsonSerializer.Deserialize<BsonDocument>(dataInfo.Datas);
                     var dic = doc.ToDictionary();
-                    dic["Id"] = dataInfo.RocksdbId;
+                    //dic["Id"] = dataInfo.RocksdbId;
                     dic.Remove("_id");
 
                     string newMongodbTableStr = null;
@@ -355,8 +352,10 @@ namespace GeekDB.GUI.Pages
                     }
 
                     var newDic = ConvertKVDicToNormalDic(dic);
-                    ConvertPolymorphic(newDic);
+                    ConvertPolymorphic(newDic as IDictionary);
+                    RemoveEmptyDic(newDic);
                     var rdata = MessagePackSerializer.Serialize(new List<object> { newMongodbTableStr != null ? newMongodbTableStr : mongodbTableId, newDic });
+
                     rocksdbTable.SetRaw(dataInfo.RocksdbId, rdata);
                 }
                 addImportantLog($"导出file to state:{file.Key},count:{file.Value.Count}");
@@ -380,7 +379,7 @@ namespace GeekDB.GUI.Pages
                 startIndex += everyTimeQueryCount;
                 foreach (var data in result)
                 {
-                    string id;
+                    object id;
                     byte[] rdata;
                     try
                     {
@@ -390,7 +389,7 @@ namespace GeekDB.GUI.Pages
                     }
                     catch (Exception e)
                     {
-                        id = data["_id"].ToString();
+                        id = data["_id"];
                         var dic = data.ToDictionary();
                         dic["Id"] = dic["_id"];
                         dic.Remove("_id");
@@ -408,25 +407,31 @@ namespace GeekDB.GUI.Pages
                         }
 
                         var newDic = ConvertKVDicToNormalDic(dic);
-                        ConvertPolymorphic(newDic);
+                        ConvertPolymorphic(newDic as IDictionary);
+                        RemoveEmptyDic(newDic);
                         rdata = MessagePackSerializer.Serialize(new List<object> { newMongodbTableStr != null ? newMongodbTableStr : mongodbTableId, newDic });
                     }
-                    rocksdbTable.SetRaw(id, rdata);
+                    rocksdbTable.SetRaw(id.ToString(), rdata);
                 }
 
                 UpdateProcess(processMax, curTableIndex + startIndex * 1f / MathF.Max(totalCount, 1));
             }
             return totalCount;
         }
+
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            if (rocksDb != null)
-            {
-                rocksDb.Close();
-                rocksDb = null;
-            }
+            Control.CheckForIllegalCrossThreadCalls = true;
             base.OnFormClosed(e);
         }
 
+        private void Mongodb2Rocksdb_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = isExport;
+            if (isExport)
+            {
+                MessageBox.Show("导出中...不能关闭...");
+            }
+        }
     }
 }

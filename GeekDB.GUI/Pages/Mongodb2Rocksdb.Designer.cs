@@ -58,6 +58,7 @@
             selectBtn.StyleCustomMode = true;
             selectBtn.TabIndex = 3;
             selectBtn.Text = "选择";
+            selectBtn.TipsFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
             selectBtn.Click += selectBtn_Click;
             // 
             // label1
@@ -98,6 +99,7 @@
             exportBtn.StyleCustomMode = true;
             exportBtn.TabIndex = 6;
             exportBtn.Text = "导出";
+            exportBtn.TipsFont = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point);
             exportBtn.Click += exportBtn_ClickAsync;
             // 
             // pathLable
@@ -156,6 +158,7 @@
             Text = "Mongodb2Rocksdb";
             TitleColor = Color.FromArgb(0, 150, 136);
             ZoomScaleRect = new Rectangle(15, 15, 800, 450);
+            FormClosing += Mongodb2Rocksdb_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

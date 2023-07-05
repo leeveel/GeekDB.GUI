@@ -184,7 +184,7 @@ namespace GeekDB.GUI.Pages
             var keys = queryStr.Split(new char[] { ',', ';', '，', '；' });
             foreach (var key in keys)
             {
-                if (string.IsNullOrWhiteSpace(queryStr))
+                if (string.IsNullOrWhiteSpace(key))
                     continue;
                 var lkey = key.ToLower();
                 foreach (var data in sourceDatas)

@@ -1,6 +1,8 @@
 
 using System.Collections.Concurrent;
+using System.IO;
 using System.Runtime.InteropServices;
+using MessagePack;
 using RocksDbSharp;
 
 namespace Geek.Server
@@ -31,6 +33,7 @@ namespace Geek.Server
 
         public EmbeddedDB(string path, bool readOnly = false, string readonlyPath = null)
         {
+            File.AppendAllLines("test.txt", new string[] { "打开数据库：" + path });
             this.ReadOnly = readOnly;
             var dir = Path.GetDirectoryName(path);
             if (!Directory.Exists(dir))
@@ -156,6 +159,7 @@ namespace Geek.Server
 
         public void Close()
         {
+            File.AppendAllLines("test.txt", new string[] { "关闭数据库：" + DbPath });
             Flush(true);
             Native.Instance.rocksdb_cancel_all_background_work(InnerDB.Handle, true);
             InnerDB.Dispose();
