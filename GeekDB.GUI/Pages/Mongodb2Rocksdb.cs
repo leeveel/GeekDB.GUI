@@ -126,6 +126,11 @@ namespace GeekDB.GUI.Pages
                 var newDic = new Dictionary<object, object>();
                 foreach (var key in dic.Keys)
                 {
+                    if (key.ToString() == "_id")
+                    {
+                        newDic["Id"] = dic["_id"];
+                        newDic["id"] = dic["_id"];
+                    }
                     newDic[key] = ConvertKVDicToNormalDic(dic[key]);
                     //if (newValue is IList vlist && vlist.Count == 0)
                     //{
@@ -231,10 +236,10 @@ namespace GeekDB.GUI.Pages
                            BuiltinResolver.Instance,
                            StandardResolver.Instance,
                            ContractlessStandardResolver.Instance,
-                            PrimitiveObjectResolver.Instance
+                           PrimitiveObjectResolver.Instance
                     };
                     StaticCompositeResolver.Instance.Register(innerResolver.ToArray());
-                    MessagePackSerializer.DefaultOptions = new MessagePackSerializerOptions(StaticCompositeResolver.Instance);
+                    MessagePackSerializer.DefaultOptions = new MessagePackSerializerOptions(StaticCompositeResolver.Instance).WithCompression(MessagePackCompression.Lz4Block);
 
                     //if (File.Exists(externDllPath))
                     //{
@@ -277,6 +282,7 @@ namespace GeekDB.GUI.Pages
                         UpdateProcess(processMax, curTableIndex);
                         addLog($"导出{name}完成,共导出{totalCount}条数据");
                     }
+                    UpdateProcess(processMax, processMax);
                     addImportantLog($"全部导出完成...");//共导出{tableNames.Count}张表
                 }
                 catch (Exception e)
@@ -285,6 +291,7 @@ namespace GeekDB.GUI.Pages
                 }
                 finally
                 {
+                    MessagePackSerializer.DefaultOptions = null;
                     if (rocksDb != null)
                     {
                         rocksDb.Close();
@@ -336,8 +343,7 @@ namespace GeekDB.GUI.Pages
                 {
                     var doc = BsonSerializer.Deserialize<BsonDocument>(dataInfo.Datas);
                     var dic = doc.ToDictionary();
-                    //dic["Id"] = dataInfo.RocksdbId;
-                    dic.Remove("_id");
+                    //dic["Id"] = dataInfo.RocksdbId; 
 
                     string newMongodbTableStr = null;
 
@@ -389,10 +395,7 @@ namespace GeekDB.GUI.Pages
                     }
                     catch (Exception e)
                     {
-                        id = data["_id"];
                         var dic = data.ToDictionary();
-                        dic["Id"] = dic["_id"];
-                        dic.Remove("_id");
 
                         string newMongodbTableStr = null;
 
@@ -409,6 +412,7 @@ namespace GeekDB.GUI.Pages
                         var newDic = ConvertKVDicToNormalDic(dic);
                         ConvertPolymorphic(newDic as IDictionary);
                         RemoveEmptyDic(newDic);
+                        id = data["_id"];
                         rdata = MessagePackSerializer.Serialize(new List<object> { newMongodbTableStr != null ? newMongodbTableStr : mongodbTableId, newDic });
                     }
                     rocksdbTable.SetRaw(id.ToString(), rdata);

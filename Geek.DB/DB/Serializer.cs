@@ -9,7 +9,7 @@ namespace Geek.Server
         static MessagePackSerializerOptions opt;
         static void InitOpt()
         {
-            if (opt == null)
+            if (MessagePackSerializer.DefaultOptions != opt)
             {
                 opt = new MessagePackSerializerOptions(StandardResolver.Instance).WithCompression(MessagePackCompression.Lz4Block);
                 MessagePackSerializer.DefaultOptions = opt;
@@ -23,7 +23,6 @@ namespace Geek.Server
         public static T Deserialize<T>(byte[] data)
         {
             InitOpt();
-            File.AppendAllLines("test.txt", new string[] { MessagePackSerializer.ConvertToJson(data) });
             return MessagePackSerializer.Deserialize<T>(data);
         }
     }
