@@ -34,7 +34,7 @@ namespace JsonTreeView
         {
             base.AfterCollapse();
 
-            Text = $@"{{{JObjectTag.Type}}} {GetAbstractTextForTag()}";
+            Text = $@"{{{JObjectTag.Type}}} {GetAbstractTextForTag()} 元素个数:{JObjectTag.Count}";
         }
 
         /// <inheritdoc />
@@ -42,7 +42,7 @@ namespace JsonTreeView
         {
             base.AfterExpand();
 
-            Text = $@"{{{JObjectTag.Type}}}";
+            Text = $@"{{{JObjectTag.Type}}} 元素个数:{JObjectTag.Count}";
         }
 
         #endregion
