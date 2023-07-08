@@ -1,7 +1,6 @@
 ﻿using MongoDB.Bson;
-using Newtonsoft.Json.Bson;
 
-namespace Geek.Server.RemoteBackup.Logic
+namespace GeekDB
 {
     public class MongoTimestampState
     {

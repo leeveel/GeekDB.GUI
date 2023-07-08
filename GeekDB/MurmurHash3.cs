@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 public class MurmurHash3
 {
     static public uint Hash(string str, uint seed = 27)

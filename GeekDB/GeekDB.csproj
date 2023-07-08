@@ -6,28 +6,28 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-	<PropertyGroup>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<ApplicationIcon />
-		<StartupObject />
-	</PropertyGroup>
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
-		<OutputPath>..\app_debug</OutputPath>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
+    <OutputPath>..\app_debug</OutputPath>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
-		<OutputPath>..\app</OutputPath>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
+    <OutputPath>..\app</OutputPath>
+  </PropertyGroup>
 
 
-	<ItemGroup>
-	    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.20.0" />
-	    <PackageReference Include="NLog" Version="5.2.2" />
-	    <PackageReference Include="RocksDB" Version="8.3.2.39829" />
-		<PackageReference Include="MessagePack" Version="2.5.124" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.20.0" />
+    <PackageReference Include="NLog" Version="5.2.2" />
+    <PackageReference Include="RocksDB" Version="8.3.2.39829" />
+    <PackageReference Include="MessagePack" Version="2.5.124" />
+  </ItemGroup>
 
 </Project>
