@@ -1,18 +1,7 @@
-﻿using Geek.Server;
-using Newtonsoft.Json.Linq;
+﻿using Geek.DB.Core;
 using Sunny.UI;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.DirectoryServices;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static BrightIdeasSoftware.TreeListView;
 
 namespace GeekDB.GUI.Pages
 {
@@ -120,9 +109,10 @@ namespace GeekDB.GUI.Pages
                 var iter = table.GetKVEnumerator();
                 while (iter.MoveNext())
                 {
-                    sourceDatas.Add(new DataItem(iter.KeyBytes, iter.Current));
+                    sourceDatas.Add(new DataItem(iter.keyBytes, iter.Current));
                     num++;
                 }
+                iter.Dispose();
             }
             dbTotalCount = num;
             searchResults = new List<DataItem>(sourceDatas.Count);

@@ -1,11 +1,9 @@
-using System.Text;
-using RocksDbSharp;
-using NLog;
 using System.Collections;
-using System.Reflection.Metadata;
-using System.IO;
+using System.Text;
+using NLog;
+using RocksDbSharp;
 
-namespace Geek.Server
+namespace Geek.DB.Core
 {
     public class Table<T> : IEnumerable<T>
     {
@@ -21,16 +19,11 @@ namespace Geek.Server
             this.cfHandle = cfHandle;
             this.isRawTable = isRawTable;
             tableName = name;
-            if (!db.InnerDB.TryGetColumnFamily(tableName, out cfHandle))
-            {
-                var option = new ColumnFamilyOptions();
-                cfHandle = db.InnerDB.CreateColumnFamily(option, tableName);
-            }
         }
 
         public void Set<IDType>(IDType id, T value, Transaction trans = null)
         {
-            var data = Serializer.Serialize<T>(value);
+            var data = Serializer.Serialize(value);
             SetRaw(id, data);
         }
 
@@ -39,17 +32,26 @@ namespace Geek.Server
             var mainId = GetDBKey(id);
             if (trans != null)
             {
-                trans.Set(tableName, mainId, data, cfHandle);
+                trans.Set(mainId, data, cfHandle);
             }
             else
             {
                 db.InnerDB.Put(Encoding.UTF8.GetBytes(mainId), data, cfHandle);
-                db.remoteBackup.Set(tableName, mainId, data);
             }
         }
 
         public void SetBatch<IDType>(List<IDType> ids, List<T> values, Transaction trans = null)
         {
+            if (ids.Count != values.Count)
+            {
+                var errMsg = $"rocksdb批量写数据失败，{tableName}，id长度({ids.Count})与value长度({values.Count})不匹配";
+#if DEBUG
+                throw new Exception(errMsg);
+#else
+                Log.Error(errMsg);
+                return;
+#endif
+            }
             var valueList = new List<byte[]>(values.Count);
             foreach (var value in values)
             {
@@ -58,13 +60,23 @@ namespace Geek.Server
                 {
                     throw new NotFindKeyException($"no KeyAttribute find in {tableName}");
                 }
-                valueList.Add(Serializer.Serialize<T>(value));
+                valueList.Add(Serializer.Serialize(value));
             }
             SetRawBatch(ids, valueList, trans);
         }
 
         public void SetRawBatch<IDType>(List<IDType> ids, List<byte[]> values, Transaction trans = null)
         {
+            if (ids.Count != values.Count)
+            {
+                var errMsg = $"rocksdb批量写数据失败，{tableName}，id长度({ids.Count})与value长度({values.Count})不匹配";
+#if DEBUG
+                throw new Exception(errMsg);
+#else
+                Log.Error(errMsg);
+                return;
+#endif
+            }
             var batch = trans == null ? new WriteBatch() : null;
             var count = values.Count;
             var keyList = new List<string>(count);
@@ -85,14 +97,14 @@ namespace Geek.Server
                 }
                 else
                 {
-                    trans.Set(tableName, mainId, data, cfHandle);
+                    trans.Set(mainId, data, cfHandle);
                 }
             }
 
             if (trans == null)
             {
                 db.InnerDB.Write(batch);
-                db.remoteBackup.SetBatch(tableName, keyList, values);
+                batch.Dispose();
             }
         }
 
@@ -102,12 +114,33 @@ namespace Geek.Server
 
             if (trans != null)
             {
-                trans.Delete(tableName, mainId, cfHandle);
+                trans.Delete(mainId, cfHandle);
             }
             else
             {
                 db.InnerDB.Remove(Encoding.UTF8.GetBytes(mainId), cfHandle);
-                db.remoteBackup.Delete(tableName, mainId);
+            }
+        }
+
+        public void DeleteBatch<IDType>(List<IDType> ids, Transaction trans = null)
+        {
+            var batch = trans == null ? new WriteBatch() : null;
+            foreach (var id in ids)
+            {
+                var mainId = GetDBKey(id);
+                if (batch != null)
+                {
+                    batch.Delete(Encoding.UTF8.GetBytes(mainId), cfHandle);
+                }
+                else
+                {
+                    trans.Delete(mainId, cfHandle);
+                }
+            }
+            if (trans == null)
+            {
+                db.InnerDB.Write(batch);
+                batch.Dispose();
             }
         }
 
@@ -125,6 +158,11 @@ namespace Geek.Server
             return Serializer.Deserialize<T>(data);
         }
 
+        public bool Has<IDType>(IDType id)
+        {
+            return db.InnerDB.HasKey(Encoding.UTF8.GetBytes(GetDBKey(id)), cfHandle);
+        }
+
         public List<T> GetAll()
         {
             return this.ToList();
@@ -134,6 +172,7 @@ namespace Geek.Server
         {
             return id.ToString();
         }
+
         public Enumerator GetKVEnumerator()
         {
             return new Enumerator(this);
@@ -153,14 +192,18 @@ namespace Geek.Server
         {
             //private Snapshot snapshot;
             private Iterator dbIterator;
-            private T curValue = default(T);
-            private byte[] curKeyBytes;
+            private T currValue = default;
             private Table<T> table;
+            public byte[] keyBytes
+            {
+                get; private set;
+            }
 
             internal Enumerator(Table<T> table)
             {
                 this.table = table;
-                dbIterator = table.db.InnerDB.NewIterator(table.cfHandle);
+                var option = new ReadOptions();
+                dbIterator = table.db.InnerDB.NewIterator(table.cfHandle, option);
                 dbIterator.SeekToFirst();
             }
 
@@ -173,15 +216,16 @@ namespace Geek.Server
 
             void Dispose(bool disposing)
             {
-                if (!table.db.CanUse())
-                    return;
                 if (!isDisposed)
                 {
-                    curValue = default(T);
-                    if (dbIterator != null)
+                    currValue = default;
+                    if (disposing)
                     {
-                        dbIterator.Dispose();
-                        dbIterator = null;
+                        if (dbIterator != null)
+                        {
+                            dbIterator.Dispose();
+                            dbIterator = null;
+                        }
                     }
                 }
                 isDisposed = true;
@@ -196,42 +240,27 @@ namespace Geek.Server
             {
                 if (dbIterator.Valid())
                 {
+                    keyBytes = dbIterator.Key();
                     if (table.isRawTable)
-                        curValue = (T)(object)dbIterator.Value();
+                        currValue = (T)(object)dbIterator.Value();
                     else
-                        curValue = Serializer.Deserialize<T>(dbIterator.Value());
-                    curKeyBytes = dbIterator.Key();
+                        currValue = Serializer.Deserialize<T>(dbIterator.Value());
                     dbIterator.Next();
                     return true;
                 }
                 return false;
             }
 
-            public string Key
-            {
-                get
-                {
-                    return Encoding.UTF8.GetString(curKeyBytes);
-                }
-            }
-            public byte[] KeyBytes
-            {
-                get
-                {
-                    return curKeyBytes;
-                }
-            }
 
-            public T Current => curValue;
+            public T Current => currValue;
 
             object IEnumerator.Current
             {
                 get
                 {
-                    return curValue;
+                    return currValue;
                 }
             }
-
 
             void IEnumerator.Reset()
             {

@@ -1,0 +1,27 @@
+﻿@page "/setpath"
+@attribute [Authorize]
+@layout CenterLayout
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+
+<MudText Typo="Typo.h4" GutterBottom="true">设置目录</MudText>
+<MudTextField @bind-Value="PathTxt" Label="" Variant="Variant.Text"></MudTextField>
+<MudButton Class="mt-5 mb-0" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" FullWidth="true" @onclick="@LoadDb">打开数据库</MudButton>
+
+@code {
+    public string PathTxt { get; set; } = "D://download//4";
+
+    void LoadDb()
+    {
+        if (!Helper.IsRocksDB(PathTxt))
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+            Snackbar.Add($"{PathTxt}不是一个rocksdb数据库", Severity.Error);
+            return;
+        }
+
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(PathTxt);
+        NavigationManager.NavigateTo($"db/{System.Convert.ToBase64String(plainTextBytes)}");
+    }
+}

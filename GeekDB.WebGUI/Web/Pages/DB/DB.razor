@@ -1,0 +1,170 @@
+﻿@page "/db/{DbPath}"
+
+@attribute [Authorize]
+
+@implements IDisposable
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
+<MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall" />
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Elevation="2" Dense="true">
+
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+                       OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h5" Class="ml-3">@DbPath</MudText>
+        <MudSpacer />
+
+        <MudToggleIconButton @bind-Toggled="@_isDarkMode"
+                             Icon="@Icons.Filled.DarkMode" Color="@Color.Inherit" Title="Off"
+                             ToggledIcon="@Icons.Filled.LightMode" ToggledColor="@Color.Inherit" ToggledTitle="On" />
+
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+    </MudAppBar>
+
+    <MudDrawer Width="450px" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always">
+        <MudNavMenu>
+            <!-- table 搜索 -->
+            <MudTextField @bind-Value="tableNameSearchTxt" Label="Search" Variant="Variant.Text" AdornmentIcon="@Icons.Material.Filled.Search"
+                          AdornmentColor="Color.Secondary" TextChanged="@SearchTableNames" Immediate="true" />
+            <!-- table link -->
+            @foreach (var item in this.MenuItems)
+            {
+                <MudNavLink Style="white-space: nowrap font-size:medium" OnClick="()=>ClickItem(item)">@item</MudNavLink>
+            }
+        </MudNavMenu>
+    </MudDrawer>
+
+    <MudMainContent Class="row content mudblazor-main-content" Style="flex: 1 1 auto;">
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-10">
+            @if (userList != null)
+            {
+                <!-- table info -->
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.h6">@tableName</MudText>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="searchTxt" Label="Search" TextChanged="@SearchData" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Secondary" />
+                    </MudItem>
+                </MudGrid>
+                <!-- 数据grid -->
+                <MudDataGrid T="Data" ReadOnly="true" EditMode="@DataGridEditMode.Cell" Items="@userList" SortMode="@SortMode.None" Hover="true" Bordered="true" Dense="true">
+                    <Columns>
+                        <HierarchyColumn T="Data" />
+                        <Column T="Data" Field="Key" />
+                        <Column T="Data" Field="DataJsonPart" />
+                        <Column T="Data" Field="Size" />
+                    </Columns>
+
+                    <ChildRowContent>
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">@context.Item.Key</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudText>@Utils.FormatJson(context.Item.JsonText)</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </ChildRowContent>
+
+                    <PagerContent>
+                        <MudDataGridPager T="Data" />
+                    </PagerContent>
+                </MudDataGrid>
+
+                <MudText>@memInfo</MudText>
+            }
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool resetValueOnEmptyText;
+    private bool coerceText;
+    private bool coerceValue;
+    MudTheme _theme = new();
+    bool _drawerOpen = true;
+    bool _isDarkMode = false;
+    string searchTxt;
+    string tableNameSearchTxt;
+    DBManager dbMgr = new();
+
+    private List<Data> userList
+    {
+        get
+        {
+            return dbMgr.curTable?.SearchDatas;
+        }
+    }
+
+    private string memInfo
+    {
+        get
+        {
+            return dbMgr.CurRockDb?.GetStatisticsString();
+        }
+    }
+
+    private string tableName
+    {
+        get
+        {
+            return dbMgr.curTable?.name;
+        }
+    }
+
+    [Parameter]
+    public string? DbPath { get; set; }
+
+    List<string> tableNames = new List<string>();
+
+    protected override void OnParametersSet()
+    {
+        var base64EncodedBytes = System.Convert.FromBase64String(DbPath);
+        DbPath = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        var tables = Helper.GetAllTableNames(DbPath);
+        tables.Sort();
+        tableNames = tables;
+        MenuItems = tables;
+        dbMgr.Open(DbPath);
+    }
+
+    public List<string> MenuItems { get; set; } = new();
+
+    void ClickItem(string name)
+    {
+        dbMgr.LoadTable(name);
+    }
+
+
+    private void SearchTableNames()
+    {
+        if (string.IsNullOrEmpty(tableNameSearchTxt))
+        {
+            MenuItems = tableNames;
+        }
+        else
+        {
+            MenuItems = tableNames.Where(x => x.Contains(tableNameSearchTxt, StringComparison.InvariantCultureIgnoreCase)).ToList();
+        }
+        StateHasChanged();
+    }
+
+    private void SearchData()
+    {
+        dbMgr.Search(searchTxt);
+        StateHasChanged();
+    }
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    void IDisposable.Dispose()
+    {
+        dbMgr?.Close();
+    }
+}

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekDB.GUI", "GeekDB.GUI\Ge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonTreeView", "JsonTreeView\JsonTreeView.csproj", "{077C42BD-86F6-4773-A8B9-D708FC9020F8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekDB.WebGUI", "..\GameDB.WebGUI\GeekDB.WebGUI\GeekDB.WebGUI.csproj", "{FA4BB671-3DD5-4964-A38D-B94D4B32C47D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{077C42BD-86F6-4773-A8B9-D708FC9020F8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{077C42BD-86F6-4773-A8B9-D708FC9020F8}.Release|x86.ActiveCfg = Release|x86
 		{077C42BD-86F6-4773-A8B9-D708FC9020F8}.Release|x86.Build.0 = Release|x86
+		{FA4BB671-3DD5-4964-A38D-B94D4B32C47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA4BB671-3DD5-4964-A38D-B94D4B32C47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA4BB671-3DD5-4964-A38D-B94D4B32C47D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA4BB671-3DD5-4964-A38D-B94D4B32C47D}.Debug|x86.Build.0 = Debug|Any CPU
+		{FA4BB671-3DD5-4964-A38D-B94D4B32C47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA4BB671-3DD5-4964-A38D-B94D4B32C47D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA4BB671-3DD5-4964-A38D-B94D4B32C47D}.Release|x86.ActiveCfg = Release|Any CPU
+		{FA4BB671-3DD5-4964-A38D-B94D4B32C47D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

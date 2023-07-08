@@ -25,8 +25,8 @@
 
 	<ItemGroup>
 	    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.20.0" />
-	    <PackageReference Include="NLog" Version="5.2.0" />
-	    <PackageReference Include="RocksDB" Version="8.3.2.39678" />
+	    <PackageReference Include="NLog" Version="5.2.2" />
+	    <PackageReference Include="RocksDB" Version="8.3.2.39829" />
 		<PackageReference Include="MessagePack" Version="2.5.124" />
     </ItemGroup>
 
