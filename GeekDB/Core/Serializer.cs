@@ -1,7 +1,7 @@
 using MessagePack;
 using MessagePack.Resolvers;
 
-namespace Geek.DB.Core
+namespace GeekDB.Core
 {
     public class Serializer
     {

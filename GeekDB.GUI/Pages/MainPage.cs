@@ -1,4 +1,4 @@
-﻿using Geek.DB.Core;
+﻿using GeekDB.Core;
 using Sunny.UI;
 using Sunny.UI.Win32;
 using System;
@@ -51,17 +51,25 @@ namespace GeekDB.GUI.Pages
         public bool TryEntryRocksDb(string path)
         {
             rocksdbPathTextBox.Text = path;
-            if (Helper.IsRocksDB(path))
+            try
             {
-                MainForm.Instance.EnterRocksDBPage(path);
-                return true;
+                if (Helper.IsRocksDB(path))
+                {
+                    MainForm.Instance.EnterRocksDBPage(path);
+                    return true;
+                }
+                else
+                {
+                    rocksdbPathTextBox.Text = "";
+                    UIMessageTip.ShowError("选择路径不是有效的rocksdb路径");
+                    return false;
+                }
             }
-            else
+            catch (Exception e)
             {
-                rocksdbPathTextBox.Text = "";
-                UIMessageTip.ShowError("选择路径不是有效的rocksdb路径");
-                return false;
+                UIMessageTip.ShowError($"打开出错:{e.Message}");
             }
+            return false;
         }
 
 

@@ -73,8 +73,6 @@
                         <MudDataGridPager T="Data" />
                     </PagerContent>
                 </MudDataGrid>
-
-                <MudText>@memInfo</MudText>
             }
         </MudContainer>
     </MudMainContent>
@@ -96,14 +94,6 @@
         get
         {
             return dbMgr.curTable?.SearchDatas;
-        }
-    }
-
-    private string memInfo
-    {
-        get
-        {
-            return dbMgr.CurRockDb?.GetStatisticsString();
         }
     }
 

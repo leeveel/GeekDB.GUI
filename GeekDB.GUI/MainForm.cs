@@ -1,4 +1,4 @@
-﻿using Geek.DB.Core;
+﻿using GeekDB.Core;
 using GeekDB.GUI.Pages;
 using MessagePack;
 using MongoDB.Bson;

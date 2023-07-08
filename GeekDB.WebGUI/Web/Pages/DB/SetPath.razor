@@ -1,5 +1,7 @@
 ﻿@page "/setpath"
 @attribute [Authorize]
+
+@implements IDisposable
 @layout CenterLayout
 @inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
@@ -14,14 +16,26 @@
 
     void LoadDb()
     {
-        if (!Helper.IsRocksDB(PathTxt))
+        try
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
-            Snackbar.Add($"{PathTxt}不是一个rocksdb数据库", Severity.Error);
-            return;
-        }
+            if (!Helper.IsRocksDB(PathTxt))
+            {
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+                Snackbar.Add($"{PathTxt}不是一个rocksdb数据库", Severity.Error);
+                return;
+            }
 
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(PathTxt);
-        NavigationManager.NavigateTo($"db/{System.Convert.ToBase64String(plainTextBytes)}");
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(PathTxt);
+            NavigationManager.NavigateTo($"db/{System.Convert.ToBase64String(plainTextBytes)}");
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add($"error:{e.Message}", Severity.Error);
+        }
+    }
+
+    void IDisposable.Dispose()
+    {
+        Snackbar.Clear();
     }
 }

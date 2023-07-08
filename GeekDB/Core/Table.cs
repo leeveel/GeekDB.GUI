@@ -3,7 +3,7 @@ using System.Text;
 using NLog;
 using RocksDbSharp;
 
-namespace Geek.DB.Core
+namespace GeekDB.Core
 {
     public class Table<T> : IEnumerable<T>
     {

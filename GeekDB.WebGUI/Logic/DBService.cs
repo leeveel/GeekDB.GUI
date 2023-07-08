@@ -1,4 +1,4 @@
-using GeekDB.WebGUI.Storage.DB;
+using GeekDB.Core;
 
 namespace GeekDB.WebGUI.Logic
 {

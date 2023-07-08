@@ -1,7 +1,4 @@
-﻿using GeekDB.WebGUI.Storage.DB;
-using GeekDB.WebGUI.Web.Pages.DB;
-using Syncfusion.Blazor.DropDowns;
-using System.ComponentModel;
+﻿using GeekDB.Core;
 using System.Text;
 
 namespace GeekDB.WebGUI.Web.Data
@@ -120,7 +117,7 @@ namespace GeekDB.WebGUI.Web.Data
                     var iter = table.GetKVEnumerator();
                     while (iter.MoveNext())
                     {
-                        var data = new Data { Key = Encoding.UTF8.GetString(iter.KeyBytes), ValueBytes = iter.Current };
+                        var data = new Data { Key = Encoding.UTF8.GetString(iter.keyBytes), ValueBytes = iter.Current };
                         datas.Add(data);
                         searchDatas.Add(data);
                     }

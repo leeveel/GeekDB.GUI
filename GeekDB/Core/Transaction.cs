@@ -1,7 +1,7 @@
 using System.Text;
 using RocksDbSharp;
 
-namespace Geek.DB.Core
+namespace GeekDB.Core
 {
     public class Transaction
     {

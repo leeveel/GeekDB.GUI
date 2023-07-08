@@ -1,4 +1,4 @@
-﻿using Geek.DB.Core;
+﻿using GeekDB.Core;
 using Sunny.UI;
 using System.ComponentModel;
 using System.Text;

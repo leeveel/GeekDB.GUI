@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using NLog;
 using RocksDbSharp;
 
-namespace Geek.DB.Core
+namespace GeekDB.Core
 {
     public class BackupInfo
     {

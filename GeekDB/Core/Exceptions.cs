@@ -1,4 +1,4 @@
-namespace Geek.DB.Core
+namespace GeekDB.Core
 {
     public class NotFindKeyException : Exception
     {

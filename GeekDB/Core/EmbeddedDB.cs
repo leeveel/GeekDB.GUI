@@ -1,16 +1,12 @@
 
 using System.Collections.Concurrent;
-using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
-using Geek.Server.Core.Storage.DB;
-using NLog.Fluent;
+using MessagePack;
 using RocksDbSharp;
 
-namespace GeekDB.WebGUI.Storage.DB
+namespace GeekDB.Core
 {
-    /// <summary>
-    /// 内嵌数据库-基于RocksDB
-    /// </summary>
     public class EmbeddedDB
     {
         static readonly NLog.Logger LOGGER = NLog.LogManager.GetCurrentClassLogger();
@@ -34,7 +30,7 @@ namespace GeekDB.WebGUI.Storage.DB
             var bbtOpt = new BlockBasedTableOptions();
 
             bbtOpt.SetNoBlockCache(true); //没有block缓存
-            bbtOpt.SetCacheIndexAndFilterBlocks(false);//不缓存索引
+            //bbtOpt.SetCacheIndexAndFilterBlocks(false);//不缓存索引
 
             option.SetBlockBasedTableFactory(bbtOpt);
             // option.EnableStatistics();
@@ -49,9 +45,9 @@ namespace GeekDB.WebGUI.Storage.DB
                 columnFamilie[cf] = null;
             }
 
+            option.SetMaxOpenFiles(110);
             if (readOnly)
             {
-                option.SetMaxOpenFiles(-1);
                 if (string.IsNullOrEmpty(readonlyPath))
                     SecondPath = DbPath + "_$$$";
                 else
@@ -60,45 +56,12 @@ namespace GeekDB.WebGUI.Storage.DB
             }
             else
             {
-                option.SetMaxOpenFiles(120);
                 flushOption = new FlushOptions();
                 option.SetCreateIfMissing(true).SetCreateMissingColumnFamilies(true);
                 InnerDB = RocksDb.Open(option, DbPath, cfs);
             }
         }
 
-        public static string GetSizeStr(string sizeStr)
-        {
-            var numBytes = ulong.Parse(sizeStr);
-            if (numBytes < 1024)
-                return $"{numBytes} B";
-
-            if (numBytes < 1048576)
-                return $"{numBytes / 1024d:0.##} KB";
-
-            if (numBytes < 1073741824)
-                return $"{numBytes / 1048576d:0.##} MB";
-
-            if (numBytes < 1099511627776)
-                return $"{numBytes / 1073741824d:0.##} GB";
-
-            if (numBytes < 1125899906842624)
-                return $"{numBytes / 1099511627776d:0.##} TB";
-
-            if (numBytes < 1152921504606846976)
-                return $"{numBytes / 1125899906842624d:0.##} PB";
-
-            return $"{numBytes / 1152921504606846976d:0.##} EB";
-        }
-
-        public string GetStatisticsString()
-        {
-            return $"rocksdb.block-cache-usage:{GetSizeStr(InnerDB.GetProperty("rocksdb.block-cache-usage"))}" +
-                 $"   rocksdb.size-all-mem-tables:{GetSizeStr(InnerDB.GetProperty("rocksdb.size-all-mem-tables"))}" +
-                 $"   rocksdb.estimate-table-readers-mem:{GetSizeStr(InnerDB.GetProperty("rocksdb.estimate-table-readers-mem"))}" +
-                 $"   rocksdb.block-cache-usage:{GetSizeStr(InnerDB.GetProperty("rocksdb.block-cache-usage"))}" +
-                 $"   rocksdb.block-cache-pinned-usage:{GetSizeStr(InnerDB.GetProperty("rocksdb.block-cache-pinned-usage"))}";
-        }
 
         ColumnFamilyHandle GetOrCreateColumnFamilyHandle(string name)
         {
@@ -130,9 +93,9 @@ namespace GeekDB.WebGUI.Storage.DB
             }
         }
 
-        public Table<T> GetTable<T>() where T : class
+        public Table<T> GetTable<T>(string name = null) where T : class
         {
-            var name = typeof(T).FullName;
+            name = name == null ? typeof(T).FullName : name;
             var handle = GetOrCreateColumnFamilyHandle(name);
             if (handle == null)
                 return null;
