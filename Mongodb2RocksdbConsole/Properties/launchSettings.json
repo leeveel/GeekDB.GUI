@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Mongodb2RocksdbConsole": {
-      "commandName": "Project",
-      "commandLineArgs": "-m mongodb://192.168.23.217:27017/\r\n-n lz_game_hz_14301\r\n-o D:\\download\\1"
+      "commandName": "Project"
     }
   }
 }

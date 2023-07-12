@@ -5,7 +5,7 @@
   "RpcPort": 9001,
   "HttpPort": 9104,
   //"WebServerUrl": "https://*:5004",
-  "WebServerUrl": "https://192.168.0.99:5004",
+  "WebServerUrl": "https://*:5004",
   "LocalDBPrefix": "gamedb_",
   "LocalDBPath": "../../database/game/",
   "InitUserName": "admin",

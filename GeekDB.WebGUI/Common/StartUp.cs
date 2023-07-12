@@ -57,7 +57,7 @@ namespace GeekDB.WebGUI.Common
                 LayoutRenderer.Register<NLogConfigurationLayoutRender>("logConfiguration");
                 LogManager.Configuration = new XmlLoggingConfiguration("Configs/center_log.config");
                 LogManager.AutoShutdown = false;
-                Settings.Load<CenterSetting>("Configs/center_config.json", ServerType.Center);
+                Settings.Load<CenterSetting>("Configs/webgui_config.json", ServerType.Center);
                 return true;
             }
             catch (Exception e)

@@ -20,9 +20,9 @@ namespace GeekDB.WebGUI.Logic
             return db.GetTable<T>().ToArray();
         }
 
-        public void UpdateData<T>(string key, T user) where T : class
+        public void UpdateData<T>(string key, T data) where T : class
         {
-            db.GetTable<T>().Set(key, user);
+            db.GetTable<T>().Set(key, data);
         }
 
         public void DeleteData<T>(string key) where T : class

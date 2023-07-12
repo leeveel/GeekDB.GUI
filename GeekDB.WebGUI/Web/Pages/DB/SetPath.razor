@@ -2,30 +2,54 @@
 @attribute [Authorize]
 
 @implements IDisposable
+
 @layout CenterLayout
+@inject DBService dbService
 @inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
 
 
 <MudText Typo="Typo.h4" GutterBottom="true">设置目录</MudText>
-<MudTextField @bind-Value="PathTxt" Label="" Variant="Variant.Text"></MudTextField>
+<MudAutocomplete T="string" Label="路径" @bind-Value="pathTxt" SearchFunc="@Search" ResetValueOnEmptyText="@resetValueOnEmptyText"
+                 CoerceText="@coerceText" CoerceValue="@coerceValue" />
 <MudButton Class="mt-5 mb-0" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" FullWidth="true" @onclick="@LoadDb">打开数据库</MudButton>
 
 @code {
-    public string PathTxt { get; set; } = "D://download//1";
+    private bool resetValueOnEmptyText;
+    private bool coerceText;
+    private bool coerceValue = true;
+    public string pathTxt;
+    public List<string> historys;
+
+    protected override void OnParametersSet()
+    {
+        historys = dbService.GetAllData<HistoryItem>().Select(x => x.path).ToList();
+    }
+
+    private async Task<IEnumerable<string>> Search(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return historys;
+        return historys.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
 
     void LoadDb()
     {
         try
         {
-            if (!Helper.IsRocksDB(PathTxt))
+            if (!Helper.IsRocksDB(pathTxt))
             {
                 Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
-                Snackbar.Add($"{PathTxt}不是一个rocksdb数据库", Severity.Error);
+                Snackbar.Add($"{pathTxt}不是一个rocksdb数据库", Severity.Error);
                 return;
             }
 
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(PathTxt);
+            dbService.UpdateData<HistoryItem>(pathTxt, new HistoryItem { path = pathTxt });
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(pathTxt);
             NavigationManager.NavigateTo($"db/{System.Convert.ToBase64String(plainTextBytes)}");
         }
         catch (Exception e)

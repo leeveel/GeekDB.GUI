@@ -27,6 +27,7 @@ namespace GeekDB
         IMongoDatabase mongoDBbase;
         Action<LogType, string> Log;
         Action<float, float> updateProcess;
+        static StaticCompositeResolver resolver;
 
         public async Task Run(IMongoDatabase mongoDBbase, string path, Action<LogType, string> logAct, Action<float, float> process)
         {
@@ -43,14 +44,18 @@ namespace GeekDB
             {
                 try
                 {
-                    List<IFormatterResolver> innerResolver = new()
+                    if (resolver == null)
                     {
-                           BuiltinResolver.Instance,
-                           StandardResolver.Instance,
-                           ContractlessStandardResolver.Instance,
-                           PrimitiveObjectResolver.Instance
-                    };
-                    StaticCompositeResolver.Instance.Register(innerResolver.ToArray());
+                        List<IFormatterResolver> innerResolver = new()
+                        {
+                               BuiltinResolver.Instance,
+                               StandardResolver.Instance,
+                               ContractlessStandardResolver.Instance,
+                               PrimitiveObjectResolver.Instance
+                        };
+                        StaticCompositeResolver.Instance.Register(innerResolver.ToArray());
+                        resolver = StaticCompositeResolver.Instance;
+                    }
                     MessagePackSerializer.DefaultOptions = new MessagePackSerializerOptions(StaticCompositeResolver.Instance).WithCompression(MessagePackCompression.Lz4Block);
 
                     //if (File.Exists(externDllPath))

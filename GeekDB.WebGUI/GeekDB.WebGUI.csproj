@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Configs\center_config.json">
+    <None Update="Configs\webgui_config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Configs\center_log.config">

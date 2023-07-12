@@ -44,16 +44,17 @@ namespace Mongodb2RocksdbConsole
                 AddLog(LogType.Err, $"不能发现数据库:{opts.MongodbDBName}");
                 return;
             }
+
+            if (!Directory.Exists(opts.OutputPath))
+            {
+                Directory.CreateDirectory(opts.OutputPath);
+            }
+
             var dataBase = curMongoDbClient.GetDatabase(opts.MongodbDBName);
             if (Directory.GetDirectories(opts.OutputPath).Length > 0 || Directory.GetFiles(opts.OutputPath).Length > 0)
             {
                 AddLog(LogType.Err, $"导出失败,目录不为空:{opts.OutputPath}");
                 return;
-            }
-
-            if (!Directory.Exists(opts.OutputPath))
-            {
-                Directory.CreateDirectory(opts.OutputPath);
             }
 
             new MongoDbConvertToRocksdb().Run(dataBase, opts.OutputPath, AddLog, null).Wait();

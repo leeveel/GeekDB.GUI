@@ -1,0 +1,446 @@
+2023/07/08-15:27:36.571900 ae88 RocksDB version: 8.3.2
+2023/07/08-15:27:36.571968 ae88 Git sha 3f7c92b9753b697ce6a5ea737086d2751f17956c
+2023/07/08-15:27:36.571977 ae88 Compile date 2023-06-14 22:32:14
+2023/07/08-15:27:36.571982 ae88 DB SUMMARY
+2023/07/08-15:27:36.571994 ae88 DB Session ID:  UHSZKT7MMO465DI8BW57
+2023/07/08-15:27:36.572397 ae88 CURRENT file:  CURRENT
+2023/07/08-15:27:36.572404 ae88 IDENTITY file:  IDENTITY
+2023/07/08-15:27:36.572433 ae88 MANIFEST file:  MANIFEST-000020 size: 291 Bytes
+2023/07/08-15:27:36.572439 ae88 SST files in ../../database/game/gamedb_9001 dir, Total Num: 1, files: 000010.sst 
+2023/07/08-15:27:36.572446 ae88 Write Ahead Log file in ../../database/game/gamedb_9001: 000019.log size: 0 ; 
+2023/07/08-15:27:36.572452 ae88                         Options.error_if_exists: 0
+2023/07/08-15:27:36.583485 ae88                       Options.create_if_missing: 1
+2023/07/08-15:27:36.583492 ae88                         Options.paranoid_checks: 1
+2023/07/08-15:27:36.583494 ae88             Options.flush_verify_memtable_count: 1
+2023/07/08-15:27:36.583496 ae88                               Options.track_and_verify_wals_in_manifest: 0
+2023/07/08-15:27:36.583499 ae88        Options.verify_sst_unique_id_in_manifest: 1
+2023/07/08-15:27:36.583501 ae88                                     Options.env: 000001D9043B73D0
+2023/07/08-15:27:36.583505 ae88                                      Options.fs: WinFS
+2023/07/08-15:27:36.583507 ae88                                Options.info_log: 000001D905938860
+2023/07/08-15:27:36.583510 ae88                Options.max_file_opening_threads: 16
+2023/07/08-15:27:36.583512 ae88                              Options.statistics: 0000000000000000
+2023/07/08-15:27:36.583514 ae88                               Options.use_fsync: 0
+2023/07/08-15:27:36.583517 ae88                       Options.max_log_file_size: 0
+2023/07/08-15:27:36.583519 ae88                  Options.max_manifest_file_size: 1073741824
+2023/07/08-15:27:36.583521 ae88                   Options.log_file_time_to_roll: 0
+2023/07/08-15:27:36.583524 ae88                       Options.keep_log_file_num: 1000
+2023/07/08-15:27:36.583526 ae88                    Options.recycle_log_file_num: 0
+2023/07/08-15:27:36.583528 ae88                         Options.allow_fallocate: 1
+2023/07/08-15:27:36.583530 ae88                        Options.allow_mmap_reads: 0
+2023/07/08-15:27:36.583533 ae88                       Options.allow_mmap_writes: 0
+2023/07/08-15:27:36.583535 ae88                        Options.use_direct_reads: 0
+2023/07/08-15:27:36.583537 ae88                        Options.use_direct_io_for_flush_and_compaction: 0
+2023/07/08-15:27:36.583540 ae88          Options.create_missing_column_families: 1
+2023/07/08-15:27:36.583542 ae88                              Options.db_log_dir: 
+2023/07/08-15:27:36.583544 ae88                                 Options.wal_dir: 
+2023/07/08-15:27:36.583547 ae88                Options.table_cache_numshardbits: 6
+2023/07/08-15:27:36.583549 ae88                         Options.WAL_ttl_seconds: 0
+2023/07/08-15:27:36.583551 ae88                       Options.WAL_size_limit_MB: 0
+2023/07/08-15:27:36.583554 ae88                        Options.max_write_batch_group_size_bytes: 1048576
+2023/07/08-15:27:36.583556 ae88             Options.manifest_preallocation_size: 4194304
+2023/07/08-15:27:36.583558 ae88                     Options.is_fd_close_on_exec: 1
+2023/07/08-15:27:36.583561 ae88                   Options.advise_random_on_open: 1
+2023/07/08-15:27:36.583563 ae88                    Options.db_write_buffer_size: 0
+2023/07/08-15:27:36.583565 ae88                    Options.write_buffer_manager: 000001D9043B74C0
+2023/07/08-15:27:36.583568 ae88         Options.access_hint_on_compaction_start: 1
+2023/07/08-15:27:36.583570 ae88           Options.random_access_max_buffer_size: 1048576
+2023/07/08-15:27:36.583572 ae88                      Options.use_adaptive_mutex: 0
+2023/07/08-15:27:36.583575 ae88                            Options.rate_limiter: 0000000000000000
+2023/07/08-15:27:36.583577 ae88     Options.sst_file_manager.rate_bytes_per_sec: 0
+2023/07/08-15:27:36.583597 ae88                       Options.wal_recovery_mode: 2
+2023/07/08-15:27:36.583601 ae88                  Options.enable_thread_tracking: 0
+2023/07/08-15:27:36.583603 ae88                  Options.enable_pipelined_write: 0
+2023/07/08-15:27:36.583606 ae88                  Options.unordered_write: 0
+2023/07/08-15:27:36.583608 ae88         Options.allow_concurrent_memtable_write: 1
+2023/07/08-15:27:36.583610 ae88      Options.enable_write_thread_adaptive_yield: 1
+2023/07/08-15:27:36.583612 ae88             Options.write_thread_max_yield_usec: 100
+2023/07/08-15:27:36.583615 ae88            Options.write_thread_slow_yield_usec: 3
+2023/07/08-15:27:36.583617 ae88                               Options.row_cache: None
+2023/07/08-15:27:36.583619 ae88                              Options.wal_filter: None
+2023/07/08-15:27:36.583622 ae88             Options.avoid_flush_during_recovery: 0
+2023/07/08-15:27:36.583624 ae88             Options.allow_ingest_behind: 0
+2023/07/08-15:27:36.583626 ae88             Options.two_write_queues: 0
+2023/07/08-15:27:36.583628 ae88             Options.manual_wal_flush: 0
+2023/07/08-15:27:36.583631 ae88             Options.wal_compression: 0
+2023/07/08-15:27:36.583633 ae88             Options.atomic_flush: 0
+2023/07/08-15:27:36.583635 ae88             Options.avoid_unnecessary_blocking_io: 0
+2023/07/08-15:27:36.583637 ae88                 Options.persist_stats_to_disk: 0
+2023/07/08-15:27:36.583639 ae88                 Options.write_dbid_to_manifest: 0
+2023/07/08-15:27:36.583642 ae88                 Options.log_readahead_size: 0
+2023/07/08-15:27:36.583644 ae88                 Options.file_checksum_gen_factory: Unknown
+2023/07/08-15:27:36.583646 ae88                 Options.best_efforts_recovery: 0
+2023/07/08-15:27:36.583649 ae88                Options.max_bgerror_resume_count: 2147483647
+2023/07/08-15:27:36.583651 ae88            Options.bgerror_resume_retry_interval: 1000000
+2023/07/08-15:27:36.583653 ae88             Options.allow_data_in_errors: 0
+2023/07/08-15:27:36.583656 ae88             Options.db_host_id: __hostname__
+2023/07/08-15:27:36.583658 ae88             Options.enforce_single_del_contracts: true
+2023/07/08-15:27:36.583660 ae88             Options.max_background_jobs: 2
+2023/07/08-15:27:36.583662 ae88             Options.max_background_compactions: -1
+2023/07/08-15:27:36.583665 ae88             Options.max_subcompactions: 1
+2023/07/08-15:27:36.583667 ae88             Options.avoid_flush_during_shutdown: 0
+2023/07/08-15:27:36.583669 ae88           Options.writable_file_max_buffer_size: 1048576
+2023/07/08-15:27:36.583671 ae88             Options.delayed_write_rate : 16777216
+2023/07/08-15:27:36.583674 ae88             Options.max_total_wal_size: 0
+2023/07/08-15:27:36.583676 ae88             Options.delete_obsolete_files_period_micros: 21600000000
+2023/07/08-15:27:36.583678 ae88                   Options.stats_dump_period_sec: 600
+2023/07/08-15:27:36.583681 ae88                 Options.stats_persist_period_sec: 600
+2023/07/08-15:27:36.583683 ae88                 Options.stats_history_buffer_size: 1048576
+2023/07/08-15:27:36.583685 ae88                          Options.max_open_files: 110
+2023/07/08-15:27:36.583688 ae88                          Options.bytes_per_sync: 0
+2023/07/08-15:27:36.583690 ae88                      Options.wal_bytes_per_sync: 0
+2023/07/08-15:27:36.583692 ae88                   Options.strict_bytes_per_sync: 0
+2023/07/08-15:27:36.583695 ae88       Options.compaction_readahead_size: 0
+2023/07/08-15:27:36.583697 ae88                  Options.max_background_flushes: -1
+2023/07/08-15:27:36.583701 ae88 Compression algorithms supported:
+2023/07/08-15:27:36.583705 ae88 	kZSTD supported: 1
+2023/07/08-15:27:36.583712 ae88 	kSnappyCompression supported: 1
+2023/07/08-15:27:36.583714 ae88 	kBZip2Compression supported: 0
+2023/07/08-15:27:36.583716 ae88 	kZlibCompression supported: 1
+2023/07/08-15:27:36.583718 ae88 	kLZ4Compression supported: 1
+2023/07/08-15:27:36.583720 ae88 	kXpressCompression supported: 0
+2023/07/08-15:27:36.583722 ae88 	kLZ4HCCompression supported: 1
+2023/07/08-15:27:36.583733 ae88 	kZSTDNotFinalCompression supported: 1
+2023/07/08-15:27:36.583738 ae88 Fast CRC32 supported: Not supported on x86
+2023/07/08-15:27:36.583740 ae88 DMutex implementation: std::mutex
+2023/07/08-15:27:36.584216 ae88 [db\version_set.cc:5834] Recovering from manifest file: ../../database/game/gamedb_9001/MANIFEST-000020
+2023/07/08-15:27:36.584324 ae88 [db\column_family.cc:621] --------------- Options for column family [default]:
+2023/07/08-15:27:36.584328 ae88               Options.comparator: leveldb.BytewiseComparator
+2023/07/08-15:27:36.584331 ae88           Options.merge_operator: None
+2023/07/08-15:27:36.584333 ae88        Options.compaction_filter: None
+2023/07/08-15:27:36.584335 ae88        Options.compaction_filter_factory: None
+2023/07/08-15:27:36.584338 ae88  Options.sst_partitioner_factory: None
+2023/07/08-15:27:36.584340 ae88         Options.memtable_factory: SkipListFactory
+2023/07/08-15:27:36.584342 ae88            Options.table_factory: BlockBasedTable
+2023/07/08-15:27:36.584372 ae88            table_factory options:   flush_block_policy_factory: FlushBlockBySizePolicyFactory (000001D905849E70)
+  cache_index_and_filter_blocks: 0
+  cache_index_and_filter_blocks_with_high_priority: 1
+  pin_l0_filter_and_index_blocks_in_cache: 0
+  pin_top_level_index_and_filter: 1
+  index_type: 0
+  data_block_index_type: 0
+  index_shortening: 1
+  data_block_hash_table_util_ratio: 0.750000
+  checksum: 4
+  no_block_cache: 0
+  block_cache: 000001D9043B7020
+  block_cache_name: LRUCache
+  block_cache_options:
+    capacity : 33554432
+    num_shard_bits : 6
+    strict_capacity_limit : 0
+    memory_allocator : None
+    high_pri_pool_ratio: 0.500
+    low_pri_pool_ratio: 0.000
+  persistent_cache: 0000000000000000
+  block_size: 4096
+  block_size_deviation: 10
+  block_restart_interval: 16
+  index_block_restart_interval: 1
+  metadata_block_size: 4096
+  partition_filters: 0
+  use_delta_encoding: 1
+  filter_policy: nullptr
+  whole_key_filtering: 1
+  verify_compression: 0
+  read_amp_bytes_per_bit: 0
+  format_version: 5
+  enable_index_compression: 1
+  block_align: 0
+  max_auto_readahead_size: 262144
+  prepopulate_block_cache: 0
+  initial_auto_readahead_size: 8192
+  num_file_reads_for_auto_readahead: 2
+2023/07/08-15:27:36.584375 ae88        Options.write_buffer_size: 67108864
+2023/07/08-15:27:36.584377 ae88  Options.max_write_buffer_number: 2
+2023/07/08-15:27:36.584379 ae88          Options.compression: Snappy
+2023/07/08-15:27:36.584381 ae88                  Options.bottommost_compression: Disabled
+2023/07/08-15:27:36.584384 ae88       Options.prefix_extractor: nullptr
+2023/07/08-15:27:36.584386 ae88   Options.memtable_insert_with_hint_prefix_extractor: nullptr
+2023/07/08-15:27:36.584388 ae88             Options.num_levels: 7
+2023/07/08-15:27:36.584390 ae88        Options.min_write_buffer_number_to_merge: 1
+2023/07/08-15:27:36.584393 ae88     Options.max_write_buffer_number_to_maintain: 0
+2023/07/08-15:27:36.584396 ae88     Options.max_write_buffer_size_to_maintain: 0
+2023/07/08-15:27:36.584398 ae88            Options.bottommost_compression_opts.window_bits: -14
+2023/07/08-15:27:36.584400 ae88                  Options.bottommost_compression_opts.level: 32767
+2023/07/08-15:27:36.584403 ae88               Options.bottommost_compression_opts.strategy: 0
+2023/07/08-15:27:36.584405 ae88         Options.bottommost_compression_opts.max_dict_bytes: 0
+2023/07/08-15:27:36.584408 ae88         Options.bottommost_compression_opts.zstd_max_train_bytes: 0
+2023/07/08-15:27:36.584410 ae88         Options.bottommost_compression_opts.parallel_threads: 1
+2023/07/08-15:27:36.584413 ae88                  Options.bottommost_compression_opts.enabled: false
+2023/07/08-15:27:36.584415 ae88         Options.bottommost_compression_opts.max_dict_buffer_bytes: 0
+2023/07/08-15:27:36.584418 ae88         Options.bottommost_compression_opts.use_zstd_dict_trainer: true
+2023/07/08-15:27:36.584420 ae88            Options.compression_opts.window_bits: -14
+2023/07/08-15:27:36.584422 ae88                  Options.compression_opts.level: 32767
+2023/07/08-15:27:36.584427 ae88               Options.compression_opts.strategy: 0
+2023/07/08-15:27:36.584430 ae88         Options.compression_opts.max_dict_bytes: 0
+2023/07/08-15:27:36.584432 ae88         Options.compression_opts.zstd_max_train_bytes: 0
+2023/07/08-15:27:36.584434 ae88         Options.compression_opts.use_zstd_dict_trainer: true
+2023/07/08-15:27:36.584437 ae88         Options.compression_opts.parallel_threads: 1
+2023/07/08-15:27:36.584439 ae88                  Options.compression_opts.enabled: false
+2023/07/08-15:27:36.584441 ae88         Options.compression_opts.max_dict_buffer_bytes: 0
+2023/07/08-15:27:36.584444 ae88      Options.level0_file_num_compaction_trigger: 4
+2023/07/08-15:27:36.584446 ae88          Options.level0_slowdown_writes_trigger: 20
+2023/07/08-15:27:36.584448 ae88              Options.level0_stop_writes_trigger: 36
+2023/07/08-15:27:36.584451 ae88                   Options.target_file_size_base: 67108864
+2023/07/08-15:27:36.584453 ae88             Options.target_file_size_multiplier: 1
+2023/07/08-15:27:36.584455 ae88                Options.max_bytes_for_level_base: 268435456
+2023/07/08-15:27:36.584457 ae88 Options.level_compaction_dynamic_level_bytes: 0
+2023/07/08-15:27:36.584460 ae88          Options.max_bytes_for_level_multiplier: 10.000000
+2023/07/08-15:27:36.584463 ae88 Options.max_bytes_for_level_multiplier_addtl[0]: 1
+2023/07/08-15:27:36.584466 ae88 Options.max_bytes_for_level_multiplier_addtl[1]: 1
+2023/07/08-15:27:36.584468 ae88 Options.max_bytes_for_level_multiplier_addtl[2]: 1
+2023/07/08-15:27:36.584470 ae88 Options.max_bytes_for_level_multiplier_addtl[3]: 1
+2023/07/08-15:27:36.584473 ae88 Options.max_bytes_for_level_multiplier_addtl[4]: 1
+2023/07/08-15:27:36.584475 ae88 Options.max_bytes_for_level_multiplier_addtl[5]: 1
+2023/07/08-15:27:36.584477 ae88 Options.max_bytes_for_level_multiplier_addtl[6]: 1
+2023/07/08-15:27:36.584480 ae88       Options.max_sequential_skip_in_iterations: 8
+2023/07/08-15:27:36.584482 ae88                    Options.max_compaction_bytes: 1677721600
+2023/07/08-15:27:36.584484 ae88   Options.ignore_max_compaction_bytes_for_input: true
+2023/07/08-15:27:36.584486 ae88                        Options.arena_block_size: 1048576
+2023/07/08-15:27:36.584489 ae88   Options.soft_pending_compaction_bytes_limit: 68719476736
+2023/07/08-15:27:36.584491 ae88   Options.hard_pending_compaction_bytes_limit: 274877906944
+2023/07/08-15:27:36.584493 ae88                Options.disable_auto_compactions: 0
+2023/07/08-15:27:36.584496 ae88                        Options.compaction_style: kCompactionStyleLevel
+2023/07/08-15:27:36.584499 ae88                          Options.compaction_pri: kMinOverlappingRatio
+2023/07/08-15:27:36.584501 ae88 Options.compaction_options_universal.size_ratio: 1
+2023/07/08-15:27:36.584503 ae88 Options.compaction_options_universal.min_merge_width: 2
+2023/07/08-15:27:36.584506 ae88 Options.compaction_options_universal.max_merge_width: 4294967295
+2023/07/08-15:27:36.584508 ae88 Options.compaction_options_universal.max_size_amplification_percent: 200
+2023/07/08-15:27:36.584511 ae88 Options.compaction_options_universal.compression_size_percent: -1
+2023/07/08-15:27:36.584514 ae88 Options.compaction_options_universal.stop_style: kCompactionStopStyleTotalSize
+2023/07/08-15:27:36.584516 ae88 Options.compaction_options_fifo.max_table_files_size: 1073741824
+2023/07/08-15:27:36.584519 ae88 Options.compaction_options_fifo.allow_compaction: 0
+2023/07/08-15:27:36.584523 ae88                   Options.table_properties_collectors: 
+2023/07/08-15:27:36.584525 ae88                   Options.inplace_update_support: 0
+2023/07/08-15:27:36.584527 ae88                 Options.inplace_update_num_locks: 10000
+2023/07/08-15:27:36.584530 ae88               Options.memtable_prefix_bloom_size_ratio: 0.000000
+2023/07/08-15:27:36.584532 ae88               Options.memtable_whole_key_filtering: 0
+2023/07/08-15:27:36.584534 ae88   Options.memtable_huge_page_size: 0
+2023/07/08-15:27:36.584537 ae88                           Options.bloom_locality: 0
+2023/07/08-15:27:36.584553 ae88                    Options.max_successive_merges: 0
+2023/07/08-15:27:36.584555 ae88                Options.optimize_filters_for_hits: 0
+2023/07/08-15:27:36.584558 ae88                Options.paranoid_file_checks: 0
+2023/07/08-15:27:36.584560 ae88                Options.force_consistency_checks: 1
+2023/07/08-15:27:36.584562 ae88                Options.report_bg_io_stats: 0
+2023/07/08-15:27:36.584564 ae88                               Options.ttl: 2592000
+2023/07/08-15:27:36.584567 ae88          Options.periodic_compaction_seconds: 0
+2023/07/08-15:27:36.584569 ae88  Options.preclude_last_level_data_seconds: 0
+2023/07/08-15:27:36.584571 ae88    Options.preserve_internal_time_seconds: 0
+2023/07/08-15:27:36.584573 ae88                       Options.enable_blob_files: false
+2023/07/08-15:27:36.584576 ae88                           Options.min_blob_size: 0
+2023/07/08-15:27:36.584578 ae88                          Options.blob_file_size: 268435456
+2023/07/08-15:27:36.584580 ae88                   Options.blob_compression_type: NoCompression
+2023/07/08-15:27:36.584583 ae88          Options.enable_blob_garbage_collection: false
+2023/07/08-15:27:36.584585 ae88      Options.blob_garbage_collection_age_cutoff: 0.250000
+2023/07/08-15:27:36.584587 ae88 Options.blob_garbage_collection_force_threshold: 1.000000
+2023/07/08-15:27:36.584591 ae88          Options.blob_compaction_readahead_size: 0
+2023/07/08-15:27:36.584593 ae88                Options.blob_file_starting_level: 0
+2023/07/08-15:27:36.584595 ae88 Options.experimental_mempurge_threshold: 0.000000
+2023/07/08-15:27:36.584664 ae88 [db\column_family.cc:621] --------------- Options for column family [GeekDB.WebGUI.Web.Data.UserInfo]:
+2023/07/08-15:27:36.584667 ae88               Options.comparator: leveldb.BytewiseComparator
+2023/07/08-15:27:36.584669 ae88           Options.merge_operator: None
+2023/07/08-15:27:36.584671 ae88        Options.compaction_filter: None
+2023/07/08-15:27:36.584673 ae88        Options.compaction_filter_factory: None
+2023/07/08-15:27:36.584675 ae88  Options.sst_partitioner_factory: None
+2023/07/08-15:27:36.584677 ae88         Options.memtable_factory: SkipListFactory
+2023/07/08-15:27:36.584679 ae88            Options.table_factory: BlockBasedTable
+2023/07/08-15:27:36.584698 ae88            table_factory options:   flush_block_policy_factory: FlushBlockBySizePolicyFactory (000001D905849E70)
+  cache_index_and_filter_blocks: 0
+  cache_index_and_filter_blocks_with_high_priority: 1
+  pin_l0_filter_and_index_blocks_in_cache: 0
+  pin_top_level_index_and_filter: 1
+  index_type: 0
+  data_block_index_type: 0
+  index_shortening: 1
+  data_block_hash_table_util_ratio: 0.750000
+  checksum: 4
+  no_block_cache: 0
+  block_cache: 000001D9043B7020
+  block_cache_name: LRUCache
+  block_cache_options:
+    capacity : 33554432
+    num_shard_bits : 6
+    strict_capacity_limit : 0
+    memory_allocator : None
+    high_pri_pool_ratio: 0.500
+    low_pri_pool_ratio: 0.000
+  persistent_cache: 0000000000000000
+  block_size: 4096
+  block_size_deviation: 10
+  block_restart_interval: 16
+  index_block_restart_interval: 1
+  metadata_block_size: 4096
+  partition_filters: 0
+  use_delta_encoding: 1
+  filter_policy: nullptr
+  whole_key_filtering: 1
+  verify_compression: 0
+  read_amp_bytes_per_bit: 0
+  format_version: 5
+  enable_index_compression: 1
+  block_align: 0
+  max_auto_readahead_size: 262144
+  prepopulate_block_cache: 0
+  initial_auto_readahead_size: 8192
+  num_file_reads_for_auto_readahead: 2
+2023/07/08-15:27:36.584700 ae88        Options.write_buffer_size: 67108864
+2023/07/08-15:27:36.584702 ae88  Options.max_write_buffer_number: 2
+2023/07/08-15:27:36.584704 ae88          Options.compression: Snappy
+2023/07/08-15:27:36.584706 ae88                  Options.bottommost_compression: Disabled
+2023/07/08-15:27:36.584709 ae88       Options.prefix_extractor: nullptr
+2023/07/08-15:27:36.584711 ae88   Options.memtable_insert_with_hint_prefix_extractor: nullptr
+2023/07/08-15:27:36.584713 ae88             Options.num_levels: 7
+2023/07/08-15:27:36.584715 ae88        Options.min_write_buffer_number_to_merge: 1
+2023/07/08-15:27:36.584718 ae88     Options.max_write_buffer_number_to_maintain: 0
+2023/07/08-15:27:36.584721 ae88     Options.max_write_buffer_size_to_maintain: 0
+2023/07/08-15:27:36.584723 ae88            Options.bottommost_compression_opts.window_bits: -14
+2023/07/08-15:27:36.584726 ae88                  Options.bottommost_compression_opts.level: 32767
+2023/07/08-15:27:36.584728 ae88               Options.bottommost_compression_opts.strategy: 0
+2023/07/08-15:27:36.584730 ae88         Options.bottommost_compression_opts.max_dict_bytes: 0
+2023/07/08-15:27:36.584733 ae88         Options.bottommost_compression_opts.zstd_max_train_bytes: 0
+2023/07/08-15:27:36.584735 ae88         Options.bottommost_compression_opts.parallel_threads: 1
+2023/07/08-15:27:36.584738 ae88                  Options.bottommost_compression_opts.enabled: false
+2023/07/08-15:27:36.584740 ae88         Options.bottommost_compression_opts.max_dict_buffer_bytes: 0
+2023/07/08-15:27:36.584742 ae88         Options.bottommost_compression_opts.use_zstd_dict_trainer: true
+2023/07/08-15:27:36.584745 ae88            Options.compression_opts.window_bits: -14
+2023/07/08-15:27:36.584747 ae88                  Options.compression_opts.level: 32767
+2023/07/08-15:27:36.584749 ae88               Options.compression_opts.strategy: 0
+2023/07/08-15:27:36.584752 ae88         Options.compression_opts.max_dict_bytes: 0
+2023/07/08-15:27:36.584754 ae88         Options.compression_opts.zstd_max_train_bytes: 0
+2023/07/08-15:27:36.584756 ae88         Options.compression_opts.use_zstd_dict_trainer: true
+2023/07/08-15:27:36.584759 ae88         Options.compression_opts.parallel_threads: 1
+2023/07/08-15:27:36.584761 ae88                  Options.compression_opts.enabled: false
+2023/07/08-15:27:36.584763 ae88         Options.compression_opts.max_dict_buffer_bytes: 0
+2023/07/08-15:27:36.584766 ae88      Options.level0_file_num_compaction_trigger: 4
+2023/07/08-15:27:36.584768 ae88          Options.level0_slowdown_writes_trigger: 20
+2023/07/08-15:27:36.584770 ae88              Options.level0_stop_writes_trigger: 36
+2023/07/08-15:27:36.584772 ae88                   Options.target_file_size_base: 67108864
+2023/07/08-15:27:36.584775 ae88             Options.target_file_size_multiplier: 1
+2023/07/08-15:27:36.584777 ae88                Options.max_bytes_for_level_base: 268435456
+2023/07/08-15:27:36.584779 ae88 Options.level_compaction_dynamic_level_bytes: 0
+2023/07/08-15:27:36.584782 ae88          Options.max_bytes_for_level_multiplier: 10.000000
+2023/07/08-15:27:36.584784 ae88 Options.max_bytes_for_level_multiplier_addtl[0]: 1
+2023/07/08-15:27:36.584786 ae88 Options.max_bytes_for_level_multiplier_addtl[1]: 1
+2023/07/08-15:27:36.584789 ae88 Options.max_bytes_for_level_multiplier_addtl[2]: 1
+2023/07/08-15:27:36.584791 ae88 Options.max_bytes_for_level_multiplier_addtl[3]: 1
+2023/07/08-15:27:36.584793 ae88 Options.max_bytes_for_level_multiplier_addtl[4]: 1
+2023/07/08-15:27:36.584796 ae88 Options.max_bytes_for_level_multiplier_addtl[5]: 1
+2023/07/08-15:27:36.584798 ae88 Options.max_bytes_for_level_multiplier_addtl[6]: 1
+2023/07/08-15:27:36.584800 ae88       Options.max_sequential_skip_in_iterations: 8
+2023/07/08-15:27:36.584802 ae88                    Options.max_compaction_bytes: 1677721600
+2023/07/08-15:27:36.584805 ae88   Options.ignore_max_compaction_bytes_for_input: true
+2023/07/08-15:27:36.584807 ae88                        Options.arena_block_size: 1048576
+2023/07/08-15:27:36.584809 ae88   Options.soft_pending_compaction_bytes_limit: 68719476736
+2023/07/08-15:27:36.584812 ae88   Options.hard_pending_compaction_bytes_limit: 274877906944
+2023/07/08-15:27:36.584814 ae88                Options.disable_auto_compactions: 0
+2023/07/08-15:27:36.584816 ae88                        Options.compaction_style: kCompactionStyleLevel
+2023/07/08-15:27:36.584819 ae88                          Options.compaction_pri: kMinOverlappingRatio
+2023/07/08-15:27:36.584821 ae88 Options.compaction_options_universal.size_ratio: 1
+2023/07/08-15:27:36.584823 ae88 Options.compaction_options_universal.min_merge_width: 2
+2023/07/08-15:27:36.584827 ae88 Options.compaction_options_universal.max_merge_width: 4294967295
+2023/07/08-15:27:36.584830 ae88 Options.compaction_options_universal.max_size_amplification_percent: 200
+2023/07/08-15:27:36.584832 ae88 Options.compaction_options_universal.compression_size_percent: -1
+2023/07/08-15:27:36.584835 ae88 Options.compaction_options_universal.stop_style: kCompactionStopStyleTotalSize
+2023/07/08-15:27:36.584837 ae88 Options.compaction_options_fifo.max_table_files_size: 1073741824
+2023/07/08-15:27:36.584839 ae88 Options.compaction_options_fifo.allow_compaction: 0
+2023/07/08-15:27:36.584842 ae88                   Options.table_properties_collectors: 
+2023/07/08-15:27:36.584844 ae88                   Options.inplace_update_support: 0
+2023/07/08-15:27:36.584847 ae88                 Options.inplace_update_num_locks: 10000
+2023/07/08-15:27:36.584849 ae88               Options.memtable_prefix_bloom_size_ratio: 0.000000
+2023/07/08-15:27:36.584851 ae88               Options.memtable_whole_key_filtering: 0
+2023/07/08-15:27:36.584854 ae88   Options.memtable_huge_page_size: 0
+2023/07/08-15:27:36.584856 ae88                           Options.bloom_locality: 0
+2023/07/08-15:27:36.584858 ae88                    Options.max_successive_merges: 0
+2023/07/08-15:27:36.584860 ae88                Options.optimize_filters_for_hits: 0
+2023/07/08-15:27:36.584863 ae88                Options.paranoid_file_checks: 0
+2023/07/08-15:27:36.584865 ae88                Options.force_consistency_checks: 1
+2023/07/08-15:27:36.584867 ae88                Options.report_bg_io_stats: 0
+2023/07/08-15:27:36.584869 ae88                               Options.ttl: 2592000
+2023/07/08-15:27:36.584872 ae88          Options.periodic_compaction_seconds: 0
+2023/07/08-15:27:36.584874 ae88  Options.preclude_last_level_data_seconds: 0
+2023/07/08-15:27:36.584876 ae88    Options.preserve_internal_time_seconds: 0
+2023/07/08-15:27:36.584878 ae88                       Options.enable_blob_files: false
+2023/07/08-15:27:36.584881 ae88                           Options.min_blob_size: 0
+2023/07/08-15:27:36.584883 ae88                          Options.blob_file_size: 268435456
+2023/07/08-15:27:36.584885 ae88                   Options.blob_compression_type: NoCompression
+2023/07/08-15:27:36.584888 ae88          Options.enable_blob_garbage_collection: false
+2023/07/08-15:27:36.584890 ae88      Options.blob_garbage_collection_age_cutoff: 0.250000
+2023/07/08-15:27:36.584892 ae88 Options.blob_garbage_collection_force_threshold: 1.000000
+2023/07/08-15:27:36.584895 ae88          Options.blob_compaction_readahead_size: 0
+2023/07/08-15:27:36.584897 ae88                Options.blob_file_starting_level: 0
+2023/07/08-15:27:36.584899 ae88 Options.experimental_mempurge_threshold: 0.000000
+2023/07/08-15:27:36.586964 ae88 [db\version_set.cc:5885] Recovered from manifest file:../../database/game/gamedb_9001/MANIFEST-000020 succeeded,manifest_file_number is 20, next_file_number is 22, last_sequence is 1, log_number is 16,prev_log_number is 0,max_column_family is 1,min_log_number_to_keep is 16
+2023/07/08-15:27:36.586974 ae88 [db\version_set.cc:5894] Column family [default] (ID 0), log number is 16
+2023/07/08-15:27:36.586977 ae88 [db\version_set.cc:5894] Column family [GeekDB.WebGUI.Web.Data.UserInfo] (ID 1), log number is 16
+2023/07/08-15:27:36.587122 ae88 [db\db_impl\db_impl_open.cc:636] DB ID: 38d27a37-1d43-11ee-9782-ced3b3d1b70e
+2023/07/08-15:27:36.587837 ae88 EVENT_LOG_v1 {"time_micros": 1688801256587823, "job": 1, "event": "recovery_started", "wal_files": [19]}
+2023/07/08-15:27:36.587842 ae88 [db\db_impl\db_impl_open.cc:1131] Recovering log #19 mode 2
+2023/07/08-15:27:36.609771 ae88 EVENT_LOG_v1 {"time_micros": 1688801256609761, "job": 1, "event": "recovery_finished"}
+2023/07/08-15:27:36.610115 ae88 [db\version_set.cc:5347] Creating manifest 24
+2023/07/08-15:27:36.736128 ae88 [file\delete_scheduler.cc:77] Deleted file ../../database/game/gamedb_9001/000019.log immediately, rate_bytes_per_sec 0, total_trash_size 0 max_trash_db_ratio 0.250000
+2023/07/08-15:27:36.736145 ae88 [db\db_impl\db_impl_open.cc:2085] SstFileManager instance 000001D9043A8BF0
+2023/07/08-15:27:36.736473 ae88 DB pointer 000001D9058643C0
+2023/07/08-15:27:36.738205 8150 [db\db_impl\db_impl.cc:1091] ------- DUMPING STATS -------
+2023/07/08-15:27:36.738214 8150 [db\db_impl\db_impl.cc:1092] 
+** DB Stats **
+Uptime(secs): 0.2 total, 0.2 interval
+Cumulative writes: 0 writes, 0 keys, 0 commit groups, 0.0 writes per commit group, ingest: 0.00 GB, 0.00 MB/s
+Cumulative WAL: 0 writes, 0 syncs, 0.00 writes per sync, written: 0.00 GB, 0.00 MB/s
+Cumulative stall: 00:00:0.000 H:M:S, 0.0 percent
+Interval writes: 0 writes, 0 keys, 0 commit groups, 0.0 writes per commit group, ingest: 0.00 MB, 0.00 MB/s
+Interval WAL: 0 writes, 0 syncs, 0.00 writes per sync, written: 0.00 GB, 0.00 MB/s
+Interval stall: 00:00:0.000 H:M:S, 0.0 percent
+Write Stall (count): write-buffer-manager-limit-stops: 0
+
+** Compaction Stats [default] **
+Level    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) CompMergeCPU(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop Rblob(GB) Wblob(GB)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sum      0/0    0.00 KB   0.0      0.0     0.0      0.0       0.0      0.0       0.0   0.0      0.0      0.0      0.00              0.00         0    0.000       0      0       0.0       0.0
+ Int      0/0    0.00 KB   0.0      0.0     0.0      0.0       0.0      0.0       0.0   0.0      0.0      0.0      0.00              0.00         0    0.000       0      0       0.0       0.0
+
+** Compaction Stats [default] **
+Priority    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) CompMergeCPU(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop Rblob(GB) Wblob(GB)
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Blob file count: 0, total size: 0.0 GB, garbage size: 0.0 GB, space amp: 0.0
+
+Uptime(secs): 0.2 total, 0.2 interval
+Flush(GB): cumulative 0.000, interval 0.000
+AddFile(GB): cumulative 0.000, interval 0.000
+AddFile(Total Files): cumulative 0, interval 0
+AddFile(L0 Files): cumulative 0, interval 0
+AddFile(Keys): cumulative 0, interval 0
+Cumulative compaction: 0.00 GB write, 0.00 MB/s write, 0.00 GB read, 0.00 MB/s read, 0.0 seconds
+Interval compaction: 0.00 GB write, 0.00 MB/s write, 0.00 GB read, 0.00 MB/s read, 0.0 seconds
+Write Stall (count): cf-l0-file-count-limit-delays-with-ongoing-compaction: 0, cf-l0-file-count-limit-stops-with-ongoing-compaction: 0, l0-file-count-limit-delays: 0, l0-file-count-limit-stops: 0, memtable-limit-delays: 0, memtable-limit-stops: 0, pending-compaction-bytes-delays: 0, pending-compaction-bytes-stops: 0, total-delays: 0, total-stops: 0
+Block cache LRUCache@000001D9043B7020#4132 capacity: 32.00 MB seed: 2058918195 usage: 0.08 KB table_size: 1024 occupancy: 1 collections: 1 last_copies: 1 last_secs: 2.8e-05 secs_since: 0
+Block cache entry stats(count,size,portion): Misc(1,0.00 KB,0%)
+
+** File Read Latency Histogram By Level [default] **
+
+** Compaction Stats [GeekDB.WebGUI.Web.Data.UserInfo] **
+Level    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) CompMergeCPU(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop Rblob(GB) Wblob(GB)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  L0      1/0    1.04 KB   0.3      0.0     0.0      0.0       0.0      0.0       0.0   0.0      0.0      0.0      0.00              0.00         0    0.000       0      0       0.0       0.0
+ Sum      1/0    1.04 KB   0.0      0.0     0.0      0.0       0.0      0.0       0.0   0.0      0.0      0.0      0.00              0.00         0    0.000       0      0       0.0       0.0
+ Int      0/0    0.00 KB   0.0      0.0     0.0      0.0       0.0      0.0       0.0   0.0      0.0      0.0      0.00              0.00         0    0.000       0      0       0.0       0.0
+
+** Compaction Stats [GeekDB.WebGUI.Web.Data.UserInfo] **
+Priority    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) CompMergeCPU(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop Rblob(GB) Wblob(GB)
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Blob file count: 0, total size: 0.0 GB, garbage size: 0.0 GB, space amp: 0.0
+
+Uptime(secs): 0.2 total, 0.2 interval
+Flush(GB): cumulative 0.000, interval 0.000
+AddFile(GB): cumulative 0.000, interval 0.000
+AddFile(Total Files): cumulative 0, interval 0
+AddFile(L0 Files): cumulative 0, interval 0
+AddFile(Keys): cumulative 0, interval 0
+Cumulative compaction: 0.00 GB write, 0.00 MB/s write, 0.00 GB read, 0.00 MB/s read, 0.0 seconds
+Interval compaction: 0.00 GB write, 0.00 MB/s write, 0.00 GB read, 0.00 MB/s read, 0.0 seconds
+Write Stall (count): cf-l0-file-count-limit-delays-with-ongoing-compaction: 0, cf-l0-file-count-limit-stops-with-ongoing-compaction: 0, l0-file-count-limit-delays: 0, l0-file-count-limit-stops: 0, memtable-limit-delays: 0, memtable-limit-stops: 0, pending-compaction-bytes-delays: 0, pending-compaction-bytes-stops: 0, total-delays: 0, total-stops: 0
+Block cache LRUCache@000001D9043B7020#4132 capacity: 32.00 MB seed: 2058918195 usage: 0.08 KB table_size: 1024 occupancy: 1 collections: 1 last_copies: 1 last_secs: 2.8e-05 secs_since: 0
+Block cache entry stats(count,size,portion): Misc(1,0.00 KB,0%)
+
+** File Read Latency Histogram By Level [GeekDB.WebGUI.Web.Data.UserInfo] **

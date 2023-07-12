@@ -52,6 +52,11 @@ namespace GeekDB.Core
                     SecondPath = DbPath + "_$$$";
                 else
                     SecondPath = readonlyPath;
+                if (Directory.Exists(SecondPath))
+                {
+                    Directory.Delete(SecondPath, true);
+                }
+                Directory.CreateDirectory(SecondPath);
                 InnerDB = RocksDb.OpenAsSecondary(option, DbPath, SecondPath, cfs);
             }
             else
