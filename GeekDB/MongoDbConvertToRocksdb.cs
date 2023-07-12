@@ -244,6 +244,12 @@ namespace GeekDB
         {
             if (obj is IDictionary dic)
             {
+                //如果只有k v两个字段，那说明是keypair结构，直接转成数组
+                if (dic.Count == 2 && dic.Contains("k") && dic.Contains("v"))
+                {
+                    return new List<object>() { dic["k"], dic["v"] };
+                }
+
                 var newDic = new Dictionary<object, object>();
                 foreach (var key in dic.Keys)
                 {
