@@ -175,7 +175,7 @@ namespace GeekDB
                     }
 
                     var newDic = ConvertKVDicToNormalDic(dic);
-                    ConvertPolymorphic(newDic as IDictionary);
+                    newDic = ConvertPolymorphic(newDic);
                     RemoveEmptyDic(newDic);
                     var rdata = MessagePackSerializer.Serialize(new List<object> { newMongodbTableStr != null ? newMongodbTableStr : mongodbTableId, newDic });
 
@@ -227,7 +227,7 @@ namespace GeekDB
                         }
 
                         var newDic = ConvertKVDicToNormalDic(dic);
-                        ConvertPolymorphic(newDic as IDictionary);
+                        newDic = ConvertPolymorphic(newDic);
                         RemoveEmptyDic(newDic);
                         id = data["_id"];
                         rdata = MessagePackSerializer.Serialize(new List<object> { newMongodbTableStr != null ? newMongodbTableStr : mongodbTableId, newDic });
@@ -284,37 +284,32 @@ namespace GeekDB
             return obj;
         }
 
-        void ConvertPolymorphic(object obj)
+        object ConvertPolymorphic(object obj)
         {
-            var dic = obj as IDictionary;
-            if (dic != null)
+            if (obj is IDictionary dic)
             {
                 foreach (var k in dic.Keys)
                 {
-                    var value = dic[k];
-                    if (value is IDictionary vdic1)
-                    {
-                        if (vdic1.Contains("_t"))
-                        {
-                            var value2 = vdic1["_t"] as string;
-                            if (value2 != null)
-                            {
-                                vdic1.Remove("_t");
-                                dic[k] = new List<object> { value2, vdic1 };
-                            }
-                        }
-                    }
-                    ConvertPolymorphic(value);
+                    dic[k] = ConvertPolymorphic(dic[k]);
                 }
-            }
-            var vlist = obj as IList;
-            if (vlist != null)
-            {
-                for (int i = 0; i < vlist.Count; i++)
+                if (dic.Contains("_t"))
                 {
-                    ConvertPolymorphic(vlist[i]);
+                    var value2 = dic["_t"] as string;
+                    if (value2 != null)
+                    {
+                        dic.Remove("_t");
+                        return new List<object> { value2, dic };
+                    }
                 }
             }
+            if (obj is IList list)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i] = ConvertPolymorphic(list[i]);
+                }
+            }
+            return obj;
         }
 
         void RemoveEmptyDic(object obj)
