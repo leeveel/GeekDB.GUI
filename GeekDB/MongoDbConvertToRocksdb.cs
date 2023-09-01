@@ -1,18 +1,11 @@
 ﻿using GeekDB.Core;
-using MessagePack.Resolvers;
 using MessagePack;
-using MongoDB.Bson.Serialization;
+using MessagePack.Resolvers;
 using MongoDB.Bson;
-using MongoDB.Driver.GridFS;
-using RocksDbSharp;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
+using System.Collections;
 
 namespace GeekDB
 {
@@ -29,7 +22,7 @@ namespace GeekDB
         Action<float, float> updateProcess;
         static StaticCompositeResolver resolver;
 
-        public async Task Run(IMongoDatabase mongoDBbase, string path, Action<LogType, string> logAct, Action<float, float> process)
+        public async Task Run(IMongoDatabase mongoDBbase, string path, Action<LogType, string> logAct, Action<float, float> process, Action OnCmp = null)
         {
             this.mongoDBbase = mongoDBbase;
             this.Log = logAct;
@@ -47,12 +40,12 @@ namespace GeekDB
                     if (resolver == null)
                     {
                         List<IFormatterResolver> innerResolver = new()
-                        {
-                               BuiltinResolver.Instance,
-                               StandardResolver.Instance,
-                               ContractlessStandardResolver.Instance,
-                               PrimitiveObjectResolver.Instance
-                        };
+                    {
+                        BuiltinResolver.Instance,
+                        StandardResolver.Instance,
+                        ContractlessStandardResolver.Instance,
+                        PrimitiveObjectResolver.Instance
+                    };
                         StaticCompositeResolver.Instance.Register(innerResolver.ToArray());
                         resolver = StaticCompositeResolver.Instance;
                     }
@@ -100,6 +93,7 @@ namespace GeekDB
                         Log(LogType.Info, $"导出{name}完成,共导出{totalCount}条数据");
                     }
                     updateProcess(processMax, processMax);
+                    OnCmp?.Invoke();
                     Log(LogType.Info, $"全部导出完成...");//共导出{tableNames.Count}张表
                 }
                 catch (Exception e)
